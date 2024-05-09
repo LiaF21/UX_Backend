@@ -11,3 +11,22 @@ exports.getAllUsers = async () => {
     return users.rows;
 };
 
+exports.getUserById = async (id) => {
+    const result = await pool.query("SELECT * FROM Casa_david.usuario WHERE id_usuario = $1", [id]);
+    return result.rows[0];
+  };
+
+exports.createUser = async (id_usuario, id_persona, id_hospital, username, password, rol) => {
+    const newUser = await pool.query("INSERT INTO Casa_david.usuario (id_usuario, id_persona, id_hospital, nickname, contrasena, rol) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *", [id_usuario, id_persona, id_hospital, username, password, rol]);
+    return newUser.rows[0];
+  };
+  
+  exports.deleteUserById = async (id) => {
+    await pool.query("DELETE FROM Casa_david.usuario WHERE id_usuario = $1", [id]);
+  };
+
+  exports.authenticateUser = async (username, password) => {
+    const result = await pool.query('SELECT * FROM Casa_david.usuario WHERE nickname = $1 AND password = $2', [username, password]);
+    return result.rows.length === 1;
+  };
+  
