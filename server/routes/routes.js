@@ -1,9 +1,11 @@
-const authController = require('./authController');
-const userController = require('./userController');
+const authController = require('../controllers/authController');
+const userController = require('../controllers/userController');
+const router = Router();
 
-app.post('/auth/login', authController.login);
+router.post('/auth', )
+router.post('/auth/login', authController.login);
 router.get('/usuarios/:id', userController.getUserById);
 router.post('/usuarios/create', userController.createUser);
 router.delete('/usuarios/delete', userController.deleteUserById);
-app.get('/usuarios', userController.getAllUsers);
+router.get('/usuarios', userController.getAllUsers);
 
