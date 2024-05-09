@@ -3,10 +3,13 @@ const app = express();
 const cors = require("cors");
 const pool = require("./Db");
 const morgan = require("morgan")
+
+
 app.use(morgan('dev'))
 app.use(cors());
 app.use(express.json()); 
 
+//Esto puede ir en una ruta, servicio y controlador
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   try {

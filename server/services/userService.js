@@ -2,6 +2,13 @@ const pool = require('./db');
 
 exports.login = async (username, password) => {
     // Perform login query using pool
+
+    /* Daniel Omar Dubon Garcia (creo)
+    Lee este comentario
+    Te va a tocar arreglar todos los servicios y reemplazar los queries con lo de Knex o Sequelize
+    Mira, tenes que hacer los queries en Knex y usando la nueva base de datos, la que se llama postgres
+    Esa es tu chamba
+    */ 
     const result = await pool.query('SELECT * FROM Casa_david.usuario WHERE nickname = $1 AND password = $2', [username, password]);
     return result.rows[0];
 };
