@@ -1,0 +1,73 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('../Db');
+const Persona = require('./persona')
+
+const ListaNegra = sequelize.define('ListaNegra', {
+    id_lista_negra: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    id_persona: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    id_regla: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    observacion: {
+      type: DataTypes.TEXT,
+    },
+  }, {
+    tableName: 'lista_negra',
+    timestamps: false,
+  });
+
+  const Reglamento = sequelize.define('Reglamento', {
+    id_regla: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    numero_regla: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    descripcion_regla: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  }, {
+    tableName: 'reglamento',
+    timestamps: false,
+  });
+
+  const ListaEspera = sequelize.define('ListaEspera', {
+    id_lista_espera: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    id_persona: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    observacion: {
+      type: DataTypes.TEXT,
+    },
+    fecha_entrada: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+  }, {
+    tableName: 'lista_espera',
+    timestamps: false,
+  });
+
+  ListaNegra.hasMany(Reglamento,{foreignKey: 'id_regla'})
+  ListaNegra.hasOne(Persona, {foreignKey: 'id_persona'})
+
+  ListaEspera.hasOne(Persona, {foreignKey: 'id_persona'});
+
+  
