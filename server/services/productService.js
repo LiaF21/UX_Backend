@@ -1,75 +1,111 @@
-const pool = require('../Db');
+const { Sequelize, DataTypes, Op } = require('sequelize');
+const Transaccion = require('../models/reservaciones');
+const Reglamento = require('../models/lista');
+const{Hospital, Piso, Sala}  = require('../models/hospital');
 
-exports.createTrasaccion = async(id_huesped,valor,Fecha,becada) =>{
-    const result = await pool.query('INSERT INTO transaccion (id_huesped, valor, fecha, becada) VALUES ($1,$2,$3,$4) RETURNING *',[id_huesped,valor,Fecha,becada]);
-    return result.rows[0];
-   };
- 
-   exports.getTransaccionById = async (id) => {
-     const result = await pool.query("SELECT * FROM transaccion WHERE id_transaccion = $1", [id]);
-     return result.rows[0];
-   };
- 
-   exports.getTransaccionesByFecha = async (FechaInicio,FechaFinal) => {
-     const result = await pool.query("SELECT * FROM transaccion WHERE fecha_transaccion BETWEEN $1 AND $2", [FechaInicio,FechaFinal]);
-     return result;
-   };
- 
-   exports.createRegla = async (noReglas,Desc) =>{
-     const result = await pool.query('INSERT INTO reglamento (numero_regla, descripcion_regla) VALUES ($1,$2) RETURNING *',[noReglas,Desc]);
-     return result.rows[0];
-   };
- 
-   exports.getReglaById = async (id) => {
-     const result = await pool.query("SELECT * FROM reglamento WHERE id_regla = $1", [id]);
-     return result.rows[0];
-   };
 
-   exports.getReglamento = async () => {
-    const result = await pool.query("SELECT * FROM reglamento ");
-    return result.rows[0];
-  };
- 
-   exports.editRegla = async (id,noReglas,Desc) => {
-     const result = await pool.query("UPDATE reglamento SET numero_regla=$1,descripcion_regla=$2  WHERE id_regla = $3", [noReglas,Desc,id]);
-   };
+exports.createTransaccion = async (id_huesped, valor, fecha, becada) => {
+  const transaccion = await Transaccion.create({
+    id_huesped,
+    valor,
+    fecha,
+    becada,
+  });
+  return transaccion;
+};
 
-   exports.createHospital = async (nombre, direccion) =>{
-    const result = await pool.query('INSERT INTO hospital (nombre, direccion) VALUES ($1,$2) RETURNING *',[nombre, direccion]);
-     return result.rows[0];
-   };
+exports.getTransaccionById = async (id) => {
+  const transaccion = await Transaccion.findByPk(id);
+  return transaccion;
+};
 
-   exports.getHospitalById = async (id) => {
-    const result = await pool.query("SELECT * FROM hospital WHERE id_hospital = $1", [id]);
-    return result.rows[0];
-  };
+exports.getTransaccionesByFecha = async (fechaInicio, fechaFinal) => {
+  const transacciones = await Transaccion.findAll({
+    where: {
+      fecha: {
+        [Sequelize.Op.between]: [fechaInicio, fechaFinal],
+      },
+    },
+  });
+  return transacciones;
+};
 
-  exports.getHospitales = async () => {
-    const result = await pool.query("SELECT * FROM hospital ");
-    return result.rows[0];
-  };
- 
-  exports.deleteHospitalById = async (id) => {
-    const result = await pool.query("DELETE FROM hospital WHERE id_hospital = $1", [id]);
-    return result.rows[0];
-  };
+exports.createRegla = async (numero_regla, descripcion_regla) => {
+  const regla = await Reglamento.create({
+    numero_regla,
+    descripcion_regla,
+  });
+  return regla;
+};
 
-  exports.createPiso = async (id_hospital, piso) =>{
-    const result = await pool.query('INSERT INTO piso (id_hospital, nombre_piso) VALUES ($1,$2) RETURNING *',[id_hospital, piso]);
-     return result.rows[0];
-   };
+exports.getReglaById = async (id) => {
+  const regla = await Reglamento.findByPk(id);
+  return regla;
+};
 
-   exports.getPisoById = async (id) => {
-    const result = await pool.query("SELECT * FROM piso WHERE id_piso = $1", [id]);
-    return result.rows[0];
-  };
+exports.getReglamento = async () => {
+  const reglamento = await Reglamento.findAll();
+  return reglamento;
+};
 
-  exports.createSala = async (sala, piso) =>{
-    const result = await pool.query('INSERT INTO piso (id_hospital, nombre_piso) VALUES ($2,$1) RETURNING *',[sala, piso]);
-     return result.rows[0];
-   };
+exports.editRegla = async (id, numero_regla, descripcion_regla) => {
+  await Reglamento.update(
+    {
+      numero_regla,
+      descripcion_regla,
+    },
+    {
+      where: { id_regla: id },
+    }
+  );
+};
 
-   exports.getSalaById = async (id) => {
-    const result = await pool.query("SELECT * FROM sala WHERE id_sala = $1", [id]);
-    return result.rows[0];
-  };
+exports.createHospital = async (nombre, direccion) => {
+  const hospital = await Hospital.create({
+    nombre,
+    direccion,
+  });
+  return hospital;
+};
+
+exports.getHospitalById = async (id) => {
+  const hospital = await Hospital.findByPk(id);
+  return hospital;
+};
+
+exports.getHospitales = async () => {
+  const hospitales = await Hospital.findAll();
+  return hospitales;
+};
+
+exports.deleteHospitalById = async (id) => {
+  await Hospital.destroy({
+    where: { id_hospital: id },
+  });
+};
+
+exports.createPiso = async (id_hospital, nombre_piso) => {
+  const piso = await Piso.create({
+    id_hospital,
+    nombre_piso,
+  });
+  return piso;
+};
+
+exports.getPisoById = async (id) => {
+  const piso = await Piso.findByPk(id);
+  return piso;
+};
+
+exports.createSala = async (id_piso, nombre_sala) => {
+  const sala = await Sala.create({
+    id_piso,
+    nombre_sala,
+  });
+  return sala;
+};
+
+exports.getSalaById = async (id) => {
+  const sala = await Sala.findByPk(id);
+  return sala;
+};

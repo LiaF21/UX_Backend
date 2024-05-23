@@ -1,3 +1,8 @@
 const product = require('../services/productService');
-const pool = require("../Db");
+const express = require('express');
+const router = express.Router();
 
+
+
+
+module.exports = router;
