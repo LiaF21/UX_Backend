@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Db');
-const hospital = require('./hospital')
-const persona = require('./persona')
+const {Hospital} = require('./hospital')
+const {Persona} = require('./persona')
 
 const Usuario = sequelize.define('Usuario', {
     id_usuario: {
@@ -33,8 +33,8 @@ const Usuario = sequelize.define('Usuario', {
     },
 },
     {
-        tableName: 'persona',
-        timestamp: false
+        tableName: 'usuario',
+        timestamps: false
     }
 );
 
@@ -71,10 +71,16 @@ const UsuarioPrivilegio = sequelize.define('UsuarioPrivilegio', {
     timestamps: false,
   });
 
-UsuarioPrivilegio.hasMany(Usuario, {foreignKey: 'id_usuario'})
-UsuarioPrivilegio.hasMany(Privilegio, {foreignKey: 'id_privilegio'});
+  Usuario.belongsTo(Persona, { foreignKey: 'id_persona' });
+  Usuario.belongsTo(Hospital, { foreignKey: 'id_hospital' });
+  Persona.hasOne(Usuario, { foreignKey: 'id_persona' });
+  Hospital.hasMany(Usuario, { foreignKey: 'id_hospital' });
 
-Usuario.hasOne(Persona, {foreignKey: 'id_persona'})
-Usuario.hasMany(Hospital, {foreignKey: 'id_hospital'})
-module.exports = Usuario;
+  UsuarioPrivilegio.belongsTo(Usuario, { foreignKey: 'id_usuario' });
+  UsuarioPrivilegio.belongsTo(Privilegio, { foreignKey: 'id_privilegio' });
+  
+  Usuario.hasMany(UsuarioPrivilegio, { foreignKey: 'id_usuario' });
+  Privilegio.hasMany(UsuarioPrivilegio, { foreignKey: 'id_privilegio' });
+
+module.exports = {Usuario, Privilegio, UsuarioPrivilegio};
 

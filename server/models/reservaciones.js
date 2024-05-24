@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Db');
-const Huesped = require('./huesped')
-const {hospital} = require('./hospital')
+const {Huesped} = require('./huesped')
+const {Hospital} = require('./hospital')
 
 const Reservacion = sequelize.define('Reservacion', {
     id_reservacion: {
@@ -118,11 +118,18 @@ const Reservacion = sequelize.define('Reservacion', {
   });
   
 
-  Reservacion.hasMany(hospital,{foreignKey: 'id_hospital'})
-  Reservacion.hasMany (Cama, {foreignKey: 'id_hospital'})
-  Reservacion.hasMany(Huesped, {foreignKey: 'id_hospital'})
+  Reservacion.belongsTo(Huesped, { foreignKey: 'id_huesped' });
+  Reservacion.belongsTo(Cama, { foreignKey: 'id_cama' });
+  Reservacion.belongsTo(Hospital, { foreignKey: 'id_hospital' });
+  
+  Huesped.hasMany(Reservacion, { foreignKey: 'id_huesped' });
+  Cama.hasMany(Reservacion, { foreignKey: 'id_cama' });
+  Hospital.hasMany(Reservacion, { foreignKey: 'id_hospital' });
+  
+  Cama.belongsTo(Habitacion, { foreignKey: 'id_habitacion' });
+  Habitacion.hasMany(Cama, { foreignKey: 'id_habitacion' });
+  
+  Transaccion.belongsTo(Huesped, { foreignKey: 'id_huesped' });
+  Huesped.hasMany(Transaccion, { foreignKey: 'id_huesped' });
 
-  Cama.hasMany(Habitacion, {foreignKey: 'id_habitacion'})
-
-  Transaccion.hasMany(Huesped, {foreignKey: 'id_huesped'})
-  module.exports = Reservacion;
+  module.exports = {Reservacion, Habitacion, Cama, Transaccion};

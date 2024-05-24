@@ -58,7 +58,10 @@ const Hospital = sequelize.define('Hospital', {
     timestamps: false
   });
   
-  Piso.hasMany(Hospital, {foreignKey: 'id_hospital'})
+  Piso.belongsTo(Hospital, {foreignKey: 'id_hospital'})
+  Sala.belongsTo(Piso, { foreignKey: 'id_piso' });
+  Piso.hasMany(Sala, {foreignKey: 'id_piso'})
+  Hospital.hasMany(Piso, {foreignKey: 'id_hospital'})
 
   
   module.exports = {Hospital, Piso, Sala};

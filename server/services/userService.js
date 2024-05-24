@@ -1,5 +1,5 @@
 const sequelize = require('../Db');
-
+const {Usuario} = require('../models/usuario')
 exports.login = async (username, password) => {
   
     const result = await pool.query('SELECT * FROM usuario WHERE nickname = $1 AND contrasena = $2', [username, password]);
@@ -7,8 +7,8 @@ exports.login = async (username, password) => {
 };
 
 exports.getAllUsers = async () => {
-    const users = await pool.query("SELECT * FROM usuario");
-    return users.rows;
+    const users = await Usuario.findAll({include: 'Hospital'});
+    return users;
 };
 
 exports.getUserById = async (id) => {
