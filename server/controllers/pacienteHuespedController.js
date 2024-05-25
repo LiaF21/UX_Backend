@@ -1,0 +1,49 @@
+const phService = require('../services/pacienteHuespedService');
+
+exports.getAllPH = async (req, res) =>{
+    try{
+        const phs = await phService.getAllPH();
+        res.json(phs);
+    }catch(error){
+        res.status(500).json({error: error.message});
+    }
+};
+
+exports.getOnePH = async (req, res) => {
+    try{
+      const phID = req.params.id;
+      const ph = await phService.getOnePH(phID);
+      if(ph){
+        res.json(ph);
+      }else{
+        res.status(404).json({message:'Paciente Huesped no encontrado,'});
+      }
+    }catch(error){
+      res.status(500).json({error:error.message});
+    }
+  };
+  
+exports.createPH = async (req, res) =>{
+    try{
+        const {id_paciente_huesped, id_paciente, id_huesped} = req.body;
+        const nuevoPH = await phService.createPH(req.body);
+        res.status(201).json(nuevoPH);
+    }catch(error){
+        console.error('Error al crear huesped: ', error);
+        res.status(500).json({message: 'Error interno del servidor'});
+    }
+};
+
+exports.deletePHById = async (req, res)=>{
+    try{
+        const {id} = req.params;
+        const deletePH = await phService.deletePHById(id);
+        if(deletePH){
+            res.status(201).json({message: 'Paciente Huesped eliminado exitosamente'});
+        }else{
+            res.status(404).json({message: 'Paciente Huesped no encontrado'});
+        }
+    }catch(error){
+        res.status(500).json({error: error.message});
+    }
+};

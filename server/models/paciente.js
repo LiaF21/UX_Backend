@@ -10,7 +10,7 @@ const Paciente = sequelize.define('Paciente', {
       primaryKey: true,
       autoIncrement: true,
     },
-    id_persona: {
+    id_person: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -34,14 +34,17 @@ const Paciente = sequelize.define('Paciente', {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+  }, {
+    tableName: 'paciente',
+    timestamps: false
   });
 
-  Paciente.belongsTo(Persona, { foreignKey: 'id_persona' });
+  Paciente.belongsTo(Persona, { foreignKey: 'id_person' });
   Paciente.belongsTo(Hospital, { foreignKey: 'id_hospital' });
   Paciente.belongsTo(Sala, { foreignKey: 'id_sala' });
   Paciente.belongsTo(Piso, { foreignKey: 'id_piso' });
   
-  Persona.hasMany(Paciente, { foreignKey: 'id_persona' });
+  Persona.hasMany(Paciente, { foreignKey: 'id_person' });
   Hospital.hasMany(Paciente, { foreignKey: 'id_hospital' });
   Sala.hasMany(Paciente, { foreignKey: 'id_sala' });
   Piso.hasMany(Paciente, { foreignKey: 'id_piso' });
