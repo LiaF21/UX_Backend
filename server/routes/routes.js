@@ -21,13 +21,6 @@ router.post('/usuarios/create', userController.createUser); // Funciona
 router.delete('/usuarios/:id', userController.deleteUserById); //Funciona
 router.get('/usuarios', userController.getAllUsers); // Funciona
 
-
-router.get('/paciente-huesped/:id', paciente_huespedController.getOnePH); 
-router.post('/paciente-huesped/create', paciente_huespedController.createPH);
-router.delete('/paciente-huesped/:id', paciente_huespedController.deletePHById); 
-router.get('/paciente-huespedes', paciente_huespedController.getAllPH); //funciona
-
-
 module.exports = router;
 //Depende de cuantas request vamos a necesitar, es más para tener ese orden por si por ejemplo
 //Nelson o Kelvin quierenn revisar el back-end, asi les salva tiempo de andar chequeando cada archivo
