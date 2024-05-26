@@ -42,12 +42,27 @@ exports.deletePacienteById = async (req, res) => {
     const { id } = req.params;
     const paciente = await pacienteService.deletePacienteById(id);
     if(paciente){
-      res.json({ message: 'Paciente eliminado exitosamente'});
+      res.status(201).json({ message: 'Paciente eliminado exitosamente'});
     }else{
       res.status(404).json({message: 'Paciente no encontrado'});
     }
   } catch (error) {
     console.error('Error al eliminar al paciente:', error);
     res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
+
+exports.editarPaciente = async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const pacienteEditado = await pacienteService.editarPaciente(id, updated);
+    if(pacienteEditado){
+      res.status(201).json({message: 'Paciente editada con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar Paciente'});
+    }
+  }catch (error){
+    res.status(500).json({error: error.message});
   }
 };

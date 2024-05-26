@@ -49,3 +49,18 @@ exports.deleteHuespedById = async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 };
+
+exports.editarHuesped= async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const huespedEditado = await huespedService.editarHuesped(id, updated);
+    if(huespedEditado){
+      res.status(201).json({message: 'Huesped editado con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar Huesped.'});
+    }
+  }catch (error){
+    res.status(500).json({error: error.message});
+  }
+};

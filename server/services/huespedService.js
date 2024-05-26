@@ -25,3 +25,16 @@ exports.deleteHuespedById = async (id) =>{
     return borrar;
 };
 
+exports.editarHuesped = async (id, huespedUpdate) =>{
+    const huespedEditado = await Huesped.update(huespedUpdate, {
+        where:{id_huesped:id}
+    });
+
+    if(huespedEditado){
+        const edited = await Huesped.findOne({ 
+            where: {id_huesped:id}
+        });
+        return edited;
+    }
+};
+

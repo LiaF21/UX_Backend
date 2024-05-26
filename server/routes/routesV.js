@@ -20,25 +20,28 @@ router.get('/paciente/:id', pacienteController.getPacienteById); //funciona
 router.post('/paciente/create', pacienteController.createPaciente);//funciona
 router.delete('/paciente/:id', pacienteController.deletePacienteById); //funciona
 router.get('/pacientes', pacienteController.getAllPacientes); //funciona
+router.put('/paciente/:id', pacienteController.editarPaciente);//funciona
+
 
 //rutas de lista negra
 router.get('/lista-negra/:id', listaNegraController.getPersonaInList);//funciona
 router.post('/lista-negra/create', listaNegraController.addPersonToList);//funciona
 router.delete('/lista-negra/:id', listaNegraController.sacarDeLista);//funciona
 router.get('/lista-negra', listaNegraController.getList); //funciona
+router.put('/lista-negra/:id', listaNegraController.editarPersonaInList);//funciona
 
 //rutas de huesped
 router.get('/huesped/:id', huespedController.getHuespedById); //funciona
 router.post('/huesped/create', huespedController.createHuesped);//funciona
 router.delete('/huesped/:id', huespedController.deleteHuespedById); //funciona
 router.get('/huespedes', huespedController.getAllHuespedes); //funciona
+router.put('/huesped/:id', huespedController.editarHuesped);//funciona
 
-router.get('/paciente-huesped/:id', paciente_huespedController.getPHByID); 
-router.post('/paciente-huesped/create', paciente_huespedController.createPH);
-router.delete('/paciente-huesped/:id', paciente_huespedController.deletePHById); 
-router.get('/paciente-huespedes', paciente_huespedController.getAllPH); 
-
-
+router.get('/paciente-huesped/:id', paciente_huespedController.getOnePH); //funciona
+router.post('/paciente-huesped/create', paciente_huespedController.createPH);//funciona
+router.delete('/paciente-huesped/:id', paciente_huespedController.deletePHById); //funciona
+router.get('/paciente-huespedes', paciente_huespedController.getAllPH); //funciona
+router.put('/paciente-huesped/:id', paciente_huespedController.editarPH);//funciona
 
 
 module.exports = router;

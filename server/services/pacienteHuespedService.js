@@ -23,3 +23,16 @@ exports.deletePHById = async (id)=>{
         }
     });
 };
+
+exports.editarPH = async (id, phUpdate) =>{
+    const phEditado = await PacienteHuesped.update(phUpdate, {
+        where:{id_paciente_huesped:id}
+    });
+
+    if(phEditado){
+        const edited = await PacienteHuesped.findOne({ 
+            where: {id_paciente_huesped:id}
+        });
+        return edited;
+    }
+};
