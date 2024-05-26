@@ -69,5 +69,6 @@ const ListaNegra = sequelize.define('ListaNegra', {
   ListaNegra.hasOne(Persona, {foreignKey: 'id_persona'})
 
   ListaEspera.hasOne(Persona, {foreignKey: 'id_persona'});
+  module.exports = Reglamento;
 
   
