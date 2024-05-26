@@ -18,4 +18,4 @@ fs.readdirSync(__dirname)
     }
   });
   
-  module.exports = models;
+  module.exports = {models};

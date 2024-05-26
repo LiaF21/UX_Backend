@@ -3,7 +3,7 @@ const sequelize = require('../Db');
 const {Persona} = require('./persona');
 const {Afiliado} = require('./afiliado');
 const Paciente = require('./paciente')
-const Iglesia = require('./iglesia')
+const {Iglesia} = require('./iglesia')
 
 
 const Huesped = sequelize.define('Huesped', {

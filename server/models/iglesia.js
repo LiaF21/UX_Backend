@@ -16,4 +16,4 @@ const Iglesia = sequelize.define('Iglesia', {
     timestamps: false
   });
   
-  module.exports = Iglesia;
+  module.exports = {Iglesia};
