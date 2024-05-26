@@ -1,16 +1,11 @@
-const { Sequelize, DataTypes, Op } = require('sequelize');
+const  Sequelize = require('../Db');
 const Transaccion = require('../models/reservaciones');
 const Reglamento = require('../models/lista');
 const{Hospital, Piso, Sala}  = require('../models/hospital');
 
 
-exports.createTransaccion = async (id_huesped, valor, fecha, becada) => {
-  const transaccion = await Transaccion.create({
-    id_huesped,
-    valor,
-    fecha,
-    becada,
-  });
+exports.createTransaccion = async (TransData) => {
+  const transaccion = await Transaccion.create(TransData);
   return transaccion;
 };
 
@@ -30,11 +25,8 @@ exports.getTransaccionesByFecha = async (fechaInicio, fechaFinal) => {
   return transacciones;
 };
 
-exports.createRegla = async (numero_regla, descripcion_regla) => {
-  const regla = await Reglamento.create({
-    numero_regla,
-    descripcion_regla,
-  });
+exports.createRegla = async (ReglaData) => {
+  const regla = await Reglamento.create(ReglaData);
   return regla;
 };
 
@@ -60,11 +52,8 @@ exports.editRegla = async (id, numero_regla, descripcion_regla) => {
   );
 };
 
-exports.createHospital = async (nombre, direccion) => {
-  const hospital = await Hospital.create({
-    nombre,
-    direccion,
-  });
+exports.createHospital = async (HospitalData) => {
+  const hospital = await Hospital.create(HospitalData);
   return hospital;
 };
 
@@ -84,11 +73,8 @@ exports.deleteHospitalById = async (id) => {
   });
 };
 
-exports.createPiso = async (id_hospital, nombre_piso) => {
-  const piso = await Piso.create({
-    id_hospital,
-    nombre_piso,
-  });
+exports.createPiso = async (PisoData) => {
+  const piso = await Piso.create(PisoData);
   return piso;
 };
 
@@ -97,11 +83,8 @@ exports.getPisoById = async (id) => {
   return piso;
 };
 
-exports.createSala = async (id_piso, nombre_sala) => {
-  const sala = await Sala.create({
-    id_piso,
-    nombre_sala,
-  });
+exports.createSala = async (SalaData) => {
+  const sala = await Sala.create(SalaData);
   return sala;
 };
 

@@ -1,30 +1,30 @@
 const {Router} = require('express')
 
-const ProductController = require('../controll0ers/productController');
+const Product = require('../controllers/productController');
 const ProductRouter = Router();
 //transacciones
-ProductRouter.post('/transacciones', ProductController.createTransaccion);
-ProductRouter.get('/transacciones/:id', ProductController.getTransaccionById);
-ProductRouter.get('/transacciones', ProductController.getTransaccionesByFecha);
+ProductRouter.post('/transacciones', Product.createTransaccion);
+ProductRouter.get('/transacciones/:id', Product.getTransaccionById);
+ProductRouter.get('/transacciones', Product.getTransaccionesByFecha);
 
 //reglas
-ProductRouter.post('/reglas', ProductController.createRegla);
-ProductRouter.get('/reglas/:id', ProductController.getReglaById);
-ProductRouter.get('/reglamento', ProductController.getReglamento);
-ProductRouter.put('/reglas/:id', ProductController.editRegla);
+ProductRouter.post('/reglas', Product.createRegla);
+ProductRouter.get('/reglas/:id', Product.getReglaById);
+ProductRouter.get('/reglamento', Product.getReglamento);
+ProductRouter.put('/reglas/:id', Product.editRegla);
 
 //hospitales
-ProductRouter.post('/hospitales', ProductController.createHospital);
-ProductRouter.get('/hospitales/:id', ProductController.getHospitalById);
-ProductRouter.get('/hospitales', ProductController.getHospitales);
-ProductRouter.delete('/hospitales/:id', ProductController.deleteHospitalById);
+ProductRouter.post('/hospitales', Product.createHospital);
+ProductRouter.get('/hospitales/:id', Product.getHospitalById);
+ProductRouter.get('/hospitales', Product.getHospitales);
+ProductRouter.delete('/hospitales/:id', Product.deleteHospitalById);
 
 //pisos
-ProductRouter.post('/pisos', ProductController.createPiso);
-ProductRouter.get('/pisos/:id', ProductController.getPisoById);
+ProductRouter.post('/pisos', Product.createPiso);
+ProductRouter.get('/pisos/:id', Product.getPisoById);
 
 //salas
-ProductRouter.post('/salas', ProductController.createSala);
-ProductRouter.get('/salas/:id', ProductController.getSalaById);
+ProductRouter.post('/salas', Product.createSala);
+ProductRouter.get('/salas/:id', Product.getSalaById);
 
 module.exports = ProductRouter;
