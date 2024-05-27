@@ -5,7 +5,6 @@ const port = 3001;
 const morgan = require('morgan');
 const db = require('./Db')
 
-const sequelize = require('./Db');
 
 //Routes
 const routes = require('./routes/routes');
@@ -34,5 +33,13 @@ const initApp = async () => {
     console.error('Unable to connect to the database:', error);
   }
 };
+
+db.sync({ force: false, alter: false })
+  .then(() => {
+    console.log('Database synced without altering existing schema!');
+  })
+  .catch(error => {
+    console.error('Error syncing database:', error);
+  });
 
 initApp();

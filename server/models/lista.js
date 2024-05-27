@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Db');
-const Persona = require('./persona')
+const {Persona} = require('./persona')
 
 const ListaNegra = sequelize.define('ListaNegra', {
     id_lista_negra: {
@@ -65,10 +65,9 @@ const ListaNegra = sequelize.define('ListaNegra', {
     timestamps: false,
   });
 
-  ListaNegra.hasMany(Reglamento,{foreignKey: 'id_regla'})
-  ListaNegra.hasOne(Persona, {foreignKey: 'id_persona'})
-
-  ListaEspera.hasOne(Persona, {foreignKey: 'id_persona'});
-  module.exports = Reglamento;
-
+  ListaNegra.belongsTo(Persona, { foreignKey: 'id_persona' });
+  ListaNegra.belongsTo(Reglamento, { foreignKey: 'id_regla' });
   
+  ListaEspera.belongsTo(Persona, { foreignKey: 'id_persona' });
+
+  module.exports = { ListaNegra, Reglamento, ListaEspera };

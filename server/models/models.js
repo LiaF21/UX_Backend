@@ -12,4 +12,10 @@ fs.readdirSync(__dirname)
     Object.assign(models, model);
   });
 
-  module.exports = models;
+  Object.keys(models).forEach(modelName => {
+    if (models[modelName].associate) {
+      models[modelName].associate(models);
+    }
+  });
+  
+  module.exports = {models};

@@ -1,33 +1,56 @@
 const sequelize = require('../Db');
+const {Usuario} = require('../models/usuario')
+
 
 exports.login = async (username, password) => {
-  
-    const result = await pool.query('SELECT * FROM usuario WHERE nickname = $1 AND contrasena = $2', [username, password]);
-    return result.rows[0];
+  const result = await Usuario.findOne({
+    where: {
+      nickname: username,
+      contrasena:password
+    }
+  });
+
+  return result;
 };
 
 exports.getAllUsers = async () => {
-    const users = await pool.query("SELECT * FROM usuario");
-    return users.rows;
+    const users = await Usuario.findAll({include: 'Hospital'});
+    return users;
 };
 
 exports.getUserById = async (id) => {
-    const result = await pool.query("SELECT * FROM usuario WHERE id_usuario = $1", [id]);
-    return result.rows[0];
+   const result = await Usuario.findByPk(id);
+   return result;
   };
 
 exports.createUser = async (id_persona, id_hospital, username, password, rol) => {
-    const newUser = await pool.query("INSERT INTO usuario ( id_persona, id_hospital, nickname, contrasena, rol) VALUES ($1, $2, $3, $4, $5) RETURNING *", [id_persona, id_hospital, username, password, rol]);
-    return newUser.rows[0];
+    const nuevoUser = await Usuario.create({
+      id_persona,
+      id_hospital, 
+      nickname:username,
+      contrasena:password,
+      rol
+    });
+    return nuevoUser;
   };
   
   exports.deleteUserById = async (id) => {
-    await pool.query("DELETE FROM usuario WHERE id_usuario = $1", [id]);
+    await Usuario.destroy({
+      where:{
+        id_usuario:id
+      }
+    });
   };
 
   exports.authenticateUser = async (username, password) => {
-    const result = await pool.query('SELECT * FROM usuario WHERE nickname = $1 AND contrasena = $2', [username, password]);
-    return result.rows.length === 1;
+   const result= await Usuario.findOne({
+    where:{
+      nickname:username,
+      contrasena:password
+    }
+   });
+
+   return result != null;
   };
   
  

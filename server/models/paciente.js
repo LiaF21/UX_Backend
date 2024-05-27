@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Db');
-const { Piso, Sala, hospital } = require('./hospital');
-const persona = require('./persona');
+const { Piso, Sala, Hospital } = require('./hospital');
+const {Persona} = require('./persona');
 const { PAGLOCK } = require('sequelize/lib/table-hints');
 
 const Paciente = sequelize.define('Paciente', {
@@ -34,11 +34,19 @@ const Paciente = sequelize.define('Paciente', {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+  }, {
+    tableName: 'paciente',
+    timestamps: false
   });
 
-  Paciente.hasOne(persona, {foreignKey: 'id_persona'})
-  Paciente.hasMany(hospital, {foreignKey: 'id_hospital'})
-  Paciente.hasMany(Sala, {foreignKey: 'id_sala'})
-  Paciente.hasMany(Piso, {foreignKey: 'id_piso'})
+  Paciente.belongsTo(Persona, { foreignKey: 'id_person' });
+  Paciente.belongsTo(Hospital, { foreignKey: 'id_hospital' });
+  Paciente.belongsTo(Sala, { foreignKey: 'id_sala' });
+  Paciente.belongsTo(Piso, { foreignKey: 'id_piso' });
+  
+  Persona.hasMany(Paciente, { foreignKey: 'id_person' });
+  Hospital.hasMany(Paciente, { foreignKey: 'id_hospital' });
+  Sala.hasMany(Paciente, { foreignKey: 'id_sala' });
+  Piso.hasMany(Paciente, { foreignKey: 'id_piso' });
 
   module.exports = Paciente;

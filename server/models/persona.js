@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Db');
+const Usuario = require('./usuario');
 
 const Persona = sequelize.define('Persona', {
     id_persona: {
@@ -86,6 +87,11 @@ const Persona = sequelize.define('Persona', {
     timestamps: false
   });
 
-  Persona.hasMany(Ocupacion, {foreignKey: 'id_ocupacion'})
-  Persona.hasMany(Procedencia, {foreignKey: 'id_procedencia'})
-  module.exports = Persona;
+  Persona.belongsTo(Ocupacion, {foreignKey: 'id_ocupacion'})
+  Persona.belongsTo(Procedencia, {foreignKey: 'id_procedencia'})
+
+  Ocupacion.hasMany(Persona, {foreignKey: 'id_ocupacion'})
+  Procedencia.hasMany(Persona, {foreignKey: 'id_procedencia'})
+
+
+  module.exports = {Persona, Ocupacion, Procedencia};
