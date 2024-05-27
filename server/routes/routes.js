@@ -14,7 +14,6 @@ const listaNegraController = require('../controllers/listaNegraController');
 
 const router = Router();
 
-
 router.post('/auth/login', authController.login); //Funciona
 router.get('/usuarios/:id', userController.getUserById); //Funciona
 router.post('/usuarios/create', userController.createUser); // Funciona
