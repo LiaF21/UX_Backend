@@ -8,11 +8,21 @@ const db = require('./Db')
 
 //Routes
 const routes = require('./routes/routes');
-
+const routesOcupacion = require('./routes/ocupacionRoutes')
+const routesProcedencia = require('./routes/procedenciaRoutes')
+const routesIglesia = require('./routes/iglesiaRoutes')
+const routesIglesiaH = require('./routes/iglesiaHuespedRoutes')
+const routesListaE = require('./routes/listaEsperaRoutes')
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 app.use(routes);
+app.use(routesOcupacion);
+app.use(routesProcedencia);
+app.use(routesIglesia);
+app.use(routesListaE);
+app.use(routesIglesiaH);
+
 //Esto puede ir en una ruta, servicio y controlador
 
 const initApp = async () => {
