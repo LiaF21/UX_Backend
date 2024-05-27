@@ -1,6 +1,6 @@
-const  Sequelize = require('../Db');
-const Transaccion = require('../models/reservaciones');
-const Reglamento = require('../models/lista');
+const  {Sequelize} = require('../Db');
+const {Transaccion} = require('../models/reservaciones');
+const {Reglamento} = require('../models/lista');
 const{Hospital, Piso, Sala}  = require('../models/hospital');
 
 
@@ -18,7 +18,7 @@ exports.getTransaccionesByFecha = async (fechaInicio, fechaFinal) => {
   const transacciones = await Transaccion.findAll({
     where: {
       fecha: {
-        [Sequelize.Op.between]: [fechaInicio, fechaFinal],
+        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
       },
     },
   });

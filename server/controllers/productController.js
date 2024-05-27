@@ -5,8 +5,8 @@ const router = express.Router();
 
 exports.createTransaccion = async (req, res) => {
   try {
-    const { id_huesped, valor, fecha, becada } = req.body;
-    const transaccion = await productService.createTransaccion(id_huesped, valor, fecha, becada);
+    const { id_transaccion,id_huesped, valor, fecha, becada } = req.body;
+    const transaccion = await productService.createTransaccion(req.body);
     res.status(201).json(transaccion);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -38,9 +38,9 @@ exports.getTransaccionesByFecha = async (req, res) => {
 
 exports.createRegla = async (req, res) => {
   try {
-    const { numero_regla, descripcion_regla } = req.body;
-    const regla = await productService.createRegla(numero_regla, descripcion_regla);
-    res.status(201).json(regla);
+    const { id_regla, numero_regla, descripcion_regla } = req.body;
+    const reglas = await productService.createRegla(req.body);
+    res.status(201).json(reglas);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -80,8 +80,8 @@ exports.editRegla = async (req, res) => {
 
 exports.createHospital = async (req, res) => {
   try {
-    const { nombre, direccion } = req.body;
-    const hospital = await productService.createHospital(nombre, direccion);
+    const { id_hospital, nombre, direccion } = req.body;
+    const hospital = await productService.createHospital(req.body);
     res.status(201).json(hospital);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -121,8 +121,8 @@ exports.deleteHospitalById = async (req, res) => {
 
 exports.createPiso = async (req, res) => {
   try {
-    const { id_hospital, nombre_piso } = req.body;
-    const piso = await productService.createPiso(id_hospital, nombre_piso);
+    const { id_piso,id_hospital, nombre_piso } = req.body;
+    const piso = await productService.createPiso(req.body);
     res.status(201).json(piso);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -144,8 +144,8 @@ exports.getPisoById = async (req, res) => {
 
 exports.createSala = async (req, res) => {
   try {
-    const { id_piso, nombre_sala } = req.body;
-    const sala = await productService.createSala(id_piso, nombre_sala);
+    const { id_sala,id_piso, nombre_sala } = req.body;
+    const sala = await productService.createSala(req.body);
     res.status(201).json(sala);
   } catch (error) {
     res.status(500).json({ error: error.message });
