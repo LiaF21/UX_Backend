@@ -49,3 +49,18 @@ exports.deleteHuespedById = async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 };
+
+exports.editarAfiliadoHuesped= async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const afiliadoHuespedEditado = await afiliadoHuespedService.editarAfiliadoHuesped(id, updated);
+    if(afiliadoHuespedEditado){
+      res.status(201).json({message: 'Huesped Afiliado editado con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar huesped afiliado.'});
+    }
+  }catch (error){
+    res.status(500).json({error: error.message});
+  }
+};

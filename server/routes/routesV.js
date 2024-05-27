@@ -14,6 +14,7 @@ router.get('/persona/:id', personaController.getPersonaById); //funciona
 router.post('/persona/create', personaController.createPersona);//funciona
 router.delete('/persona/:id', personaController.deletePersonaById); //funciona
 router.get('/personas', personaController.getAllPersonas); //funciona
+router.put('/persona/:id', personaController.editarPersona);
 
 //rutas de pacientes
 router.get('/paciente/:id', pacienteController.getPacienteById); //funciona

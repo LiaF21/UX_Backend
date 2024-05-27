@@ -51,6 +51,21 @@ exports.deleteAfiliadoById = async (req, res) => {
   }
 };
 
+
+exports.editarAfiliado= async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const afiliadoEditado = await afiliadoService.editarAfiliado(id, updated);
+    if(afiliadoEditado){
+      res.status(201).json({message: 'Afiliado editado con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar afiliado.'});
+    }
+  }catch (error){
+    res.status(500).json({error: error.message});
+  }
+};
 //Patrono
 exports.getAllPatrono = async (req, res) => {
     try{
@@ -102,6 +117,20 @@ exports.deletePatronoById = async (req, res) => {
   }
 };
 
+exports.editarPatrono= async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const patronoEditado = await afiliadoService.editarPatrono(id, updated);
+    if(patronoEditado){
+      res.status(201).json({message: 'Patrono editado con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar patrono.'});
+    }
+  }catch (error){
+    res.status(500).json({error: error.message});
+  }
+};
 //PatronoAfiliado
 exports.getAllPatronoAfiliado = async (req, res) => {
     try{
@@ -150,5 +179,20 @@ exports.deletePatronoAfiliadoById = async (req, res) => {
       }
   } catch (error) {
       res.status(500).json({ error: error.message });
+  }
+};
+
+exports.editarPatronoAfiliado= async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const patronoAfiliadoEditado = await afiliadoService.editarPatronoAfiliado(id, updated);
+    if(patronoAfiliadoEditado){
+      res.status(201).json({message: 'Patrono Afiliado editado con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar patrono afiliado.'});
+    }
+  }catch (error){
+    res.status(500).json({error: error.message});
   }
 };

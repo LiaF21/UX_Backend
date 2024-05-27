@@ -25,3 +25,15 @@ exports.deleteAfiliadoHuespedById = async (id) =>{
     return borrar;
 };
 
+exports.editarAfiliadoHuesped = async (id, afiliadoHuespedUpdate) =>{
+    const afiliadoHuespedEditado = await AfiliadoHuesped.update(afiliadoHuespedUpdate, {
+        where:{id_afiliado_huesped:id}
+    });
+  
+    if(afiliadoHuespedEditado){
+        const edited = await AfiliadoHuesped.findOne({ 
+            where: {id_afiliado_huesped:id}
+        });
+        return edited;
+    }
+  };
