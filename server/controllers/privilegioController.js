@@ -49,6 +49,20 @@ exports.deletePrivilegioById = async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 };
+exports.editarPrivilegio= async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const privilegioEditado = await privilegioService.editarPrivilegio(id, updated);
+    if(privilegioEditado){
+      res.status(201).json({message: 'Privilegio editado con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar privilegio.'});
+    }
+  }catch (error){
+    res.status(500).json({error: error.message});
+  }
+};
 
 //UsuarioPrivilegio
 exports.getAllUsuariosPrivilegios = async (req, res) => {
@@ -97,5 +111,20 @@ exports.deleteUsuarioPrivilegioById = async (req, res) => {
       }
   } catch (error) {
       res.status(500).json({ error: error.message });
+  }
+};
+
+exports.editarUsuarioPrivilegio= async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const privilegioEditado = await privilegioService.editarUsuarioPrivilegio(id, updated);
+    if(privilegioEditado){
+      res.status(201).json({message: 'Privilegio editado con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar privilegio.'});
+    }
+  }catch (error){
+    res.status(500).json({error: error.message});
   }
 };

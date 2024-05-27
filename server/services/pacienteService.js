@@ -24,3 +24,16 @@ exports.deletePacienteById = async (id) =>{
     });
     return borrar;
 };
+
+exports.editarPaciente = async (id, pacienteUpdate) =>{
+    const pacienteEditado = await Paciente.update(pacienteUpdate, {
+        where:{id_paciente:id}
+    });
+
+    if(pacienteEditado){
+        const edited = await Paciente.findOne({ 
+            where: {id_paciente:id}
+        });
+        return edited;
+    }
+};

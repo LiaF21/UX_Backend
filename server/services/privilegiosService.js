@@ -26,6 +26,19 @@ exports.deletePrivilegioById = async (id) =>{
     return borrar;
 };
 
+exports.editarPrivilegio = async (id, privilegioUpdate) =>{
+    const privilegioEditado = await Privilegio.update(privilegioUpdate, {
+        where:{id_privilegio:id}
+    });
+  
+    if(privilegioEditado){
+        const edited = await Privilegio.findOne({ 
+            where: {id_privilegio:id}
+        });
+        return edited;
+    }
+  };
+
 //UsuarioPrivilegio
 exports.getAllUsuarioPrivilegios = async () =>{
     const privilegios = await UsuarioPrivilegio.findAll();
@@ -50,3 +63,15 @@ exports.deleteUsuarioPrivilegioById = async (id) =>{
     });
     return borrar;
 };
+exports.editarUsuarioPrivilegio = async (id, privilegioUsuarioUpdate) =>{
+    const usuarioPrivilegioEditado = await UsuarioPrivilegio.update(privilegioUsuarioUpdate, {
+        where:{id_usuario_privilegio:id}
+    });
+  
+    if(usuarioPrivilegioEditado){
+        const edited = await UsuarioPrivilegio.findOne({ 
+            where: {id_usuario_privilegio:id}
+        });
+        return edited;
+    }
+  };

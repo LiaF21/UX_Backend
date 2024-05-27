@@ -27,6 +27,20 @@ exports.deleteAfiliadoById = async (id) =>{
     return borrar;
 };
 
+exports.editarAfiliado = async (id, afiliadoUpdate) =>{
+    const afiliadoEditado = await Afiliado.update(afiliadoUpdate, {
+        where:{id_afiliado:id}
+    });
+  
+    if(afiliadoEditado){
+        const edited = await Afiliado.findOne({ 
+            where: {id_afiliado:id}
+        });
+        return edited;
+    }
+  };
+  
+
 //Patrono
 exports.getAllPatrono = async () =>{
     const patronos = await Patrono.findAll();
@@ -51,6 +65,20 @@ exports.deletePatronoById = async (id) =>{
     });
     return borrar;
 };
+
+exports.editarPatrono = async (id, patronoUpdate) =>{
+    const patronoEditado = await Patrono.update(patronoUpdate, {
+        where:{id_patrono:id}
+    });
+  
+    if(patronoEditado){
+        const edited = await Patrono.findOne({ 
+            where: {id_patrono:id}
+        });
+        return edited;
+    }
+  };
+  
 
 //PatronoAfiliado
 exports.getAllPatronoAfiliado = async () =>{
@@ -77,3 +105,15 @@ exports.deletePatronoAfiliadoById = async (id) =>{
     return borrar;
 };
 
+exports.editarPatronoAfiliado = async (id, patronoAfiliadoUpdate) =>{
+    const patronoAfiliadoEditado = await PatronoAfiliado.update(patronoAfiliadoUpdate, {
+        where:{id_patrono_afiliado:id}
+    });
+  
+    if(patronoAfiliadoEditado){
+        const edited = await Patrono.findOne({ 
+            where: {id_patrono_afiliado:id}
+        });
+        return edited;
+    }
+  };

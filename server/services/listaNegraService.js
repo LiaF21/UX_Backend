@@ -24,3 +24,16 @@ exports.deletePersonFromList = async (id) =>{
     });
     return borrar;
 };
+
+exports.editarPersonaInList = async (id, listUpdate) =>{
+    const personaLista = await ListaNegra.update(listUpdate, {
+        where:{id_lista_negra:id}
+    });
+
+    if(personaLista){
+        const edited = await ListaNegra.findOne({ 
+            where: {id_lista_negra:id}
+        });
+        return edited;
+    }
+};

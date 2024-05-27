@@ -24,3 +24,16 @@ exports.deletePersonaById= async (id) =>{
     });
     return borrar;
 };
+
+exports.editarPersona = async (id, personaUpdate) =>{
+    const personaEditada = await Persona.update(personaUpdate, {
+        where:{id_persona:id}
+    });
+
+    if(personaEditada){
+        const edited = await Persona.findOne({ 
+            where: {id_persona:id}
+        });
+        return edited;
+    }
+};
