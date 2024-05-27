@@ -91,7 +91,7 @@ const Persona = sequelize.define('Persona', {
   Persona.belongsTo(Procedencia, {foreignKey: 'id_procedencia'})
 
   Ocupacion.hasMany(Persona, {foreignKey: 'id_ocupacion'})
-  Procedencia.hasMany(Persona, {foreignKey: 'id_procendecia'})
+  Procedencia.hasMany(Persona, {foreignKey: 'id_procedencia'})
 
 
   module.exports = {Persona, Ocupacion, Procedencia};

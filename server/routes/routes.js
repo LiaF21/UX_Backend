@@ -2,6 +2,16 @@ const {Router} = require('express')
 
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
+
+
+//valeria
+const personaController = require('../controllers/personaController');
+const huespedController = require('../controllers/huespedController');
+const pacienteController = require('../controllers/pacienteController');
+const paciente_huespedController = require('../controllers/pacienteHuespedController');
+const listaNegraController = require('../controllers/listaNegraController');
+
+
 const router = Router();
 
 

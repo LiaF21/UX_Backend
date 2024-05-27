@@ -8,11 +8,11 @@ const db = require('./Db')
 
 //Routes
 const routes = require('./routes/routes');
-
+const routesF = require('./routes/routesF')
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.use(routes);
+app.use(routes, routesF);
 //Esto puede ir en una ruta, servicio y controlador
 
 const initApp = async () => {

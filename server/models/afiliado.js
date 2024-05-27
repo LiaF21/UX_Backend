@@ -59,8 +59,7 @@ const Afiliado = sequelize.define('Afiliado', {
 
   Afiliado.belongsTo(Persona, {foreignKey: 'id_persona'})
   PatronoAfiliado.belongsTo(Patrono, {foreignKey: 'id_patrono'})
-  Patrono.belongsTo(Afiliado, {foreignKey: 'id_afiliado'})
-
+  
   Patrono.hasMany(PatronoAfiliado, { foreignKey: 'id_patrono' });
   Afiliado.hasMany(PatronoAfiliado, { foreignKey: 'id_afiliado' });
 
