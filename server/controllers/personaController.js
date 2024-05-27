@@ -48,3 +48,19 @@ exports.deletePersonaById = async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 };
+
+exports.editarPersona = async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const personaEditado = await perService.editarPersona(id, updated);
+    if(personaEditado){
+      res.status(201).json({message: 'Persona editada con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar persona'});
+    }
+    
+  }catch (error){
+    res.status(500).json({error: error.message});
+  }
+};

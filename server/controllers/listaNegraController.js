@@ -48,3 +48,18 @@ exports.sacarDeLista = async (req, res) => {
       res.status(500).json({ error: error.message });
   }
 };
+
+exports.editarPersonaInList = async(req, res)=>{
+  try{
+    const {id} = req.params;
+    const updated = req.body;
+    const listEditado = await listaNegraService.editarPersonaInList(id, updated);
+    if(listEditado){
+      res.status(201).json({message: 'Lista Negra editada con exito'});
+    }else{
+      res.status(404).json({message: 'Error al editar Lista Negra'});
+    }
+  }catch (error){
+    res.status(500).json({error: error.message});
+  }
+};

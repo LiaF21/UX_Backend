@@ -47,3 +47,18 @@ exports.deletePHById = async (req, res)=>{
         res.status(500).json({error: error.message});
     }
 };
+
+exports.editarPH = async(req, res)=>{
+    try{
+      const {id} = req.params;
+      const updated = req.body;
+      const phEditado = await phService.editarPH(id, updated);
+      if(phEditado){
+        res.status(201).json({message: 'Paciente Huesped editada con exito'});
+      }else{
+        res.status(404).json({message: 'Error al editar Paciente Huesped'});
+      }
+    }catch (error){
+      res.status(500).json({error: error.message});
+    }
+  };
