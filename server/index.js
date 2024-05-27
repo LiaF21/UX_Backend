@@ -5,15 +5,17 @@ const port = 3001;
 const morgan = require('morgan');
 const db = require('./Db')
 
-const sequelize = require('./Db');
 
 //Routes
 const routes = require('./routes/routes');
+const routesF = require('./routes/routesF')
+const product = require('./routes/productRoutes');
 
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.use(routes);
+app.use(routes, routesF);
+app.use(product);
 //Esto puede ir en una ruta, servicio y controlador
 
 const initApp = async () => {
@@ -34,5 +36,13 @@ const initApp = async () => {
     console.error('Unable to connect to the database:', error);
   }
 };
+
+db.sync({ force: false, alter: false })
+  .then(() => {
+    console.log('Database synced without altering existing schema!');
+  })
+  .catch(error => {
+    console.error('Error syncing database:', error);
+  });
 
 initApp();

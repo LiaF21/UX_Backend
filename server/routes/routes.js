@@ -2,6 +2,16 @@ const {Router} = require('express')
 
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
+
+
+//valeria
+const personaController = require('../controllers/personaController');
+const huespedController = require('../controllers/huespedController');
+const pacienteController = require('../controllers/pacienteController');
+const paciente_huespedController = require('../controllers/pacienteHuespedController');
+const listaNegraController = require('../controllers/listaNegraController');
+
+
 const router = Router();
 
 
@@ -10,6 +20,9 @@ router.get('/usuarios/:id', userController.getUserById); //Funciona
 router.post('/usuarios/create', userController.createUser); // Funciona
 router.delete('/usuarios/:id', userController.deleteUserById); //Funciona
 router.get('/usuarios', userController.getAllUsers); // Funciona
+
+
+
 
 module.exports = router;
 //Depende de cuantas request vamos a necesitar, es más para tener ese orden por si por ejemplo

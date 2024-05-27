@@ -1,17 +1,29 @@
 
 const userService = require('../services/userService');
-const pool = require("../Db");
 
 
 exports.getAllUsers = async (req, res) => {
+    try{
     const users = await userService.getAllUsers();
     res.json(users);
+    } catch (error){
+      res.status(500).json({ error: error.message });
+    }
 };
 
 exports.getUserById = async (req, res) => {
+
+  try{
     const userId = req.params.id;
     const user = await userService.getUserById(userId);
-    res.json(user);
+    if(user){
+      res.json(user);
+    }else{
+      res.status(404).json({message:'Usuario no encontrado,'});
+    }
+  }catch(error){
+    res.status(500).json({error:error.message});
+  }
 };
 
 exports.createUser = async (req, res) => {
@@ -29,8 +41,12 @@ exports.deleteUserById = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await userService.getUserById(id);
-    await userService.deleteUserById(id);
-    res.json({ user, message: 'Usuario eliminado exitosamente' });
+    if(user){
+      await userService.deleteUserById(id);
+      res.json({user, message: 'Usuario eliminado exitosamente'});
+    }else{
+      res.status(404).json({message: 'Usuario no encontrado'});
+    }
   } catch (error) {
     console.error('Error al eliminar usuario:', error);
     res.status(500).json({ message: 'Error interno del servidor' });
