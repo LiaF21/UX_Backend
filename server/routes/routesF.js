@@ -3,7 +3,7 @@ const {Router} = require('express')
 const router = Router();
 
 const afiliadoController = require('../controllers/afiliadoController');
-const afiliadoHuespedController = require('../controllers/afiliadoHuespedController')
+const afiliadoHuespedController = require('../controllers/afiliadoHuespedController');
 const privilegioController = require('../controllers/privilegioController');
 
 //Rutas de Afiliado
