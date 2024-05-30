@@ -22,7 +22,7 @@ router.post('/paciente/create', pacienteController.createPaciente);//funciona
 router.delete('/paciente/:id', pacienteController.deletePacienteById); //funciona
 router.get('/pacientes', pacienteController.getAllPacientes); //funciona
 router.put('/paciente/:id', pacienteController.editarPaciente);//funciona
-
+router.get('/pacientes2', pacienteController.getAllPacientesWithPersona);
 
 //rutas de lista negra
 router.get('/lista-negra/:id', listaNegraController.getPersonaInList);//funciona

@@ -10,6 +10,7 @@ const db = require('./Db')
 const routes = require('./routes/routes');
 const routesF = require('./routes/routesF')
 const product = require('./routes/productRoutes');
+const routesV = require('./routes/routesV')
 
 const routesOcupacion = require('./routes/ocupacionRoutes')
 const routesProcedencia = require('./routes/procedenciaRoutes')
@@ -19,7 +20,7 @@ const routesListaE = require('./routes/listaEsperaRoutes')
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.use(routes, routesF);
+app.use(routes, routesF, routesV);
 app.use(product);
 app.use(routesOcupacion);
 app.use(routesProcedencia);

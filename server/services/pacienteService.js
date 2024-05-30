@@ -1,5 +1,6 @@
 const sequelize = require('../Db');
 const Paciente = require('../models/paciente');
+const {Persona, Ocupacion} = require('../models/persona')
 
 exports.getAllPacientes = async () =>{
     const pacientes = await Paciente.findAll({include: 'Persona'});
@@ -36,4 +37,15 @@ exports.editarPaciente = async (id, pacienteUpdate) =>{
         });
         return edited;
     }
+};
+
+exports.getAllPacientesWithPersona = async () =>{
+    const pacientes = await Paciente.findAll({include: [
+        {
+            model: Persona,
+            include: [{model: Ocupacion, attributes: [['descripcion', 'ocupacion']]}],
+            attributes: [['primer_nombre', 'nombre'],['primer_apellido', 'apellido'],['dni', 'id']]
+        }
+    ], attributes: [['causa_visita', 'causa']]});
+    return pacientes;
 };
