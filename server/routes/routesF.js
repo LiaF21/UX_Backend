@@ -10,7 +10,7 @@ const privilegioController = require('../controllers/privilegioController');
 router.get('/afiliado/:id', afiliadoController.getAfiliadoById); //Funciona
 router.post('/afiliado/create', afiliadoController.createAfiliado); //Funciona
 router.delete('/afiliado/:id', afiliadoController.deleteAfiliadoById); //Funciona
-router.get('/afiliados', afiliadoController.getAllAfiliados);  //Funciona
+router.get('/', afiliadoController.getAllAfiliados);  //Funciona
 router.put('/afiliado/:id', afiliadoController.editarAfiliado); 
 
 //Rutas de Patrono
@@ -46,6 +46,8 @@ router.get('/privilegioUsuario/:id', privilegioController.getPrivilegioByID);
 router.post('/privilegioUsuario/asignar', privilegioController.asignarPrivilegio);
 router.delete('/privilegioUsuario/:id', privilegioController.deleteUsuarioPrivilegioById); 
 router.get('/privilegiosUsuario', privilegioController.getAllUsuariosPrivilegios); 
+router.get('/privilegios/usuario/:id_usuario/privilegio/:id_privilegio', privilegioController.getUsuarioPrivilegioByUsername);
+router.get('/privilegios/usuario/:id', privilegioController.getPrivilegiosByUserId);
 router.put('/privilegioUsuario/:id', privilegioController.editarUsuarioPrivilegio);
 
 module.exports = router;

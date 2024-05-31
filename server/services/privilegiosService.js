@@ -1,5 +1,5 @@
 const sequelize = require('../Db');
-const {Privilegio, UsuarioPrivilegio} = require('../models/usuario');
+const {Privilegio, UsuarioPrivilegio, Usuario} = require('../models/usuario');
 
 //Privilegios
 exports.getAllPrivilegios = async () =>{
@@ -49,6 +49,46 @@ exports.getUsuarioPrivilegioById = async (id) =>{
     const usuarioPrivilegio = await UsuarioPrivilegio.findByPk(id);
     return usuarioPrivilegio;
 };
+
+exports.getUsuarioPrivilegioByUsername = async (user, privilege) =>{
+    const username = await UsuarioPrivilegio.findOne({
+        where: {
+            id_usuario: user,
+            id_privilegio: privilege
+        },
+        include: {
+            model: Privilegio,
+            attributes: ['descripcion']
+        }
+    });
+
+    if (!username) {
+        throw new Error('Privilegio no encontrado para este usuario');
+    }
+
+    return username.Privilegio.descripcion;
+};
+
+
+exports.getPrivilegiosByUser = async (usuario) => {
+    const user = await Usuario.findOne({
+        where: { id_usuario:usuario },
+        include: {
+            model: UsuarioPrivilegio,
+            include: {
+                model: Privilegio,
+                attributes: ['descripcion']
+            }
+        }
+    });
+
+    if (!user) {
+        throw new Error('Usuario no encontrado');
+    }
+
+    return user.UsuarioPrivilegios.map(up => up.Privilegio.descripcion);
+};
+
 
 exports.crearUsuarioPrivilegio = async (usuarioPrivilegioData) =>{
     const user = await UsuarioPrivilegio.create(usuarioPrivilegioData);
