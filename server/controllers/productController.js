@@ -17,7 +17,7 @@ exports.getTransaccionById = async (req, res) => {
   try {
     const transaccion = await productService.getTransaccionById(req.params.id);
     if (transaccion) {
-      res.status(200).json(transaccion);
+      res.status(201).json(transaccion);
     } else {
       res.status(404).json({ message: 'Esta transaccion no existe en registro' });
     }
@@ -30,7 +30,11 @@ exports.getTransaccionesByFecha = async (req, res) => {
   try {
     const { fechaInicio, fechaFinal } = req.query;
     const transacciones = await productService.getTransaccionesByFecha(fechaInicio, fechaFinal);
-    res.status(200).json(transacciones);
+    if(transacciones){
+      res.status(201).json({transacciones, message: 'Transaccion creada con exito.'});
+    }else{
+      res.status(404).json({ message: 'Esta transaccion no existe en registro' });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -50,9 +54,9 @@ exports.getReglaById = async (req, res) => {
   try {
     const regla = await productService.getReglaById(req.params.id);
     if (regla) {
-      res.status(200).json(regla);
+      res.status(200).json({ regla, message: 'Regla encontrada' });
     } else {
-      res.status(404).json({ message: 'Regla no encontrda' });
+      res.status(404).json({ message: 'Regla no encontrada' });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

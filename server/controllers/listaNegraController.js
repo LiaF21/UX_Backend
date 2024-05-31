@@ -3,7 +3,7 @@ const listaNegraService = require ('../services/listaNegraService');
 exports.getList = async (req, res) => {
     try{
     const people = await listaNegraService.getAllLista();
-    res.json(people);
+    res.status(201).json(people);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -15,7 +15,7 @@ exports.getPersonaInList = async (req, res) => {
     const personaID = req.params.id;
     const person = await listaNegraService.getPersonaInList(personaID);
     if(person){
-      res.json(person);
+      res.status(201).json(person);
     }else{
       res.status(404).json({message:'Persona no encontrada,'});
     }
@@ -40,7 +40,7 @@ exports.sacarDeLista = async (req, res) => {
       const { id } = req.params;
       const deletedPersona = await listaNegraService.deletePersonFromList(id);
       if (deletedPersona) {
-          res.json({ message: 'Persona fuera de la lista' });
+          res.status(201).json({ message: 'Persona fuera de la lista' });
       } else {
           res.status(404).json({ message: 'Persona no encontrada' });
       }

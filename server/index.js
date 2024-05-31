@@ -8,25 +8,12 @@ const db = require('./Db')
 
 //Routes
 const routes = require('./routes/routes');
-const routesF = require('./routes/routesF')
-const product = require('./routes/productRoutes');
-const routesV = require('./routes/routesV')
 
-const routesOcupacion = require('./routes/ocupacionRoutes')
-const routesProcedencia = require('./routes/procedenciaRoutes')
-const routesIglesia = require('./routes/iglesiaRoutes')
-const routesIglesiaH = require('./routes/iglesiaHuespedRoutes')
-const routesListaE = require('./routes/listaEsperaRoutes')
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.use(routes, routesF, routesV);
-app.use(product);
-app.use(routesOcupacion);
-app.use(routesProcedencia);
-app.use(routesIglesia);
-app.use(routesListaE);
-app.use(routesIglesiaH);
+app.use(routes);
+
 
 //Esto puede ir en una ruta, servicio y controlador
 

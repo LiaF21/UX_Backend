@@ -4,7 +4,7 @@ const huespedService = require ('../services/huespedService');
 exports.getAllHuespedes = async (req, res) => {
     try{
     const huespedes = await huespedService.getAllHuespedes();
-    res.json(huespedes);
+    res.status(201).json(huespedes);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -16,7 +16,7 @@ exports.getHuespedById = async (req, res) => {
     const huespedID = req.params.id;
     const huesped = await huespedService.getHuespedById(huespedID);
     if(huesped){
-      res.json(huesped);
+      res.status(201).json(huesped);
     }else{
       res.status(404).json({message:'Huesped no encontrado,'});
     }
@@ -41,7 +41,7 @@ exports.deleteHuespedById = async (req, res) => {
       const { id } = req.params;
       const deleteHuesped = await huespedService.deleteHuespedById(id);
       if (deleteHuesped) {
-          res.json({ message: 'Huesped eliminado exitosamente' });
+          res.status(201).json({ message: 'Huesped eliminado exitosamente' });
       } else {
           res.status(404).json({ message: 'Huesped no encontrado' });
       }

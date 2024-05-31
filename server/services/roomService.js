@@ -1,4 +1,5 @@
-const { Habitacion, Cama, Reservacion } = require('../models');
+const {Habitacion, Cama}= require('../models/reservaciones');
+const Reservacion = require('../models/reservacion');
 
 exports.createHabitacion = async (habitacionData) => {
   const habitacion = await Habitacion.create(habitacionData);
