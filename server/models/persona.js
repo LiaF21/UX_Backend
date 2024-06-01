@@ -95,3 +95,5 @@ const Persona = sequelize.define('Persona', {
 
 
   module.exports = {Persona, Ocupacion, Procedencia};
+
+  
