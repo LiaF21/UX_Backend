@@ -50,3 +50,5 @@ const Paciente = sequelize.define('Paciente', {
   Piso.hasMany(Paciente, { foreignKey: 'id_piso' });
 
   module.exports = Paciente;
+
+  

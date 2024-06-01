@@ -67,7 +67,9 @@ const ListaNegra = sequelize.define('ListaNegra', {
 
   ListaNegra.belongsTo(Persona, { foreignKey: 'id_persona' });
   ListaNegra.belongsTo(Reglamento, { foreignKey: 'id_regla' });
-  
+  Persona.hasMany(ListaEspera, { foreignKey: 'id_persona' });
   ListaEspera.belongsTo(Persona, { foreignKey: 'id_persona' });
 
   module.exports = { ListaNegra, Reglamento, ListaEspera };
+
+  
