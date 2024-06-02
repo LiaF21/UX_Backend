@@ -1,5 +1,6 @@
 const sequelize = require('../Db');
-const {Usuario} = require('../models/usuario')
+const {Usuario} = require('../models/usuario');
+const {Persona} = require('../models/persona');
 
 
 exports.login = async (username, password) => {
@@ -44,6 +45,22 @@ exports.createUser = async (dataUsuario) => {
       }
     });
   };
+
+  exports.createUserAndPersona = async (userData, personaData)=>{
+    const probar = await sequelize.transaction();
+
+    try{
+      const nuevaP = await Persona.create(personaData, {probar});
+      userData.id_persona = nuevaP.id_persona;
+      const nuevoU = await Usuario.create(userData, {probar});
+
+      await probar.commit();
+      return (nuevoU, nuevaP);
+    }catch(error){
+      await probar.rollback();
+      throw new Error('Error al crear usuario y persona: '+ error.message);
+    }
+  }
 
   exports.authenticateUser = async (username, password) => {
    const result= await Usuario.findOne({

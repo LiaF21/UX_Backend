@@ -53,6 +53,16 @@ exports.createUser = async (req, res) => {
   }
 };
 
+exports.createUserAndPersona = async(req, res)=>{
+  try{
+    const {user, persona} = req.body;
+    const result = await userService.createUserAndPersona(user, persona);
+    res.status(201).json(result);
+  }catch(error){
+    res.status(500).json({error: error.message});
+  }
+};
+
 exports.deleteUserById = async (req, res) => {
   try {
     const { id } = req.params;
