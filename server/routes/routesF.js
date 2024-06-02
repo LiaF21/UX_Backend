@@ -47,5 +47,6 @@ router.post('/privilegioUsuario/asignar', privilegioController.asignarPrivilegio
 router.delete('/privilegioUsuario/:id', privilegioController.deleteUsuarioPrivilegioById); 
 router.get('/privilegiosUsuario', privilegioController.getAllUsuariosPrivilegios); 
 router.put('/privilegioUsuario/:id', privilegioController.editarUsuarioPrivilegio);
+router.delete('/privilegiosUsuarioId/:id',privilegioController.deleteUsuarioPrivilegioByUserId)
 
 module.exports = router;

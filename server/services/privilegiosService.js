@@ -63,6 +63,22 @@ exports.deleteUsuarioPrivilegioById = async (id) =>{
     });
     return borrar;
 };
+exports.deleteUsuarioPrivilegioById = async (id) =>{
+    const borrar = await UsuarioPrivilegio.destroy({
+        where:{
+            id_usuario_privilegio:id
+        }
+    });
+    return borrar;
+};
+exports.deleteUsuarioPrivilegioByUserId = async (id) =>{
+    const borrar = await UsuarioPrivilegio.destroy({
+        where:{
+            id_usuario:id
+        }
+    });
+    return borrar;
+};
 exports.editarUsuarioPrivilegio = async (id, privilegioUsuarioUpdate) =>{
     const usuarioPrivilegioEditado = await UsuarioPrivilegio.update(privilegioUsuarioUpdate, {
         where:{id_usuario_privilegio:id}

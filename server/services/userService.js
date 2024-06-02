@@ -14,7 +14,7 @@ exports.login = async (username, password) => {
 };
 
 exports.getAllUsers = async () => {
-    const users = await Usuario.findAll({include: 'Hospital'});
+    const users = await Usuario.findAll({include: ['Hospital', 'Persona']});
     return users;
 };
 
