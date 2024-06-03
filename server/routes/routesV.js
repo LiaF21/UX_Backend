@@ -18,6 +18,7 @@ router.get('/usuario/:username', userController.getUserByUsername);//funciona
 router.post('/usuarios/create', userController.createUser); // Funciona
 router.delete('/usuarios/:id', userController.deleteUserById); //Funciona
 router.get('/usuarios', userController.getAllUsers); // Funciona
+router.post('/crearUsuario*Persona', userController.createUserAndPersona);
 router.put('/usuarios/:id', userController.editarUser);//funciona
 
 
