@@ -3,7 +3,7 @@ const pacienteService = require('../services/pacienteService');
 exports.getAllPacientes = async (req, res) => {
     try{
     const pacientes = await pacienteService.getAllPacientes();
-    res.status(201).json(pacientes);
+    res.json(pacientes);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -15,7 +15,7 @@ exports.getPacienteById = async (req, res) => {
     const pacienteID = req.params.id;
     const paciente = await pacienteService.getPacienteById(pacienteID);
     if(paciente){
-      res.status(201).getPacienteByIdjson(paciente);
+      res.json(paciente);
     }else{
       res.status(404).json({message:'Paciente no encontrado,'});
     }
@@ -71,7 +71,7 @@ exports.editarPaciente = async(req, res)=>{
 exports.getAllPacientesWithPersona = async (req, res) => {
   try{
   const pacientes = await pacienteService.getAllPacientesWithPersona();
-  res.status(201).json(pacientes);
+  res.json(pacientes);
   } catch (error){
     res.status(500).json({ error: error.message });
   }

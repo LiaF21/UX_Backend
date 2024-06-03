@@ -1,8 +1,6 @@
 const {Router} = require('express')
 
 //rutas de Valeria por mientras decidimos lo de los archivos
-const authController = require('../controllers/authController');
-const userController = require('../controllers/userController');
 const personaController = require('../controllers/personaController');
 const huespedController = require('../controllers/huespedController');
 const pacienteController = require('../controllers/pacienteController');

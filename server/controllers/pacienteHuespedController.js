@@ -3,7 +3,7 @@ const phService = require('../services/pacienteHuespedService');
 exports.getAllPH = async (req, res) =>{
     try{
         const phs = await phService.getAllPH();
-        res.status(201).json(phs);
+        res.json(phs);
     }catch(error){
         res.status(500).json({error: error.message});
     }
@@ -14,7 +14,7 @@ exports.getOnePH = async (req, res) => {
       const phID = req.params.id;
       const ph = await phService.getOnePH(phID);
       if(ph){
-        res.status(201).json(ph);
+        res.json(ph);
       }else{
         res.status(404).json({message:'Paciente Huesped no encontrado,'});
       }
