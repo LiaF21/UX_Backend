@@ -74,7 +74,7 @@ const Reservacion = sequelize.define('Reservacion', {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    nomre: {
+    nombre: {
       type: DataTypes.STRING(30),
       allowNull: false,
     },

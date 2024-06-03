@@ -8,6 +8,9 @@ const db = require('./Db')
 
 //Routes
 const routes = require('./routes/routes');
+const routesF = require('./routes/routesF')
+const product = require('./routes/productRoutes');
+const routesV = require('./routes/routesV')
 
 const routesOcupacion = require('./routes/ocupacionRoutes')
 const routesProcedencia = require('./routes/procedenciaRoutes')
@@ -26,7 +29,6 @@ app.use(routesIglesia);
 app.use(routesListaE);
 app.use(routesIglesiaH);
 app.use(routesMiscelanous);
-
 
 //Esto puede ir en una ruta, servicio y controlador
 

@@ -5,7 +5,7 @@ const userService = require('../services/userService');
 exports.getAllUsers = async (req, res) => {
     try{
     const users = await userService.getAllUsers();
-    res.status(201).json(users);
+    res.json(users);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -17,7 +17,7 @@ exports.getUserById = async (req, res) => {
     const userId = req.params.id;
     const user = await userService.getUserById(userId);
     if(user){
-      res.status(201).json(user);
+      res.json(user);
     }else{
       res.status(404).json({message:'Usuario no encontrado,'});
     }
@@ -26,40 +26,14 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-
-exports.getUserByUsername = async(req, res)=>{
-
-  try{
-    const name = req.params.username;
-    const user = await userService.getUserByUsername(name);
-    if(user){
-      res.status(201).json(user);
-    }else{
-      res.status(404).json({message: 'Usuario no encontrado'});
-    }
-  }catch (error){
-    res.status(500).json({error: error.message});
-  }
-}
-
 exports.createUser = async (req, res) => {
   try {
-    const { id_usuario, id_persona, id_hospital, username, password, rol } = req.body;
-    const newUser = await userService.createUser(req.body);
+    const { id_persona, id_hospital, username, password, rol } = req.body;
+    const newUser = await userService.createUser(id_persona, id_hospital, username, password, rol);
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Error al crear usuario:', error);
     res.status(500).json({ message: 'Error interno del servidor' });
-  }
-};
-
-exports.createUserAndPersona = async(req, res)=>{
-  try{
-    const {user, persona} = req.body;
-    const result = await userService.createUserAndPersona(user, persona);
-    res.status(201).json(result);
-  }catch(error){
-    res.status(500).json({error: error.message});
   }
 };
 
@@ -69,7 +43,7 @@ exports.deleteUserById = async (req, res) => {
     const user = await userService.getUserById(id);
     if(user){
       await userService.deleteUserById(id);
-      res.status(201).json({user, message: 'Usuario eliminado exitosamente'});
+      res.json({user, message: 'Usuario eliminado exitosamente'});
     }else{
       res.status(404).json({message: 'Usuario no encontrado'});
     }
@@ -79,18 +53,3 @@ exports.deleteUserById = async (req, res) => {
   }
 };
 
-exports.editarUser = async (req, res)=>{
-  try{
-    const {id} = req.params;
-    const updated = req.body;
-    const userEditado = await userService.editarUser(id, updated);
-
-    if(userEditado){
-      res.status(201).json({message: 'User editado con exito'});
-    }else{
-      res.status(404).json({message: 'Error al editar usuario'});
-    }
-  }catch (error){
-    res.status(500).json({error: error.message});
-  }
-};

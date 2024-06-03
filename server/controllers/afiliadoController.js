@@ -4,7 +4,7 @@ const afiliadoService = require('../services/afiliadoService')
 exports.getAllAfiliados = async (req, res) => {
     try{
     const allAfiliados = await afiliadoService.getAllAfiliado();
-    res.status(201).json(allAfiliados);
+    res.json(allAfiliados);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -16,7 +16,7 @@ exports.getAfiliadoById = async (req, res) => {
     const ID = req.params.id;
     const afiliado = await afiliadoService.getAfiliadoById(ID);
     if(afiliado){
-      res.status(201).json(afiliado);
+      res.json(afiliado);
     }else{
       res.status(404).json({message:'Afiliado no encontrado.'});
     }
@@ -42,7 +42,7 @@ exports.deleteAfiliadoById = async (req, res) => {
       const { id } = req.params;
       const deleteAfiliado = await afiliadoService.deleteAfiliadoById(id);
       if (deleteAfiliado) {
-          res.status(201).json({ message: 'Afiliado eliminado exitosamente' });
+          res.json({ message: 'Afiliado eliminado exitosamente' });
       } else {
           res.status(404).json({ message: 'Afiliado no encontrado' });
       }
@@ -70,7 +70,7 @@ exports.editarAfiliado= async(req, res)=>{
 exports.getAllPatrono = async (req, res) => {
     try{
     const allPatrono = await afiliadoService.getAllPatrono();
-    res.status(201).json(allPatrono);
+    res.json(allPatrono);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -82,7 +82,7 @@ exports.getPatronoById = async (req, res) => {
     const ID = req.params.id;
     const patrono = await afiliadoService.getPatronoById(ID);
     if(patrono){
-      res.status(201).json(patrono);
+      res.json(patrono);
     }else{
       res.status(404).json({message:'Patrono no encontrado.'});
     }
@@ -108,7 +108,7 @@ exports.deletePatronoById = async (req, res) => {
       const { id } = req.params;
       const deletePatrono = await afiliadoService.deletePatronoById(id);
       if (deletePatrono) {
-          res.status(201).json({ message: 'Patrono eliminado exitosamente' });
+          res.json({ message: 'Patrono eliminado exitosamente' });
       } else {
           res.status(404).json({ message: 'Patrono no encontrado' });
       }
@@ -135,7 +135,7 @@ exports.editarPatrono= async(req, res)=>{
 exports.getAllPatronoAfiliado = async (req, res) => {
     try{
     const allPatronoAfiliado = await afiliadoService.getAllPatronoAfiliado();
-    res.status(201).json(allPatronoAfiliado);
+    res.json(allPatronoAfiliado);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -147,7 +147,7 @@ exports.getPatronoAfiliadoById = async (req, res) => {
     const ID = req.params.id;
     const patronoAfiliado = await afiliadoService.getPatronoAfiliadoById(ID);
     if(patronoAfiliado){
-      res.status(201).json(patronoAfiliado);
+      res.json(patronoAfiliado);
     }else{
       res.status(404).json({message:'Patrono Afiliado no encontrado.'});
     }
@@ -173,7 +173,7 @@ exports.deletePatronoAfiliadoById = async (req, res) => {
       const { id } = req.params;
       const deletePatronoAfiliado = await afiliadoService.deletePatronoAfiliadoById(id);
       if (deletePatronoAfiliado) {
-          res.status(201).json({ message: 'Patrono eliminado exitosamente' });
+          res.json({ message: 'Patrono eliminado exitosamente' });
       } else {
           res.status(404).json({ message: 'Patrono Afiliado no encontrado' });
       }

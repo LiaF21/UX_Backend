@@ -44,7 +44,7 @@ exports.getAllPacientesWithPersona = async () =>{
         {
             model: Persona,
             include: [{model: Ocupacion, attributes: [['descripcion', 'ocupacion']]}],
-            attributes: [['primer_nombre', 'nombre'],['primer_apellido', 'apellido'],['dni', 'id'], 'genero']
+            attributes: [['primer_nombre', 'nombre'],['primer_apellido', 'apellido'],['dni', 'id']]
         }
     ], attributes: [['causa_visita', 'causa']]});
     return pacientes;
