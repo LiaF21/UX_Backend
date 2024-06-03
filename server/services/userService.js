@@ -1,5 +1,6 @@
 const sequelize = require('../Db');
-const {Usuario} = require('../models/usuario')
+const {Usuario} = require('../models/usuario');
+const {Persona} = require('../models/persona');
 
 
 exports.login = async (username, password) => {
@@ -14,7 +15,7 @@ exports.login = async (username, password) => {
 };
 
 exports.getAllUsers = async () => {
-    const users = await Usuario.findAll({include: 'Hospital'});
+    const users = await Usuario.findAll({include: ['Hospital', 'Persona']});
     return users;
 };
 
@@ -23,14 +24,17 @@ exports.getUserById = async (id) => {
    return result;
   };
 
-exports.createUser = async (id_persona, id_hospital, username, password, rol) => {
-    const nuevoUser = await Usuario.create({
-      id_persona,
-      id_hospital, 
-      nickname:username,
-      contrasena:password,
-      rol
+  exports.getUserByUsername = async (username) =>{
+    const result = await Usuario.findOne({
+      where:{
+        nickname: username
+      }
     });
+    return result;
+  }
+
+exports.createUser = async (dataUsuario) => {
+    const nuevoUser = await Usuario.create(dataUsuario);
     return nuevoUser;
   };
   
@@ -41,6 +45,22 @@ exports.createUser = async (id_persona, id_hospital, username, password, rol) =>
       }
     });
   };
+
+  exports.createUserAndPersona = async (userData, personaData)=>{
+    const probar = await sequelize.transaction();
+
+    try{
+      const nuevaP = await Persona.create(personaData, {probar});
+      userData.id_persona = nuevaP.id_persona;
+      const nuevoU = await Usuario.create(userData, {probar});
+
+      await probar.commit();
+      return (nuevoU, nuevaP);
+    }catch(error){
+      await probar.rollback();
+      throw new Error('Error al crear usuario y persona: '+ error.message);
+    }
+  }
 
   exports.authenticateUser = async (username, password) => {
    const result= await Usuario.findOne({
@@ -53,6 +73,17 @@ exports.createUser = async (id_persona, id_hospital, username, password, rol) =>
    return result != null;
   };
   
- 
+  exports.editarUser = async(id, userUpdate)=>{
+    const userEditado = await Usuario.update(userUpdate, {
+      where:{id_usuario:id}
+    });
+
+    if(userEditado){
+      const edited=await Usuario.findOne({
+        ehre:{id_usuario:id}
+      });
+      return edited;
+    }
+  };
 
 

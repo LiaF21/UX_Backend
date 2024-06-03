@@ -1,12 +1,25 @@
 const {Router} = require('express')
 
 //rutas de Valeria por mientras decidimos lo de los archivos
+const authController = require('../controllers/authController');
+const userController = require('../controllers/userController');
 const personaController = require('../controllers/personaController');
 const huespedController = require('../controllers/huespedController');
 const pacienteController = require('../controllers/pacienteController');
 const paciente_huespedController = require('../controllers/pacienteHuespedController');
 const listaNegraController = require('../controllers/listaNegraController');
 const router = Router();
+
+
+//usuerios
+router.post('/auth/login', authController.login); //Funciona
+router.get('/usuarios/:id', userController.getUserById); //Funciona
+router.get('/usuario/:username', userController.getUserByUsername);//funciona
+router.post('/usuarios/create', userController.createUser); // Funciona
+router.delete('/usuarios/:id', userController.deleteUserById); //Funciona
+router.get('/usuarios', userController.getAllUsers); // Funciona
+router.post('/crearUsuario*Persona', userController.createUserAndPersona);
+router.put('/usuarios/:id', userController.editarUser);//funciona
 
 
 //rutas de personas
