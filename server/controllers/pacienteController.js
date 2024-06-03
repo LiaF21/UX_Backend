@@ -71,7 +71,7 @@ exports.editarPaciente = async(req, res)=>{
 exports.getAllPacientesWithPersona = async (req, res) => {
   try{
   const pacientes = await pacienteService.getAllPacientesWithPersona();
-  res.json(pacientes);
+  res.status(201).json(pacientes);
   } catch (error){
     res.status(500).json({ error: error.message });
   }
