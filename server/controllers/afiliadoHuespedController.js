@@ -4,7 +4,7 @@ const afiliadoHuespedService = require ('../services/afiliadoHuespedService');
 exports.getAllAfiliadoHuespedes = async (req, res) => {
     try{
     const afiliadoHuespedes = await afiliadoHuespedService.getAllAfiliadoHuespedes();
-    res.json(afiliadoHuespedes);
+    res.status(201).json(afiliadoHuespedes);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -16,7 +16,7 @@ exports.getAfiliadoHuespedById = async (req, res) => {
     const huespedID = req.params.id;
     const afiliadoHuesped = await afiliadoHuespedService.getAfiliadoHuespedById(huespedID);
     if(afiliadoHuesped){
-      res.json(afiliadoHuesped);
+      res.status(201).json(afiliadoHuesped);
     }else{
       res.status(404).json({message:'Huesped no encontrado,'});
     }
@@ -41,7 +41,7 @@ exports.deleteHuespedById = async (req, res) => {
       const { id } = req.params;
       const deleteAfiliadoHuesped = await afiliadoHuespedService.deleteAfiliadoHuespedById(id);
       if (deleteAfiliadoHuesped) {
-          res.json({ message: 'Huesped afiliado eliminado exitosamente' });
+          res.status(201).json({ message: 'Huesped afiliado eliminado exitosamente' });
       } else {
           res.status(404).json({ message: 'Huesped afiliado no encontrado' });
       }

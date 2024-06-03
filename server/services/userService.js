@@ -23,14 +23,17 @@ exports.getUserById = async (id) => {
    return result;
   };
 
-exports.createUser = async (id_persona, id_hospital, username, password, rol) => {
-    const nuevoUser = await Usuario.create({
-      id_persona,
-      id_hospital, 
-      nickname:username,
-      contrasena:password,
-      rol
+  exports.getUserByUsername = async (username) =>{
+    const result = await Usuario.findOne({
+      where:{
+        nickname: username
+      }
     });
+    return result;
+  }
+
+exports.createUser = async (dataUsuario) => {
+    const nuevoUser = await Usuario.create(dataUsuario);
     return nuevoUser;
   };
   
@@ -53,6 +56,17 @@ exports.createUser = async (id_persona, id_hospital, username, password, rol) =>
    return result != null;
   };
   
- 
+  exports.editarUser = async(id, userUpdate)=>{
+    const userEditado = await Usuario.update(userUpdate, {
+      where:{id_usuario:id}
+    });
+
+    if(userEditado){
+      const edited=await Usuario.findOne({
+        ehre:{id_usuario:id}
+      });
+      return edited;
+    }
+  };
 
 

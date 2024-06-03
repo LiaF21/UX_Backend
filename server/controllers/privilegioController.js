@@ -4,7 +4,7 @@ const privilegioService = require ('../services/privilegiosService');
 exports.getAllPrivilegios = async (req, res) => {
     try{
     const privilegios = await privilegioService.getAllPrivilegios();
-    res.json(privilegios);
+    res.status(201).json(privilegios);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -16,7 +16,7 @@ exports.getPrivilegioByID = async (req, res) => {
     const privilegioID = req.params.id;
     const privilegio = await privilegioService.getPrivilegioById(privilegioID);
     if(privilegio){
-      res.json(privilegio);
+      res.status(201).json(privilegio);
     }else{
       res.status(404).json({message:'Privilegio no encontrado,'});
     }
@@ -41,7 +41,7 @@ exports.deletePrivilegioById = async (req, res) => {
       const { id } = req.params;
       const deletePrivilegio = await privilegioService.deletePrivilegioById(id);
       if (deletePrivilegio) {
-          res.json({ message: 'Privilegio eliminado exitosamente' });
+          res.status(201).json({ message: 'Privilegio eliminado exitosamente' });
       } else {
           res.status(404).json({ message: 'Privilegio no encontrado' });
       }
@@ -68,7 +68,7 @@ exports.editarPrivilegio= async(req, res)=>{
 exports.getAllUsuariosPrivilegios = async (req, res) => {
     try{
     const privilegios = await privilegioService.getAllUsuarioPrivilegios();
-    res.json(privilegios);
+    res.status(201).json(privilegios);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -80,12 +80,32 @@ exports.getUsuarioPrivilegioByID = async (req, res) => {
     const privilegioID = req.params.id;
     const privilegio = await privilegioService.getUsuarioPrivilegioById(privilegioID);
     if(privilegio){
-      res.json(privilegio);
+      res.status(201).json(privilegio);
     }else{
       res.status(404).json({message:'Privilegio no encontrado,'});
     }
   }catch(error){
     res.status(500).json({error:error.message});
+  }
+};
+
+exports.getUsuarioPrivilegioByUsername = async (req, res)=>{
+  try {
+    const { id_usuario, id_privilegio } = req.params;
+    const descripcion = await privilegioService.getUsuarioPrivilegioByUsername(id_usuario, id_privilegio);
+    res.status(201).json({ descripcion });
+} catch (error) {
+    res.status(500).json({ error: error.message });
+}
+};
+
+exports.getPrivilegiosByUserId = async (req, res) => {
+  try {
+      const { id } = req.params;
+      const privilegios = await privilegioService.getPrivilegiosByUser(id);
+      res.status(201).json(privilegios);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
   }
 };
 
@@ -105,7 +125,7 @@ exports.deleteUsuarioPrivilegioById = async (req, res) => {
       const { id } = req.params;
       const deletePrivilegio = await privilegioService.deleteUsuarioPrivilegioById(id);
       if (deletePrivilegio) {
-          res.json({ message: 'Privilegio eliminado exitosamente' });
+          res.status(201).json({ message: 'Privilegio eliminado exitosamente' });
       } else {
           res.status(404).json({ message: 'Privilegio no encontrado' });
       }

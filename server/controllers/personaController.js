@@ -3,7 +3,7 @@ const perService = require('../services/personaService');
 exports.getAllPersonas = async (req, res) => {
     try{
     const people = await perService.getAllPersonas();
-    res.json(people);
+    res.status(201).json(people);
     } catch (error){
       res.status(500).json({ error: error.message });
     }
@@ -15,7 +15,7 @@ exports.getPersonaById = async (req, res) => {
     const personaID = req.params.id;
     const person = await perService.getPersonaById(personaID);
     if(person){
-      res.json(person);
+      res.status(201).json(person);
     }else{
       res.status(404).json({message:'Persona no encontrado,'});
     }
@@ -40,7 +40,7 @@ exports.deletePersonaById = async (req, res) => {
       const { id } = req.params;
       const deletedPersona = await perService.deletePersonaById(id);
       if (deletedPersona) {
-          res.json({ message: 'Persona eliminada exitosamente' });
+          res.status(201).json({ message: 'Persona eliminada exitosamente' });
       } else {
           res.status(404).json({ message: 'Persona no encontrada' });
       }
