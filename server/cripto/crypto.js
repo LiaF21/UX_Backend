@@ -1,18 +1,17 @@
-const crypto = require('crypto');
+const bcrypt = require("bcrypt");
+
+const saltRounds = 10;
 
 const encrpyt = (contra) => {
-let cipher =crypto.createCipher('aes192','a password');
-let encriptado =cipher.update(contra,'utf8','hex');
-encriptado = cipher.final('hex');
-return encriptado;
-}
+  const salt = bcrypt.genSaltSync(saltRounds);
 
+  const encriptado = bcrypt.hashSync(contra, salt);
 
-const decrpyt = (contraEn) => {
-    let decipher = crypto.createDecipher('aes192','a password');
-    let desencriptado = decipher.update(contraEN,'hex','utf8');
-    desencriptado = decipher.final('utf8');
-    return desencriptado;
-}
+  return encriptado;
+};
 
-module.exports = { encrpyt, decrpyt };
+const compare = (contra, contraEn) => {
+  return bcrypt.compareSync(contra, contraEn);
+};
+
+module.exports = { encrpyt, compare};
