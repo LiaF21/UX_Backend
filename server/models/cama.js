@@ -11,7 +11,7 @@ const Cama = sequelize.define('Cama', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  nombre: {
+  nomre: {
     type: DataTypes.STRING(30),
     allowNull: false,
   },
