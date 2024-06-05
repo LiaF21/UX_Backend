@@ -22,6 +22,19 @@ exports.getHabitacionById = async (req, res) => {
   }
 };
 
+exports.getAllHabitaciones = async (req, res) => {
+  try {
+    const habitaciones = await roomService.getAllHabitaciones();
+    if (habitaciones.length > 0) {
+      res.status(200).json(habitaciones);
+    } else {
+      res.status(404).json({ message: 'No se encontraron habitaciones' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.editHabitacion = async (req, res) => {
   try {
     await roomService.editHabitacion(req.params.id, req.body);
@@ -47,6 +60,19 @@ exports.getCamaById = async (req, res) => {
       res.status(200).json(cama);
     } else {
       res.status(404).json({ message: 'Cama no encontrada' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getCamasByRoom =async (req, res) => {
+  try {
+    const camas = await roomService.getCamasByRoom(req.params.id);
+    if (camas && camas.length > 0) {
+      res.status(200).json(camas);
+    } else {
+      res.status(404).json({ message: 'No se encontraron camas para esta habitación' });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

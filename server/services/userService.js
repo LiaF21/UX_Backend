@@ -1,6 +1,19 @@
 const sequelize = require('../Db');
 const {Usuario} = require('../models/usuario')
 
+exports.getUserByUsername = async (username) => {
+  try {
+    const user = await Usuario.findOne({
+      where: {
+        nickname: username
+      }
+    });
+    return user;
+  } catch (error) {
+    console.error('Error retrieving user by username:', error);
+    throw error;
+  }
+};
 
 exports.login = async (username, password) => {
   const result = await Usuario.findOne({

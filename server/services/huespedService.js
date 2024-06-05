@@ -2,7 +2,7 @@ const sequelize = require('../Db');
 const {Huesped} = require('../models/huesped');
 
 exports.getAllHuespedes = async () =>{
-    const huespedes = await Huesped.findAll();
+    const huespedes = await Huesped.findAll({include: 'Persona'});
     return huespedes;
 };
 

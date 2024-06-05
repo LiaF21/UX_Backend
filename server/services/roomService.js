@@ -1,4 +1,4 @@
-const { Habitacion, Cama, Reservacion } = require('../models');
+const { Habitacion, Cama, Reservacion } = require('../models/reservaciones');
 
 exports.createHabitacion = async (habitacionData) => {
   const habitacion = await Habitacion.create(habitacionData);
@@ -8,6 +8,23 @@ exports.createHabitacion = async (habitacionData) => {
 exports.getHabitacionById = async (id) => {
   const habitacion = await Habitacion.findByPk(id);
   return habitacion;
+};
+exports.getAllHabitaciones = async () => {
+  try {
+    const habitaciones = await Habitacion.findAll(); 
+    return habitaciones;
+  } catch (error) {
+    throw Error("Error al obtener las habitaciones: " + error.message);
+  }
+};
+
+exports.getCamasByRoom = async (habitacionId) => {
+  try {
+    const camas = await Cama.findAll({ where: { id_habitacion: habitacionId } });
+    return camas;
+  } catch (error) {
+    throw new Error('Error al obtener las camas de la habitación: ' + error.message);
+  }
 };
 
 exports.editHabitacion = async (id, habitacionData) => {

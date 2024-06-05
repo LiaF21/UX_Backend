@@ -18,6 +18,7 @@ const routesIglesia = require('./routes/iglesiaRoutes')
 const routesIglesiaH = require('./routes/iglesiaHuespedRoutes')
 const routesListaE = require('./routes/listaEsperaRoutes')
 const routesMiscelanous = require('./routes/MiscelanousRoutes');
+const routesRooms = require('./routes/roomRoutes');
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
@@ -29,6 +30,7 @@ app.use(routesIglesia);
 app.use(routesListaE);
 app.use(routesIglesiaH);
 app.use(routesMiscelanous);
+app.use(routesRooms);
 
 //Esto puede ir en una ruta, servicio y controlador
 
