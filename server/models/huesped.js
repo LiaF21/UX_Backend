@@ -23,6 +23,12 @@ const Huesped = sequelize.define('Huesped', {
   reingreso: {
     type: DataTypes.BOOLEAN,
     allowNull: false
+  },lista_espera: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  },busca_lista: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
   }
 }, {
   tableName: 'huesped',
