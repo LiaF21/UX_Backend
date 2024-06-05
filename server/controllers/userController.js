@@ -38,6 +38,20 @@ exports.getUserByUsername = async (req, res) => {
   }
 };
 
+exports.getUserByIdPersona = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await userService.getUserByIdPersona(id);
+    if (user) {
+      res.status(201).json(user);
+    } else {
+      res.status(404).json({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.createUser = async (req, res) => {
   try {
     const { contrasena } = req.body;

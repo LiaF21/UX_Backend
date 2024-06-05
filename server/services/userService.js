@@ -33,6 +33,15 @@ exports.getUserByUsername = async (username) => {
   return result;
 }
 
+exports.getUserByIdPersona = async (id) => {
+  const result = await Usuario.findOne({
+    where: {
+      id_persona: id
+    }
+  });
+  return result;
+}
+
 exports.createUser = async (dataUsuario) => {
   const nuevoUser = await Usuario.create(dataUsuario);
   return nuevoUser;

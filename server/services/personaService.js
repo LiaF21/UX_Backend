@@ -37,3 +37,10 @@ exports.editarPersona = async (id, personaUpdate) =>{
         return edited;
     }
 };
+
+exports.getPersonaByDni = async (dni) =>{
+    const person = await Persona.findOne({
+        where:{dni:dni}
+    });
+    return person;
+}

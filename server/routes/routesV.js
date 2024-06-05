@@ -14,7 +14,8 @@ const router = Router();
 //usuerios
 router.post('/auth/login', authController.login); //Funciona
 router.get('/usuarios/:id', userController.getUserById); //Funciona
-router.get('/usuario/:username', userController.getUserByUsername);//funciona
+router.get('/usuario/:username', userController.getUserByUsername);//fumiselaneos nciona
+router.get('/usuarios/persona/:id', userController.getUserByIdPersona);//funciona
 router.post('/usuarios/create', userController.createUser); // Funciona
 router.delete('/usuarios/:id', userController.deleteUserById); //Funciona
 router.get('/usuarios', userController.getAllUsers); // Funciona
@@ -28,6 +29,7 @@ router.post('/persona/create', personaController.createPersona);//funciona
 router.delete('/persona/:id', personaController.deletePersonaById); //funciona
 router.get('/personas', personaController.getAllPersonas); //funciona
 router.put('/persona/:id', personaController.editarPersona);
+router.get('/persona/byDni/:dni', personaController.getPersonaByDni);//funciona
 
 //rutas de pacientes
 router.get('/paciente/:id', pacienteController.getPacienteById); //funciona

@@ -24,6 +24,20 @@ exports.getPersonaById = async (req, res) => {
   }
 };
 
+exports.getPersonaByDni = async (req, res) => {
+  try{
+    const dni = req.params.dni;
+    const person = await perService.getPersonaByDni(dni);
+    if(person){
+      res.status(201).json(person);
+    }else{
+      res.status(404).json({message:'Persona no encontrado,'});
+    }
+  }catch(error){
+    res.status(500).json({error:error.message});
+  }
+};
+
 exports.createPersona = async (req, res) => {
   try {
     const { id_persona, id_ocupacion, id_procedencia, dni, primer_nombre, segundo_nombre, primero_apellido, segundo_apellido, direccion, telefono, genero, fecha_nacimiento } = req.body;
