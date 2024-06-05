@@ -64,3 +64,17 @@ exports.editarPersona = async(req, res)=>{
     res.status(500).json({error: error.message});
   }
 };
+
+exports.getPersonaByDni = async(req, res) => {
+  try{
+    const personaDNI = req.params.id;
+    const person = await perService.getPersonaByDNI(personaDNI);
+    if(person){
+      res.json(person);
+    }else{
+      res.status(404).json({message:'Persona no encontrado,'});
+    }
+  }catch(error){
+    res.status(500).json({error:error.message});
+  }
+}

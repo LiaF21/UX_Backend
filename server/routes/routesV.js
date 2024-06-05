@@ -6,6 +6,8 @@ const huespedController = require("../controllers/huespedController");
 const pacienteController = require("../controllers/pacienteController");
 const paciente_huespedController = require("../controllers/pacienteHuespedController");
 const listaNegraController = require("../controllers/listaNegraController");
+const userController = require("../controllers/userController")
+const authController = require("../controllers/authController")
 const router = Router();
 
 //usuerios
