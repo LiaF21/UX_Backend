@@ -16,6 +16,7 @@ roomRouter.get('/camasbyroom/:id', roomController.getCamasByRoom);
 roomRouter.get('/camas/:id', roomController.getCamaById);
 roomRouter.put('/camas/:id', roomController.editCama);
 roomRouter.get ('/camasDisp', roomController.getCamasByDisponibilidad)
+roomRouter.delete('/camas/:id', roomController.deleteCamaById);
 
 roomRouter.post('/reservaciones', roomController.createReservacion);
 roomRouter.get('/reservaciones/:id', roomController.getReservacionById);

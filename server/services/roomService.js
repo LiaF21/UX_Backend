@@ -9,6 +9,7 @@ exports.getHabitacionById = async (id) => {
   const habitacion = await Habitacion.findByPk(id);
   return habitacion;
 };
+
 exports.getAllHabitaciones = async () => {
   try {
     const habitaciones = await Habitacion.findAll(); 
@@ -25,6 +26,10 @@ exports.deleteHabitacionById = async (id) =>{
       }
   });
   return borrar;
+};
+
+exports.editHabitacion = async (id, habitacionData) => {
+  await Habitacion.update(habitacionData, { where: { id_habitacion: id } });
 };
 
 exports.getAllCamas = async () => {
@@ -51,11 +56,16 @@ exports.getCamasByDisponible = async() => {
 
 
 }
-
-
-exports.editHabitacion = async (id, habitacionData) => {
-  await Habitacion.update(habitacionData, { where: { id_habitacion: id } });
+exports.deleteCamaById = async (id) =>{
+  const borrar = await Cama.destroy({
+      where:{
+          id_cama:id
+      }
+  });
+  return borrar;
 };
+
+
 
 exports.createCama = async (camaData) => {
   const cama = await Cama.create(camaData);
