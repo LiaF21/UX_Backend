@@ -15,7 +15,7 @@ exports.getPacienteById = async (req, res) => {
     const pacienteID = req.params.id;
     const paciente = await pacienteService.getPacienteById(pacienteID);
     if(paciente){
-      res.status(201).getPacienteByIdjson(paciente);
+      res.status(201).json(paciente);
     }else{
       res.status(404).json({message:'Paciente no encontrado,'});
     }

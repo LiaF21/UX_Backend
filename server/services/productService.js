@@ -83,6 +83,18 @@ exports.getPisoById = async (id) => {
   return piso;
 };
 
+exports.getPisosByHospital = async (id_hospital) => {
+  const pisos = await Piso.findAll({
+    where: { id_hospital: id_hospital },
+  });
+  return pisos;
+};
+
+exports.getAllPisos = async () => {
+  const pisos = await Piso.findAll();
+  return pisos;
+};
+
 exports.createSala = async (SalaData) => {
   const sala = await Sala.create(SalaData);
   return sala;
@@ -92,3 +104,15 @@ exports.getSalaById = async (id) => {
   const sala = await Sala.findByPk(id);
   return sala;
 };
+
+exports.getAllSalas = async () => {
+  const salas = await Sala.findAll();
+  return salas;
+}
+
+exports.getSalasByPiso = async (id_piso) => {
+  const salas = await Sala.findAll({
+    where: { id_piso: id_piso },
+  });
+  return salas;
+}

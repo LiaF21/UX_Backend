@@ -58,6 +58,7 @@ router.post('/paciente-huesped/create', paciente_huespedController.createPH);//f
 router.delete('/paciente-huesped/:id', paciente_huespedController.deletePHById); //funciona
 router.get('/paciente-huespedes', paciente_huespedController.getAllPH); //funciona
 router.put('/paciente-huesped/:id', paciente_huespedController.editarPH);//funciona
+router.get('/paciente-huesped/huesped/:id', paciente_huespedController.getPHbyHuesped);//funciona
 
 
 module.exports = router;
