@@ -8,29 +8,15 @@ const db = require('./Db')
 
 //Routes
 const routes = require('./routes/routes');
-const routesF = require('./routes/routesF')
-const product = require('./routes/productRoutes');
-const routesV = require('./routes/routesV')
+const miscelanous = require('./routes/MiscelanousRoutes');
 
-const routesOcupacion = require('./routes/ocupacionRoutes')
-const routesProcedencia = require('./routes/procedenciaRoutes')
-const routesIglesia = require('./routes/iglesiaRoutes')
-const routesIglesiaH = require('./routes/iglesiaHuespedRoutes')
-const routesListaE = require('./routes/listaEsperaRoutes')
-const routesMiscelanous = require('./routes/MiscelanousRoutes');
-const routesRooms = require('./routes/roomRoutes');
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.use(routes, routesF, routesV);
-app.use(product);
-app.use(routesOcupacion);
-app.use(routesProcedencia);
-app.use(routesIglesia);
-app.use(routesListaE);
-app.use(routesIglesiaH);
-app.use(routesMiscelanous);
-app.use(routesRooms);
+app.use(routes);
+
+app.use(miscelanous);
+
 
 //Esto puede ir en una ruta, servicio y controlador
 
