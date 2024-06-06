@@ -5,7 +5,9 @@ const ProductRouter = Router();
 //transacciones
 ProductRouter.post('/transacciones', Product.createTransaccion);//funciona
 ProductRouter.get('/transacciones/:id', Product.getTransaccionById);//funciona
-ProductRouter.get('/transacciones', Product.getTransaccionesByFecha);//funciona
+ProductRouter.get('/transaccion', Product.getTransaccionesByFecha);//funciona
+ProductRouter.get('/transaccion/becados', Product.getBecados);//funciona
+ProductRouter.get('/transaccion/donaciones', Product.getDonaciones);//funciona
 
 //reglas
 ProductRouter.post('/reglas', Product.createRegla);//funciona
