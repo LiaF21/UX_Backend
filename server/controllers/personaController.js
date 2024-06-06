@@ -29,7 +29,7 @@ exports.getPersonaByDni = async (req, res) => {
     const dni = req.params.dni;
     const person = await perService.getPersonaByDni(dni);
     if(person){
-      res.status(201).json(person);
+      res.json(person);
     }else{
       res.status(404).json({message:'Persona no encontrado,'});
     }
