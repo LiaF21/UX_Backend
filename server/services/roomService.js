@@ -18,6 +18,20 @@ exports.getAllHabitaciones = async () => {
   }
 };
 
+exports.deleteHabitacionById = async (id) =>{
+  const borrar = await Habitacion.destroy({
+      where:{
+          id_habitacion:id
+      }
+  });
+  return borrar;
+};
+
+exports.getAllCamas = async () => {
+  const camas = await Cama.findAll({include: 'Habitacion'})
+  return camas;
+}
+
 exports.getCamasByRoom = async (habitacionId) => {
   try {
     const camas = await Cama.findAll({ where: { id_habitacion: habitacionId } });
@@ -26,6 +40,18 @@ exports.getCamasByRoom = async (habitacionId) => {
     throw new Error('Error al obtener las camas de la habitación: ' + error.message);
   }
 };
+
+exports.getCamasByDisponible = async() => {
+  try {
+    const camas = await Cama.findAll({ where: { disponible: true } });
+    return camas;
+  } catch (error) {
+    throw new Error('Error al obtener las camas disponibles: ' + error.message);
+  }
+
+
+}
+
 
 exports.editHabitacion = async (id, habitacionData) => {
   await Habitacion.update(habitacionData, { where: { id_habitacion: id } });
