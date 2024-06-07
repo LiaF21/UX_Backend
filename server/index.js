@@ -9,6 +9,7 @@ const db = require('./Db')
 //Routes
 const routes = require('./routes/routes');
 const miscelanous = require('./routes/MiscelanousRoutes');
+const V = require('./routes/routesV');
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(routes);
 
 app.use(miscelanous);
+app.use(V);
 
 
 //Esto puede ir en una ruta, servicio y controlador

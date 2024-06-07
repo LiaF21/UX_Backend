@@ -1,8 +1,9 @@
 const sequelize = require('../Db');
 const {ListaNegra} = require('../models/lista');
+const {Persona} = require('../models/persona')
 
 exports.getAllLista = async () =>{
-    const list = await ListaNegra.findAll();
+    const list = await ListaNegra.findAll({include: 'Persona'});
     return list;
 };
 
