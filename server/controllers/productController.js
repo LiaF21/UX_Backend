@@ -42,7 +42,8 @@ exports.getTransaccionesByFecha = async (req, res) => {
 
 exports.getBecados= async (req, res)=>{
   try{
-    const becados = await productService.getBecados();
+    const { fechaInicio, fechaFinal } = req.query;
+    const becados = await productService.getBecados(fechaInicio, fechaFinal);
     if(becados && becados.length>0){
       res.status(201).json({becados, message:'Becados obtenidos con exito'});
     }else{
@@ -55,7 +56,8 @@ exports.getBecados= async (req, res)=>{
 
 exports.getDonaciones= async (req, res)=>{
   try{
-    const donacion = await productService.getDonaciones();
+    const { fechaInicio, fechaFinal } = req.query;
+    const donacion = await productService.getDonaciones(fechaInicio, fechaFinal);
     if(donacion && donacion.length>0){
       res.status(201).json({donacion, message:'Donaciones obtenidos con exito'});
     }else{

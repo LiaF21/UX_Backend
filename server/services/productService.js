@@ -25,9 +25,12 @@ exports.getTransaccionesByFecha = async (fechaInicio, fechaFinal) => {
   return transacciones;
 };
 
-exports.getBecados = async()=>{
+exports.getBecados = async(fechaInicio, fechaFinal)=>{
   const becados = await Transaccion.findAll({
     where:{
+      fecha: {
+        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      },
       becada:true
     }
   });
@@ -35,9 +38,12 @@ exports.getBecados = async()=>{
   return becados;
 };
 
-exports.getDonaciones = async()=>{
+exports.getDonaciones = async(fechaInicio, fechaFinal)=>{
   const donacion = await Transaccion.findAll({
     where:{
+      fecha: {
+        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      },
       becada:false
     }
   });
