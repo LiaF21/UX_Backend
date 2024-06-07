@@ -31,9 +31,35 @@ exports.getTransaccionesByFecha = async (req, res) => {
     const { fechaInicio, fechaFinal } = req.query;
     const transacciones = await productService.getTransaccionesByFecha(fechaInicio, fechaFinal);
     if(transacciones){
-      res.status(201).json({transacciones, message: 'Transaccion creada con exito.'});
+      res.status(201).json({transacciones, message: 'Transaccion obtenida con exito.'});
     }else{
       res.status(404).json({ message: 'Esta transaccion no existe en registro' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getBecados= async (req, res)=>{
+  try{
+    const becados = await productService.getBecados();
+    if(becados && becados.length>0){
+      res.status(201).json({becados, message:'Becados obtenidos con exito'});
+    }else{
+      res.status(404).json({ message: 'No hay becados en el registro' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getDonaciones= async (req, res)=>{
+  try{
+    const donacion = await productService.getDonaciones();
+    if(donacion && donacion.length>0){
+      res.status(201).json({donacion, message:'Donaciones obtenidos con exito'});
+    }else{
+      res.status(404).json({ message: 'No hay donaciones en el registro' });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -25,6 +25,36 @@ exports.getTransaccionesByFecha = async (fechaInicio, fechaFinal) => {
   return transacciones;
 };
 
+exports.getBecados = async()=>{
+  const becados = await Transaccion.findAll({
+    where:{
+      becada:true
+    }
+  });
+
+  return becados;
+};
+
+exports.getDonaciones = async()=>{
+  const donacion = await Transaccion.findAll({
+    where:{
+      becada:false
+    }
+  });
+
+  return donacion;
+};
+
+exports.getValor = async (fechaInicio, fechaFinal)=>{
+  const transaccion = await Transaccion.findOne({
+    where:{
+      fecha: {
+        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      },
+    }
+  })
+};
+
 exports.createRegla = async (ReglaData) => {
   const regla = await Reglamento.create(ReglaData);
   return regla;
