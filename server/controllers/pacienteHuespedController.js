@@ -22,6 +22,20 @@ exports.getOnePH = async (req, res) => {
       res.status(500).json({error:error.message});
     }
   };
+
+  exports.getPHbyHuesped = async (req, res) => {
+    try{
+      const phID = req.params.id;
+      const ph = await phService.getPHbyHuesped(phID);
+      if(ph){
+        res.status(201).json(ph);
+      }else{
+        res.status(404).json({message:'Paciente Huesped no encontrado,'});
+      }
+    }catch(error){
+      res.status(500).json({error:error.message});
+    }
+  }
   
 exports.createPH = async (req, res) =>{
     try{

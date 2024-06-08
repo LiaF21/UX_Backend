@@ -11,6 +11,15 @@ exports.getOnePH = async (id) =>{
     return pahu1;
 };
 
+exports.getPHbyHuesped = async (id) =>{
+    const pahu2 = await PacienteHuesped.findOne({
+        where:{
+            id_huesped:id
+        }
+    });
+    return pahu2;
+}
+
 exports.createPH = async (phData)=>{
     const nuevoPH = await PacienteHuesped.create(phData);
     return nuevoPH;

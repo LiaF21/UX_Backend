@@ -1,11 +1,10 @@
-const productService = require('../services/productService');
-const express = require('express');
+const productService = require("../services/productService");
+const express = require("express");
 const router = express.Router();
-
 
 exports.createTransaccion = async (req, res) => {
   try {
-    const { id_transaccion,id_huesped, valor, fecha, becada } = req.body;
+    const { id_transaccion, id_huesped, valor, fecha, becada } = req.body;
     const transaccion = await productService.createTransaccion(req.body);
     res.status(201).json(transaccion);
   } catch (error) {
@@ -19,7 +18,9 @@ exports.getTransaccionById = async (req, res) => {
     if (transaccion) {
       res.status(201).json(transaccion);
     } else {
-      res.status(404).json({ message: 'Esta transaccion no existe en registro' });
+      res
+        .status(404)
+        .json({ message: "Esta transaccion no existe en registro" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -82,9 +83,9 @@ exports.getReglaById = async (req, res) => {
   try {
     const regla = await productService.getReglaById(req.params.id);
     if (regla) {
-      res.status(200).json({ regla, message: 'Regla encontrada' });
+      res.status(200).json({ regla, message: "Regla encontrada" });
     } else {
-      res.status(404).json({ message: 'Regla no encontrada' });
+      res.status(404).json({ message: "Regla no encontrada" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -103,8 +104,12 @@ exports.getReglamento = async (req, res) => {
 exports.editRegla = async (req, res) => {
   try {
     const { numero_regla, descripcion_regla } = req.body;
-    await productService.editRegla(req.params.id, numero_regla, descripcion_regla);
-    res.status(200).json({ message: 'Regla modificada' });
+    await productService.editRegla(
+      req.params.id,
+      numero_regla,
+      descripcion_regla
+    );
+    res.status(200).json({ message: "Regla modificada" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -126,7 +131,7 @@ exports.getHospitalById = async (req, res) => {
     if (hospital) {
       res.status(200).json(hospital);
     } else {
-      res.status(404).json({ message: 'Hospital no encontrado en registro' });
+      res.status(404).json({ message: "Hospital no encontrado en registro" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -145,7 +150,7 @@ exports.getHospitales = async (req, res) => {
 exports.deleteHospitalById = async (req, res) => {
   try {
     await productService.deleteHospitalById(req.params.id);
-    res.status(200).json({ message: 'Hospital eliminado' });
+    res.status(200).json({ message: "Hospital eliminado" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -153,7 +158,7 @@ exports.deleteHospitalById = async (req, res) => {
 
 exports.createPiso = async (req, res) => {
   try {
-    const { id_piso,id_hospital, nombre_piso } = req.body;
+    const { id_piso, id_hospital, nombre_piso } = req.body;
     const piso = await productService.createPiso(req.body);
     res.status(201).json(piso);
   } catch (error) {
@@ -167,7 +172,29 @@ exports.getPisoById = async (req, res) => {
     if (piso) {
       res.status(200).json(piso);
     } else {
-      res.status(404).json({ message: 'Piso no encontrado en registro' });
+      res.status(404).json({ message: "Piso no encontrado en registro" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getAllPisos = async (req, res) => {
+  try {
+    const pisos = await productService.getAllPisos();
+    res.status(200).json(pisos);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getPisosByHospital = async (req, res) => {
+  try {
+    const pisos = await productService.getPisosByHospital(req.params.id);
+    if (pisos) {
+      res.status(200).json(pisos);
+    } else {
+      res.status(404).json({ message: "Pisos no encontrados en registro" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -176,7 +203,7 @@ exports.getPisoById = async (req, res) => {
 
 exports.createSala = async (req, res) => {
   try {
-    const { id_sala,id_piso, nombre_sala } = req.body;
+    const { id_sala, id_piso, nombre_sala } = req.body;
     const sala = await productService.createSala(req.body);
     res.status(201).json(sala);
   } catch (error) {
@@ -190,13 +217,31 @@ exports.getSalaById = async (req, res) => {
     if (sala) {
       res.status(200).json(sala);
     } else {
-      res.status(404).json({ message: 'Sala no encontrada en registro' });
+      res.status(404).json({ message: "Sala no encontrada en registro" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
+exports.getAllSalas = async (req, res) => {
+  try {
+    const salas = await productService.getAllSalas();
+    res.status(200).json(salas);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-
-
+exports.getSalasByPiso = async (req, res) => {
+  try {
+    const salas = await productService.getSalasByPiso(req.params.id);
+    if (salas) {
+      res.status(200).json(salas);
+    } else {
+      res.status(404).json({ message: "Salas no encontradas en registro" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
