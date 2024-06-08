@@ -62,15 +62,6 @@ exports.getAllCamas = async (req, res) => {
   }
 };
 
-exports.getHabitaciones = async (req, res) => {
-  try {
-    const habitaciones = await roomService.getHabitaciones();
-    res.status(200).json(habitaciones);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
 exports.editHabitacion = async (req, res) => {
   try {
     await roomService.editHabitacion(req.params.id, req.body);
