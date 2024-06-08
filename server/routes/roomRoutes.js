@@ -4,15 +4,19 @@ const roomController = require('../controllers/roomController');
 const roomRouter = Router();
 
 roomRouter.post('/habitaciones', roomController.createHabitacion);
-roomRouter.get('/habitaciones', roomController.getHabitaciones);
+roomRouter.get('/habitaciones', roomController.getAllHabitaciones);
 roomRouter.get('/habitaciones/:id', roomController.getHabitacionById);
 roomRouter.put('/habitaciones/:id', roomController.editHabitacion);
+roomRouter.delete('/habitaciones/:id', roomController.deleteHabitacionById)
 
 
+roomRouter.get('/camas', roomController.getAllCamas)
 roomRouter.post('/camas', roomController.createCama);
-roomRouter.get('/camas', roomController.getCamas);
+roomRouter.get('/camasbyroom/:id', roomController.getCamasByRoom);
 roomRouter.get('/camas/:id', roomController.getCamaById);
 roomRouter.put('/camas/:id', roomController.editCama);
+roomRouter.get ('/camasDisp', roomController.getCamasByDisponibilidad)
+roomRouter.delete('/camas/:id', roomController.deleteCamaById);
 
 roomRouter.post('/reservaciones', roomController.createReservacion);
 roomRouter.get('/reservaciones/:id', roomController.getReservacionById);

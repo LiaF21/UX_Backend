@@ -25,6 +25,7 @@ exports.login = async (req, res) => {
         .json({ message: "Nombre de usuario o contraseña incorrectos" });
     }
   } catch (error) {
+    console.error('Error during login:', error);
     res.status(500).json({ message: "Error al iniciar sesión" });
   }
 };

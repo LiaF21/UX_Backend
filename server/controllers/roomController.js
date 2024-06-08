@@ -22,6 +22,46 @@ exports.getHabitacionById = async (req, res) => {
   }
 };
 
+exports.getAllHabitaciones = async (req, res) => {
+  try {
+    const habitaciones = await roomService.getAllHabitaciones();
+    if (habitaciones.length > 0) {
+      res.status(200).json(habitaciones);
+    } else {
+      res.status(404).json({ message: "No se encontraron habitaciones" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.deleteHabitacionById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedHabitacion = await roomService.deleteHabitacionById(id);
+    if (deletedHabitacion) {
+      res.status(201).json({ message: "Habitacion eliminada exitosamente" });
+    } else {
+      res.status(404).json({ message: "Habitacion no encontrada" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getAllCamas = async (req, res) => {
+  try {
+    const camas = await roomService.getAllCamas();
+    if (camas.length > 0) {
+      res.status(200).json(camas);
+    } else {
+      res.status(404).json({ message: "No se encontraron camas" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.getHabitaciones = async (req, res) => {
   try {
     const habitaciones = await roomService.getHabitaciones();
@@ -62,6 +102,19 @@ exports.getCamaById = async (req, res) => {
   }
 };
 
+exports.getCamasByRoom = async (req, res) => {
+  try {
+    const camas = await roomService.getCamasByRoom(req.params.id);
+    if (camas && camas.length > 0) {
+      res.status(200).json({data: camas});
+    } else {
+      res.json({ message: "No se encontraron camas para esta habitación", data: [] });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.getCamas = async (req, res) => {
   try {
     const camas = await roomService.getCamas();
@@ -79,6 +132,21 @@ exports.editCama = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getCamasByDisponibilidad = async (req, res) => {
+  try {
+    const camas = await roomService.getCamasByDisponible();
+    if (camas && camas.length > 0) {
+      res.status(200).json({data: camas});
+    } else {
+      res.json({ message: "No se encontraron camas disponibles", data: [] });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
+
+}
 
 exports.createReservacion = async (req, res) => {
   try {
@@ -121,6 +189,20 @@ exports.editReservacion = async (req, res) => {
   try {
     await roomService.editReservacion(req.params.id, req.body);
     res.status(200).json({ message: "Reservacion modificada" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.deleteCamaById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedCama = await roomService.deleteCamaById(id);
+    if (deletedCama) {
+      res.status(201).json({ message: "Cama eliminada exitosamente" });
+    } else {
+      res.status(404).json({ message: "Cama no encontrada" });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

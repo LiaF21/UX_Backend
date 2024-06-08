@@ -1,6 +1,7 @@
 const {ListaEspera} = require('../models/lista')
 
 
+
 exports.crearListaEspera = async (req) =>{
    const {id_lista_espera,id_persona,observacion,fecha_entrada} = req.body;
    const nuevaEspera = await ListaEspera.create({
