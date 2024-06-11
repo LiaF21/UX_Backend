@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Db');
-const {Huesped} = require('./huesped')
-const {Hospital} = require('./hospital')
+const {Huesped, PacienteHuesped} = require('./huesped');
+const {Hospital} = require('./hospital');
+const {Lugar} = require('./persona');
 
 const Reservacion = sequelize.define('Reservacion', {
     id_reservacion: {
@@ -9,7 +10,7 @@ const Reservacion = sequelize.define('Reservacion', {
       primaryKey: true,
       autoIncrement: true,
     },
-    id_huesped: {
+    id_paciente_huesped: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -25,16 +26,17 @@ const Reservacion = sequelize.define('Reservacion', {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
-    becada: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
     fecha_entrada: {
       type: DataTypes.DATE,
       allowNull: false,
     },
     fecha_salida: {
       type: DataTypes.DATE,
+    },
+    becado: {
+      type: DataTypes.BOOLEAN,
+      allowNull:false,
+      defaultValue: false,
     },
   }, {
     tableName: 'reservacion',
@@ -46,6 +48,10 @@ const Reservacion = sequelize.define('Reservacion', {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    id_lugar: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     nombre: {
       type: DataTypes.STRING(30),
@@ -90,46 +96,48 @@ const Reservacion = sequelize.define('Reservacion', {
     tableName: 'cama',
     timestamps: false,
   });
-  
-  const Transaccion = sequelize.define('Transaccion', {
-    id_transaccion: {
+
+  const Pago = sequelize.define('Pago',{
+    id_pago:{
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    id_huesped: {
+    id_reservacion:{
       type: DataTypes.INTEGER,
     },
-    valor: {
-      type: DataTypes.DECIMAL(6, 2),
+    saldo_pendiente:{
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     fecha: {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    becada: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
   }, {
-    tableName: 'transaccion',
-    timestamps: false,
-  });
+    tableName: 'pago',
+    timestamps:false,
+  })
   
 
-  Reservacion.belongsTo(Huesped, { foreignKey: 'id_huesped' });
   Reservacion.belongsTo(Cama, { foreignKey: 'id_cama' });
   Reservacion.belongsTo(Hospital, { foreignKey: 'id_hospital' });
   
-  Huesped.hasMany(Reservacion, { foreignKey: 'id_huesped' });
   Cama.hasMany(Reservacion, { foreignKey: 'id_cama' });
   Hospital.hasMany(Reservacion, { foreignKey: 'id_hospital' });
   
   Cama.belongsTo(Habitacion, { foreignKey: 'id_habitacion' });
-  Habitacion.hasMany(Cama, { foreignKey: 'id_habitacion' });
+  Habitacion.hasMany(Cama, { foreignKey: 'id_habitacion' , onDelete: 'CASCADE'});
   
-  Transaccion.belongsTo(Huesped, { foreignKey: 'id_huesped' });
-  Huesped.hasMany(Transaccion, { foreignKey: 'id_huesped' });
+  Habitacion.belongsTo(Lugar, {foreignKey:"id_lugar"});
+  Lugar.hasMany(Habitacion, {foreignKey:"id_lugar"});
 
-  module.exports = {Reservacion, Habitacion, Cama, Transaccion};
+  Pago.belongsTo(Reservacion, {foreignKey: "id_reservacion"});
+  Reservacion.hasMany(Pago, {foreignKey: "id_reservacion"});
+
+
+  //revisar
+  PacienteHuesped.hasMany(Reservacion, {foreignKey: "id_paciente_huesped"});
+  Reservacion.belongsTo(PacienteHuesped, {foreignKey: "id_paciente_huesped"});
+
+  module.exports = {Reservacion, Habitacion, Cama, Pago};

@@ -4,6 +4,7 @@ const { Persona } = require("./persona");
 const { Afiliado } = require("./afiliado");
 const Paciente = require("./paciente");
 const { Iglesia } = require("./iglesia");
+// const {Transaccion} = require("./reservaciones");
 
 const Huesped = sequelize.define(
   "Huesped",
@@ -17,21 +18,12 @@ const Huesped = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    parentesco_paciente: {
-      type: DataTypes.STRING(50),
-      allowNull: true,
+    activo:{
+      type: DataTypes.BOOLEAN,
     },
     reingreso: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    lista_espera: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    busca_lista: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull:false,
     },
   },
   {
@@ -56,6 +48,9 @@ const PacienteHuesped = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    parentesco_paciente:{
+      type: DataTypes.STRING(50),
+    }
   },
   {
     tableName: "paciente_huesped",
@@ -110,6 +105,9 @@ const IglesiaHuesped = sequelize.define(
 );
 
 Huesped.belongsTo(Persona, { foreignKey: "id_persona" });
+// Huesped.hasMany(Transaccion, {foreignKey: 'id_transaccion'});
+
+// Transaccion.belongsTo(Huesped, {foreignKey: "id_huesped"});
 
 IglesiaHuesped.belongsTo(Huesped, { foreignKey: "id_huesped" });
 IglesiaHuesped.belongsTo(Iglesia, { foreignKey: "id_iglesia" });
@@ -125,7 +123,7 @@ PacienteHuesped.belongsTo(Paciente, { foreignKey: "id_paciente" });
 Afiliado.hasMany(AfiliadoHuesped, { foreignKey: "id_afiliado" });
 Huesped.hasMany(AfiliadoHuesped, { foreignKey: "id_huesped" });
 
-Paciente.hasMany(PacienteHuesped, { foreignKey: "id_paciente" });
+Paciente.belongsTo(PacienteHuesped, { foreignKey: "id_paciente" });
 Huesped.hasMany(PacienteHuesped, { foreignKey: "id_huesped" });
 
 module.exports = { Huesped, PacienteHuesped, AfiliadoHuesped, IglesiaHuesped };

@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Db');
-const {Persona} = require('./persona')
+const {Persona} = require('./persona');
+const {PacienteHuesped} = require("./huesped");
 
 const ListaNegra = sequelize.define('ListaNegra', {
     id_lista_negra: {
@@ -30,10 +31,6 @@ const ListaNegra = sequelize.define('ListaNegra', {
       primaryKey: true,
       autoIncrement: true,
     },
-    numero_regla: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     descripcion_regla: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -43,13 +40,13 @@ const ListaNegra = sequelize.define('ListaNegra', {
     timestamps: false,
   });
 
-  const ListaEspera = sequelize.define('ListaEspera', {
-    id_lista_espera: {
+  const ListaSolicitud = sequelize.define('ListaSolicitud', {
+    id_lista_solicitud: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    id_persona: {
+    id_paciente_huesped: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -60,16 +57,22 @@ const ListaNegra = sequelize.define('ListaNegra', {
       type: DataTypes.DATE,
       allowNull: false,
     },
+    fecha_salida: {
+      type: DataTypes.DATE,
+    },
+    becada:{
+      type: DataTypes.BOOLEAN,
+    },
   }, {
-    tableName: 'lista_espera',
+    tableName: 'lista_solicitud',
     timestamps: false,
   });
 
   ListaNegra.belongsTo(Persona, { foreignKey: 'id_persona' });
   ListaNegra.belongsTo(Reglamento, { foreignKey: 'id_regla' });
-  Persona.hasMany(ListaEspera, { foreignKey: 'id_persona' });
-  ListaEspera.belongsTo(Persona, { foreignKey: 'id_persona' });
+  PacienteHuesped.hasMany(ListaSolicitud, { foreignKey: 'id_paciente_huesped' });
+  ListaSolicitud.belongsTo(PacienteHuesped, { foreignKey: 'id_paciente_huesped' });
 
-  module.exports = { ListaNegra, Reglamento, ListaEspera };
+  module.exports = { ListaNegra, Reglamento, ListaSolicitud };
 
   

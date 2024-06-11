@@ -14,7 +14,6 @@ const Afiliado = sequelize.define('Afiliado', {
     },
     condicion: {
       type: DataTypes.STRING(60),
-      allowNull: true
     }
   }, {
     tableName: 'afiliado',

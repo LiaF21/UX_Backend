@@ -34,7 +34,7 @@ exports.getHuespedById = async (req, res) => {
 
 exports.createHuesped = async (req, res) => {
   try {
-    const { id_huesped, id_persona, parentesco_paciente, reingreso } = req.body;
+    const { id_huesped, id_persona, activo, reingreso } = req.body;
     const nuevaHuesped = await huespedService.crearHuesped(req.body);
     res.status(201).json(nuevaHuesped);
   } catch (error) {
