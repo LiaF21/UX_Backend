@@ -70,22 +70,32 @@ exports.deleteHuespedById = async (id) => {
 
 exports.getHuespedByDNI = async (dni) => {
   const probar = await sequelize.transaction();
+  console.log(dni);
+  try {
+    const persona = await Persona.findOne({
+      where: { dni: dni },
+      probar
+    });
+    console.log(persona);
 
-  try{
-    const persona = Persona.findOne({
-      where: {dni:dni}, probar
+    if (!persona) {
+      throw new Error('No se encontró ninguna persona con el DNI proporcionado.');
+    }
+    const huesped = await Huesped.findOne({
+      where: { id_persona: persona.id_persona },
+      probar
     });
 
-    const huesped = Huesped.findOne({
-      where: {
-        id_persona: persona.id_persona
-      }, probar});
+    console.log(huesped);
+    if (!huesped) {
+      throw new Error('No se encontró ningún huésped asociado con la persona proporcionada.');
+    }
 
     await probar.commit();
-    return (huesped);
-  }catch (error) {
+    return huesped;
+  } catch (error) {
     await probar.rollback();
-    throw new Error('Error al crear usuario y persona: ' + error.message);
+    throw new Error('Error al obtener el huésped: ' + error.message);
   }
 };
 
