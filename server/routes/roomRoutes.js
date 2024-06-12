@@ -10,7 +10,17 @@ lugarRouter.get('/habitaciones/:id', lugarController.getlugar);
 lugarRouter.put('/habitaciones/:id', lugarController.editarlugar);
 lugarRouter.delete('/habitaciones/:id', lugarController.eliminarlugar);
 
-
+roomRouter.post('/:id/verificar-disponibilidad', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const todasCamasNoDisponibles = await roomController.verificarDisponibilidadHabitacion(id);
+      await roomController.actualizarDisponibilidadHabitacion(id, !todasCamasNoDisponibles);
+      res.status(200).json({ message: 'Disponibilidad de la habitación actualizada correctamente.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al actualizar la disponibilidad de la habitación.' });
+    }
+  });
 
 roomRouter.post('/habitaciones', roomController.createHabitacion);
 roomRouter.get('/habitaciones', roomController.getAllHabitaciones);

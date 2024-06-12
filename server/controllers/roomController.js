@@ -1,5 +1,13 @@
 const roomService = require("../services/roomService");
+exports.verificarDisponibilidadHabitacion = async (habitacionId) => {
+  const camas = await Cama.findAll({ where: { id_habitacion: habitacionId } });
+  const todasCamasNoDisponibles = camas.every(cama => !cama.disponible);
+  return todasCamasNoDisponibles;
+};
 
+ exports.actualizarDisponibilidadHabitacion = async (habitacionId, disponible) => {
+  await Habitacion.update({ disponible }, { where: { id_habitacion: habitacionId } });
+};
 exports.createHabitacion = async (req, res) => {
   try {
     const habitacion = await roomService.createHabitacion(req.body);
