@@ -32,9 +32,25 @@ exports.getHuespedById = async (req, res) => {
   }
 };
 
+exports.getHuespedByDNI = async(req, res)=>{
+  try{
+    const dniH = req.params.dni;
+    const huesped = await huespedService.getHuespedByDNI(dniH);
+    console.log("Error");
+    if(huesped){
+      res.status(201).json(huesped);
+    }else{
+      res.status(404).json({ message: "Huesped no encontrado," });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 exports.createHuesped = async (req, res) => {
   try {
-    const { id_huesped, id_persona, parentesco_paciente, reingreso } = req.body;
+    const { id_huesped, id_persona, activo, reingreso } = req.body;
     const nuevaHuesped = await huespedService.crearHuesped(req.body);
     res.status(201).json(nuevaHuesped);
   } catch (error) {

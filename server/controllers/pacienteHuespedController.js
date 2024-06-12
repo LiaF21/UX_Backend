@@ -39,7 +39,7 @@ exports.getOnePH = async (req, res) => {
   
 exports.createPH = async (req, res) =>{
     try{
-        const {id_paciente_huesped, id_paciente, id_huesped} = req.body;
+        const {id_paciente_huesped, id_paciente, id_huesped, parentesco_paciente} = req.body;
         const nuevoPH = await phService.createPH(req.body);
         res.status(201).json(nuevoPH);
     }catch(error){

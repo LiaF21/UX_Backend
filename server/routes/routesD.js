@@ -2,7 +2,7 @@ const {Router} = require('express')
 
 const procedenciaController = require('../controllers/procedenciaController');
 const ocupacionController = require('../controllers/ocupacionController');
-const ListaEsperaController = require('../controllers/listaEsperaController');
+const ListaSolicitudController = require('../controllers/listaSolicitudController');
 const iglesiaController = require('../controllers/iglesiaController');
 const iglesiaHuespedController = require('../controllers/iglesiaHuespedController');
 
@@ -26,11 +26,11 @@ router.delete('/ocupacion/:id',ocupacionController.eliminarOcupacion);
 router.get('/ocupacion/:id',ocupacionController.getOcupacion);
 
 //lista espera
-router.get('/listaEspera', ListaEsperaController.getAllListaEspera);
-router.post('/listaEspera', ListaEsperaController.crearEspera);
-router.put('/listaEspera/:id',ListaEsperaController.editarEspera);
-router.delete('/listaEspera/:id',ListaEsperaController.eliminarEspera);
-router.get('/listaEspera/:id',ListaEsperaController.getListaEspera);
+router.get('/listaSolicitud', ListaSolicitudController.getAllListaSolicitud);
+router.post('/listaSolicitud', ListaSolicitudController.crearSolicitud);
+router.put('/listaSolicitud/:id',ListaSolicitudController.editarSolicitud);
+router.delete('/listaSolicitud/:id',ListaSolicitudController.eliminarSolicitud);
+router.get('/listaSolicitud/:id',ListaSolicitudController.getListaSolicitud);
 
 //iglesia
 router.get('/iglesia', iglesiaController.getAllIglesia);

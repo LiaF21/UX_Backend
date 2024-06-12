@@ -15,10 +15,13 @@ const Persona = sequelize.define('Persona', {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    id_lugar: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     dni: {
       type: DataTypes.STRING(20),
       unique: true,
-      allowNull: false,
     },
     primer_nombre: {
       type: DataTypes.STRING(30),
@@ -87,13 +90,29 @@ const Persona = sequelize.define('Persona', {
     timestamps: false
   });
 
+  const Lugar = sequelize.define('Lugar',{
+    id_lugar:{
+      type: DataTypes.INTEGER,
+      primaryKey:true,
+      autoIncrement:true
+    },
+    codigo: {
+      type: DataTypes.STRING(10),
+      allowNull:false
+    },
+  }, {
+    tableName:'lugar',
+    timestamps:false
+  });
+
   Persona.belongsTo(Ocupacion, {foreignKey: 'id_ocupacion'})
   Persona.belongsTo(Procedencia, {foreignKey: 'id_procedencia'})
+  Persona.belongsTo(Lugar, {foreignKey: 'id_lugar'})
 
   Ocupacion.hasMany(Persona, {foreignKey: 'id_ocupacion'})
   Procedencia.hasMany(Persona, {foreignKey: 'id_procedencia'})
+  Lugar.hasMany(Persona, {foreignKey: 'id_lugar'})
 
-
-  module.exports = {Persona, Ocupacion, Procedencia};
+  module.exports = {Persona, Ocupacion, Procedencia, Lugar};
 
   

@@ -44,6 +44,21 @@ exports.crearHuesped = async (huespedData) => {
   return nuevoHuesped;
 };
 
+exports.createUserAndPersona = async (userData, personaData) => {
+  const probar = await sequelize.transaction();
+
+  try {
+    const nuevaP = await Persona.create(personaData, { probar });
+    userData.id_persona = nuevaP.id_persona;
+    const nuevoU = await Usuario.create(userData, { probar });
+
+    await probar.commit();
+    return (nuevoU, nuevaP);
+  } catch (error) {
+    await probar.rollback();
+    throw new Error('Error al crear usuario y persona: ' + error.message);
+  }
+}
 exports.deleteHuespedById = async (id) => {
   const borrar = await Huesped.destroy({
     where: {
@@ -52,6 +67,38 @@ exports.deleteHuespedById = async (id) => {
   });
   return borrar;
 };
+
+exports.getHuespedByDNI = async (dni) => {
+  const probar = await sequelize.transaction();
+  console.log(dni);
+  try {
+    const persona = await Persona.findOne({
+      where: { dni: dni },
+      probar
+    });
+    console.log(persona);
+
+    if (!persona) {
+      throw new Error('No se encontró ninguna persona con el DNI proporcionado.');
+    }
+    const huesped = await Huesped.findOne({
+      where: { id_persona: persona.id_persona },
+      probar
+    });
+
+    console.log(huesped);
+    if (!huesped) {
+      throw new Error('No se encontró ningún huésped asociado con la persona proporcionada.');
+    }
+
+    await probar.commit();
+    return huesped;
+  } catch (error) {
+    await probar.rollback();
+    throw new Error('Error al obtener el huésped: ' + error.message);
+  }
+};
+
 
 exports.editarHuesped = async (id, huespedUpdate) => {
   const huespedEditado = await Huesped.update(huespedUpdate, {

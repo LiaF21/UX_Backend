@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const patientController = require('../controllers/MiscelanousController');
+const solicitudController = require('../controllers/listaSolicitudController');
 
-router.get('/lista-espera', patientController.getPersonsInListaEspera);
+router.get('/solicitudes', solicitudController.getSolicitudes);
 
 module.exports = router;
+

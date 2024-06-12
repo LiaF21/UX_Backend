@@ -12,7 +12,6 @@ const Usuario = sequelize.define('Usuario', {
     id_persona: {
         type: DataTypes.INTEGER,
         allowNull: false,
-
     },
     id_hospital: {
         type: DataTypes.INTEGER,
