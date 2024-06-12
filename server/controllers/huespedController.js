@@ -34,7 +34,7 @@ exports.getHuespedById = async (req, res) => {
 
 exports.getHuespedByDNI = async(req, res)=>{
   try{
-    const dniH = req.params;
+    const dniH = req.params.dni;
     const huesped = await huespedService.getHuespedByDNI(dniH);
     console.log("Error");
     if(huesped){

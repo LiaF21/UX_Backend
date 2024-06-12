@@ -99,6 +99,7 @@ exports.getHuespedByDNI = async (dni) => {
   }
 };
 
+
 exports.editarHuesped = async (id, huespedUpdate) => {
   const huespedEditado = await Huesped.update(huespedUpdate, {
     where: { id_huesped: id },
