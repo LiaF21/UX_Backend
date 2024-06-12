@@ -2,39 +2,39 @@ const productService = require("../services/productService");
 const express = require("express");
 const router = express.Router();
 
-exports.createTransaccion = async (req, res) => {
+exports.createPago = async (req, res) => {
   try {
-    const { id_transaccion, id_huesped, valor, fecha, becada } = req.body;
-    const transaccion = await productService.createTransaccion(req.body);
-    res.status(201).json(transaccion);
+    const { id_pago, id_reservacion, saldo_pendiente, fecha } = req.body;
+    const pago = await productService.createPago(req.body);
+    res.status(201).json(pago);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-exports.getTransaccionById = async (req, res) => {
+exports.getpagoById = async (req, res) => {
   try {
-    const transaccion = await productService.getTransaccionById(req.params.id);
-    if (transaccion) {
-      res.status(201).json(transaccion);
+    const pago = await productService.getPagoById(req.params.id);
+    if (pago) {
+      res.status(201).json(pago);
     } else {
       res
         .status(404)
-        .json({ message: "Esta transaccion no existe en registro" });
+        .json({ message: "Esta pago no existe en registro" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-exports.getTransaccionesByFecha = async (req, res) => {
+exports.getpagosByFecha = async (req, res) => {
   try {
     const { fechaInicio, fechaFinal } = req.query;
-    const transacciones = await productService.getTransaccionesByFecha(fechaInicio, fechaFinal);
-    if(transacciones){
-      res.status(201).json({transacciones, message: 'Transaccion obtenida con exito.'});
+    const pagos = await productService.getPagosByFecha(fechaInicio, fechaFinal);
+    if(pagoe){
+      res.status(201).json({pagos, message: 'pago obtenida con exito.'});
     }else{
-      res.status(404).json({ message: 'Esta transaccion no existe en registro' });
+      res.status(404).json({ message: 'Esta pago no existe en registro' });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

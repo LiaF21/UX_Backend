@@ -1,7 +1,16 @@
 const { Router } = require('express');
 const roomController = require('../controllers/roomController');
-
+const lugarController = require('../controllers/lugarController');
 const roomRouter = Router();
+const lugarRouter = Router();
+
+lugarRouter.post('/habitaciones', lugarController.crearlugar);
+lugarRouter.get('/habitaciones', lugarController.getAllLugar);
+lugarRouter.get('/habitaciones/:id', lugarController.getlugar);
+lugarRouter.put('/habitaciones/:id', lugarController.editarlugar);
+lugarRouter.delete('/habitaciones/:id', lugarController.eliminarlugar);
+
+
 
 roomRouter.post('/habitaciones', roomController.createHabitacion);
 roomRouter.get('/habitaciones', roomController.getAllHabitaciones);

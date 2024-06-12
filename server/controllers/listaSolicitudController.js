@@ -1,18 +1,18 @@
-const listaEsperaService = require('../services/listaEsperaService');
+const listaSolicitudService = require('../services/listaSolicitudService');
  
- exports.getAllListaEspera = async (req,res) =>{
+ exports.getAllListaSolicitud = async (req,res) =>{
   
   try{
-    const lista = await listaEsperaService.getAllListaEspera();
+    const lista = await listaSolicitudService.getAllListaSolicitud();
     res.status(201).json(lista)
     } catch (error){
       res.status(500).json({ error: error.message });
     }
 }
 
-exports.crearEspera= async (req,res) =>{
+exports.crearSolicitud= async (req,res) =>{
   try{
-    const espera= await listaEsperaService.crearListaEspera(req)
+    const espera= await listaSolicitudService.crearListaSolicitud(req)
     console.log ("creando espera")
      res.status(201).json(espera);
     } catch (error){
@@ -20,9 +20,9 @@ exports.crearEspera= async (req,res) =>{
     }
     
 }
-exports.getListaEspera = async (req,res) =>{
+exports.getListaSolicitud = async (req,res) =>{
   try {
-    const espera = await listaEsperaService.getEspera(req)
+    const espera = await listaSolicitudService.getSolicitud(req)
     if(!espera) return res.status(404).json({message: 'No existe espera'})
     res.status(201).json(espera)
   } catch (error) {
@@ -30,10 +30,10 @@ exports.getListaEspera = async (req,res) =>{
   }
   
 }
-exports.editarEspera = async (req,res) =>{
+exports.editarSolicitud = async (req,res) =>{
 
 try {
-  const editar = await listaEsperaService.editarListaEspera(req); 
+  const editar = await listaSolicitudService.editarListaSolicitud(req); 
   res.status(201).json(editar)
   
 } catch (error) {
@@ -44,9 +44,9 @@ try {
 }
 
 
-exports.eliminarEspera = async (req,res) =>{
+exports.eliminarSolicitud = async (req,res) =>{
   try {
-    await listaEsperaService.eliminarEspera(req);
+    await listaSolicitudService.eliminarSolicitud(req);
     res.status(201).json({ ok: "Si funciona" });
   } catch (error) {
     res.status(500).json({ error: error.message });

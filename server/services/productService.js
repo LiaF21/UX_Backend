@@ -1,32 +1,32 @@
 const  {Sequelize} = require('../Db');
-const {Transaccion} = require('../models/reservaciones');
+const {Pago} = require('../models/reservaciones');
 const {Reglamento} = require('../models/lista');
 const{Hospital, Piso, Sala}  = require('../models/hospital');
 
 
-exports.createTransaccion = async (TransData) => {
-  const transaccion = await Transaccion.create(TransData);
-  return transaccion;
+exports.createPago = async (TransData) => {
+  const pago = await Pago.create(TransData);
+  return pago;
 };
 
-exports.getTransaccionById = async (id) => {
-  const transaccion = await Transaccion.findByPk(id);
-  return transaccion;
+exports.getPagoById = async (id) => {
+  const pago = await Pago.findByPk(id);
+  return pago;
 };
 
-exports.getTransaccionesByFecha = async (fechaInicio, fechaFinal) => {
-  const transacciones = await Transaccion.findAll({
+exports.getPagosByFecha = async (fechaInicio, fechaFinal) => {
+  const pagos = await Pago.findAll({
     where: {
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
       },
     },
   });
-  return transacciones;
+  return pagos;
 };
 
 exports.getBecados = async(fechaInicio, fechaFinal)=>{
-  const becados = await Transaccion.findAll({
+  const becados = await Pago.findAll({
     where:{
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
@@ -39,7 +39,7 @@ exports.getBecados = async(fechaInicio, fechaFinal)=>{
 };
 
 exports.getDonaciones = async(fechaInicio, fechaFinal)=>{
-  const donacion = await Transaccion.findAll({
+  const donacion = await Pago.findAll({
     where:{
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
@@ -52,7 +52,7 @@ exports.getDonaciones = async(fechaInicio, fechaFinal)=>{
 };
 
 exports.getValor = async (fechaInicio, fechaFinal)=>{
-  const transaccion = await Transaccion.findOne({
+  const Pago = await Pago.findOne({
     where:{
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
@@ -76,10 +76,10 @@ exports.getReglamento = async () => {
   return reglamento;
 };
 
-exports.editRegla = async (id, numero_regla, descripcion_regla) => {
+exports.editRegla = async (id, descripcion_regla) => {
   await Reglamento.update(
     {
-      numero_regla,
+      
       descripcion_regla,
     },
     {
