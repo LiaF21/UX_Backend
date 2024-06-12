@@ -24,6 +24,14 @@ exports.createReservacion = async (idSolicitud, idCama) => {
       throw new Error("Solicitud no encontrada");
     }
 
+    const cama = await Cama.findByPk(idCama);
+
+    if (!cama) {
+      throw new Error("Cama no encontrada");
+    }
+
+    await cama.update({ disponible: false }, { transaction: t });
+
     const nuevaReservacion = {
       id_paciente_huesped: solicitud.id_paciente_huesped,
       id_cama: idCama,
