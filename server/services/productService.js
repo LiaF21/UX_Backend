@@ -1,8 +1,8 @@
-const  {Sequelize} = require('../Db');
-const {Pago} = require('../models/reservaciones');
-const {Reglamento} = require('../models/lista');
-const{Hospital, Piso, Sala}  = require('../models/hospital');
-
+const { Sequelize } = require("../Db");
+const { Pago } = require("../models/reservaciones");
+const { Reservacion } = require("../models/reservaciones");
+const { Reglamento } = require("../models/lista");
+const { Hospital, Piso, Sala } = require("../models/hospital");
 
 exports.createPago = async (TransData) => {
   const pago = await Pago.create(TransData);
@@ -25,40 +25,44 @@ exports.getPagosByFecha = async (fechaInicio, fechaFinal) => {
   return pagos;
 };
 
-exports.getBecados = async(fechaInicio, fechaFinal)=>{
-  const becados = await Pago.findAll({
-    where:{
-      fecha: {
+exports.getBecados = async (fechaInicio, fechaFinal) => {
+  const becados = await Reservacion.findAll({
+    where: {
+      fecha_entrada: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
       },
-      becada:true
-    }
+      fecha_salida: {
+        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      },
+
+      becado: true,
+    },
   });
 
   return becados;
 };
 
-exports.getDonaciones = async(fechaInicio, fechaFinal)=>{
+exports.getDonaciones = async (fechaInicio, fechaFinal) => {
   const donacion = await Pago.findAll({
-    where:{
+    where: {
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
       },
-      becada:false
-    }
+      becada: false,
+    },
   });
 
   return donacion;
 };
 
-exports.getValor = async (fechaInicio, fechaFinal)=>{
+exports.getValor = async (fechaInicio, fechaFinal) => {
   const Pago = await Pago.findOne({
-    where:{
+    where: {
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
       },
-    }
-  })
+    },
+  });
 };
 
 exports.createRegla = async (ReglaData) => {
@@ -79,7 +83,6 @@ exports.getReglamento = async () => {
 exports.editRegla = async (id, descripcion_regla) => {
   await Reglamento.update(
     {
-      
       descripcion_regla,
     },
     {
@@ -144,11 +147,11 @@ exports.getSalaById = async (id) => {
 exports.getAllSalas = async () => {
   const salas = await Sala.findAll();
   return salas;
-}
+};
 
 exports.getSalasByPiso = async (id_piso) => {
   const salas = await Sala.findAll({
     where: { id_piso: id_piso },
   });
   return salas;
-}
+};

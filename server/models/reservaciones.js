@@ -27,11 +27,11 @@ const Reservacion = sequelize.define('Reservacion', {
       defaultValue: true,
     },
     fecha_entrada: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     fecha_salida: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
     },
     becado: {
       type: DataTypes.BOOLEAN,
@@ -97,8 +97,8 @@ const Reservacion = sequelize.define('Reservacion', {
     timestamps: false,
   });
 
-  const Pago = sequelize.define('Pago',{
-    id_pago:{
+  const Ofrenda = sequelize.define('Ofrenda',{
+    id_ofrenda:{
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -106,16 +106,16 @@ const Reservacion = sequelize.define('Reservacion', {
     id_reservacion:{
       type: DataTypes.INTEGER,
     },
-    saldo_pendiente:{
-      type: DataTypes.INTEGER,
+    valor:{
+      type: DataTypes.DECIMAL(10,2),
       allowNull: false,
     },
     fecha: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
   }, {
-    tableName: 'pago',
+    tableName: 'ofrenda',
     timestamps:false,
   })
   
@@ -132,12 +132,12 @@ const Reservacion = sequelize.define('Reservacion', {
   Habitacion.belongsTo(Lugar, {foreignKey:"id_lugar"});
   Lugar.hasMany(Habitacion, {foreignKey:"id_lugar"});
 
-  Pago.belongsTo(Reservacion, {foreignKey: "id_reservacion"});
-  Reservacion.hasMany(Pago, {foreignKey: "id_reservacion"});
+  Ofrenda.belongsTo(Reservacion, {foreignKey: "id_reservacion"});
+  Reservacion.hasMany(Ofrenda, {foreignKey: "id_reservacion"});
 
 
   //revisar
   PacienteHuesped.hasMany(Reservacion, {foreignKey: "id_paciente_huesped"});
   Reservacion.belongsTo(PacienteHuesped, {foreignKey: "id_paciente_huesped"});
 
-  module.exports = {Reservacion, Habitacion, Cama, Pago};
+  module.exports = {Reservacion, Habitacion, Cama, Ofrenda};
