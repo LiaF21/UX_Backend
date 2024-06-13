@@ -49,7 +49,7 @@ exports.getCamasByRoom = async (habitacionId) => {
 
 exports.getCamasByDisponible = async() => {
   try {
-    const camas = await Cama.findAll({ where: { disponible: true } });
+    const camas = await Cama.findAll({ where: { disponible: true }, include: Habitacion });
     return camas;
   } catch (error) {
     throw new Error('Error al obtener las camas disponibles: ' + error.message);
