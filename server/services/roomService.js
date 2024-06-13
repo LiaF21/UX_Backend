@@ -139,14 +139,6 @@ exports.getReservacionById = async (id) => {
             model: Paciente,
             include: [
               {
-                model: Persona,
-                include: [
-                  { model: Ocupacion },
-                  { model: Procedencia },
-                  { model: Lugar },
-                ],
-              },
-              {
                 model: Hospital,
               },
             ],
@@ -192,14 +184,6 @@ exports.getReservacion = async () => {
           {
             model: Paciente,
             include: [
-              {
-                model: Persona,
-                include: [
-                  { model: Ocupacion },
-                  { model: Procedencia },
-                  { model: Lugar },
-                ],
-              },
               {
                 model: Hospital,
               },
