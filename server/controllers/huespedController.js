@@ -87,3 +87,17 @@ exports.editarHuesped = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getHuespedVisitas = async (req, res) => {
+  try {
+    const huespedID = req.params.id;
+    const huesped = await huespedService.getHuesped(huespedID);
+    if (huesped) {
+      res.status(201).json(huesped);
+    } else {
+      res.status(404).json({ message: "Huesped no encontrado," });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
