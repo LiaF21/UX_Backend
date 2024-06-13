@@ -93,6 +93,22 @@ exports.editCama = async (id, camaData) => {
   await Cama.update(camaData, { where: { id_cama: id } });
 };
 
+exports.getCamaByGender = async (genero) => {
+  if(genero != "MASCULINO" && genero != "FEMENINO"){
+    return null;
+  }
+//FinaAndCountAll te devuelve un objeto que cuenta el total de filas y te devuelve los objetos tambien.
+  const Camas = await Cama.findAndCountAll({include: {
+      model: Habitacion, 
+      where: {genero: genero}
+    }})
+
+    //En el JSON se devuelven como rows and count. Rows son los objetos y count el numero
+    //Para el componente, usare count.
+    return Camas;  
+
+}
+
 exports.createReservacion = async (reservacionData) => {
   const reservacion = await Reservacion.create(reservacionData);
   return reservacion;

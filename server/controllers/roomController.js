@@ -126,6 +126,23 @@ exports.getCamas = async (req, res) => {
   }
 };
 
+exports.getCamasByGender = async(req, res) => {
+  try{
+  const {genero} = req.body;
+
+  const Camas = await roomService.getCamaByGender(genero);
+
+  if(!Camas){
+    res.status(418).json({error: "Tiene que ser MASCULINO o FEMENINO para tomar café"})
+    return;
+  }
+
+  res.status(200).json(Camas);
+  } catch (error){
+    res.status(500).json({ error: error.message });
+  }
+}
+
 exports.editCama = async (req, res) => {
   try {
     await roomService.editCama(req.params.id, req.body);

@@ -50,7 +50,7 @@ roomRouter.get("/camas/:id", roomController.getCamaById);
 roomRouter.put("/camas/:id", roomController.editCama);
 roomRouter.get("/camasDisp", roomController.getCamasByDisponibilidad);
 roomRouter.delete("/camas/:id", roomController.deleteCamaById);
-
+roomRouter.get("/camasByGender", roomController.getCamasByGender)
 
 roomRouter.post("/ofrendas", ofrendaController.createOfrenda);
 roomRouter.get("/ofrendas", ofrendaController.getAllOfrendas);
