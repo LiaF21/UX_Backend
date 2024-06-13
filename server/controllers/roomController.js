@@ -237,3 +237,17 @@ exports.deleteCamaById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getReservacion = async (req, res) => {
+  try {
+    const reservacion = await roomService.getReservaciones(req.params.id);
+    if (reservacion) {
+      res.status(200).json(reservacion);
+    } else {
+      res.status(404).json({ message: "Reservaciones no encontrada" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+

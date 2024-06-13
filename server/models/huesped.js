@@ -123,7 +123,7 @@ PacienteHuesped.belongsTo(Paciente, { foreignKey: "id_paciente" });
 Afiliado.hasMany(AfiliadoHuesped, { foreignKey: "id_afiliado" });
 Huesped.hasMany(AfiliadoHuesped, { foreignKey: "id_huesped" });
 
-Paciente.belongsTo(PacienteHuesped, { foreignKey: "id_paciente" });
+Paciente.hasMany(PacienteHuesped, { foreignKey: "id_paciente" });
 Huesped.hasMany(PacienteHuesped, { foreignKey: "id_huesped" });
 PacienteHuesped.belongsTo(Huesped, { foreignKey: 'id_huesped' });
 Huesped.belongsTo(Persona, { foreignKey: 'id_persona' });
