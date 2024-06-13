@@ -1,4 +1,7 @@
 const roomService = require("../services/roomService");
+
+const { Habitacion, Cama } = require("../models/reservaciones");
+
 exports.verificarDisponibilidadHabitacion = async (habitacionId) => {
   const camas = await Cama.findAll({ where: { id_habitacion: habitacionId } });
   const todasCamasNoDisponibles = camas.every(cama => !cama.disponible);

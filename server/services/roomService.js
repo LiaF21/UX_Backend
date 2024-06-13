@@ -1,9 +1,8 @@
-const { PacienteHuesped, Huesped} = require('../models/huesped');
-const {Persona, Ocupacion, Procedencia, Lugar} = require('../models/persona');
-const Paciente = require('../models/paciente');
-const {Hospital} = require('../models/hospital');
-const { Habitacion, Cama, Reservacion } = require('../models/reservaciones');
-
+const { PacienteHuesped, Huesped } = require("../models/huesped");
+const { Persona, Ocupacion, Procedencia, Lugar } = require("../models/persona");
+const Paciente = require("../models/paciente");
+const { Hospital } = require("../models/hospital");
+const { Habitacion, Cama, Reservacion } = require("../models/reservaciones");
 
 exports.createHabitacion = async (habitacionData) => {
   const habitacion = await Habitacion.create(habitacionData);
@@ -17,18 +16,18 @@ exports.getHabitacionById = async (id) => {
 
 exports.getAllHabitaciones = async () => {
   try {
-    const habitaciones = await Habitacion.findAll(); 
+    const habitaciones = await Habitacion.findAll();
     return habitaciones;
   } catch (error) {
     throw Error("Error al obtener las habitaciones: " + error.message);
   }
 };
 
-exports.deleteHabitacionById = async (id) =>{
+exports.deleteHabitacionById = async (id) => {
   const borrar = await Habitacion.destroy({
-      where:{
-          id_habitacion:id
-      }
+    where: {
+      id_habitacion: id,
+    },
   });
   return borrar;
 };
@@ -38,39 +37,42 @@ exports.editHabitacion = async (id, habitacionData) => {
 };
 
 exports.getAllCamas = async () => {
-  const camas = await Cama.findAll({include: 'Habitacion'})
+  const camas = await Cama.findAll({ include: "Habitacion" });
   return camas;
-}
+};
 
 exports.getCamasByRoom = async (habitacionId) => {
   try {
-    const camas = await Cama.findAll({ where: { id_habitacion: habitacionId } });
+    const camas = await Cama.findAll({
+      where: { id_habitacion: habitacionId },
+    });
     return camas;
   } catch (error) {
-    throw new Error('Error al obtener las camas de la habitación: ' + error.message);
+    throw new Error(
+      "Error al obtener las camas de la habitación: " + error.message
+    );
   }
 };
 
-exports.getCamasByDisponible = async() => {
+exports.getCamasByDisponible = async () => {
   try {
-    const camas = await Cama.findAll({ where: { disponible: true }, include: Habitacion });
+    const camas = await Cama.findAll({
+      where: { disponible: true },
+      include: Habitacion,
+    });
     return camas;
   } catch (error) {
-    throw new Error('Error al obtener las camas disponibles: ' + error.message);
+    throw new Error("Error al obtener las camas disponibles: " + error.message);
   }
-
-
-}
-exports.deleteCamaById = async (id) =>{
+};
+exports.deleteCamaById = async (id) => {
   const borrar = await Cama.destroy({
-      where:{
-          id_cama:id
-      }
+    where: {
+      id_cama: id,
+    },
   });
   return borrar;
 };
-
-
 
 exports.createCama = async (camaData) => {
   const cama = await Cama.create(camaData);
@@ -97,7 +99,44 @@ exports.createReservacion = async (reservacionData) => {
 };
 
 exports.getReservacionById = async (id) => {
-  const reservacion = await Reservacion.findByPk(id);
+  const reservacion = await Reservacion.findByPk(id, {
+    include: [
+      {
+        model: PacienteHuesped,
+        include: [
+          {
+            model: Huesped,
+            include: [
+              {
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
+              },
+            ],
+          },
+          {
+            model: Paciente,
+            include: [
+              {
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
+              },
+              {
+                model: Hospital,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
   return reservacion;
 };
 
@@ -112,39 +151,39 @@ exports.editReservacion = async (id, reservacionData) => {
   await Reservacion.update(reservacionData, { where: { id_reservacion: id } });
 };
 
-exports.getReservacion = async () =>{
-  const reservacion= await Reservacion.findAll({
+exports.getReservacion = async () => {
+  const reservacion = await Reservacion.findAll({
     include: [
       {
         model: PacienteHuesped,
         include: [
           {
             model: Huesped,
-            include:[
+            include: [
               {
-              model: Persona,
-              include:[
-               { model: Ocupacion,},
-               {model: Procedencia},
-               {model: Lugar},
-              ]
-              }
-            ]
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
+              },
+            ],
           },
           {
             model: Paciente,
             include: [
               {
                 model: Persona,
-                include:[
-                  { model: Ocupacion,},
-                  {model: Procedencia},
-                  {model: Lugar},
-                 ]
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
               },
               {
                 model: Hospital,
-              }
+              },
             ],
           },
         ],
