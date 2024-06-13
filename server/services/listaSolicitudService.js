@@ -9,14 +9,14 @@ const Paciente = require('../models/paciente')
 >>>>>>> Stashed changes
 
 
-exports.crearListaSolicitud = async (personaData, persona2Data, huespedData, pacienteData, pacientehuespedData) =>{
+exports.crearListaSolicitud = async (personahuespedData, personapacienteData, huespedData, pacienteData, pacientehuespedData) =>{
   const probar = await sequelize.transaction();
   try{
-   const nuevaPersona = await Persona.create(personaData, {probar});
+   const nuevaPersona = await Persona.create(personahuespedData, {probar});
    huespedData.id_huesped = nuevaPersona.id_persona;
    const nuevoHuesped = await Huesped.create(huespedData,  {probar});
 
-   const nuevoPersona2 = await Persona.create(persona2Data,  {probar});
+   const nuevoPersona2 = await Persona.create(personapacienteData,  {probar});
    pacienteData.id_persona = nuevoPersona2.id_persona;
    const nuevaPaciente = await Paciente.create(pacienteData, {probar});
 
