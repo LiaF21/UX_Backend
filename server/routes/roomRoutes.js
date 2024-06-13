@@ -51,14 +51,6 @@ roomRouter.put("/camas/:id", roomController.editCama);
 roomRouter.get("/camasDisp", roomController.getCamasByDisponibilidad);
 roomRouter.delete("/camas/:id", roomController.deleteCamaById);
 
-roomRouter.post("/reservaciones", reservacionController.createReservacion);
-roomRouter.get("/reservaciones/:id", roomController.getReservacionById);
-roomRouter.put("/reservaciones/:id", roomController.editReservacion);
-roomRouter.get(
-  "/reservaciones/huesped/:id",
-  roomController.getReservacionByIdHuespedActiva
-);
-roomRouter.get("/reservaciones/becados", Product.getBecados);
 
 roomRouter.post("/ofrendas", ofrendaController.createOfrenda);
 roomRouter.get("/ofrendas", ofrendaController.getAllOfrendas);
@@ -69,5 +61,12 @@ roomRouter.get(
   "/ofrendas/reservacion/:id_reservacion",
   ofrendaController.getOfrendasByReservacion
 );
+
+roomRouter.post('/reservaciones', roomController.createReservacion);
+roomRouter.get('/reservaciones/:id', roomController.getReservacionById);
+roomRouter.put('/reservaciones/:id', roomController.editReservacion);
+roomRouter.get('/reservaciones/huesped/:id', roomController.getReservacionByIdHuespedActiva);
+roomRouter.get('/reservaciones', roomController.getReservaciones);
+roomRouter.get("/reservaciones/becados", Product.getBecados);
 
 module.exports = roomRouter;

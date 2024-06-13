@@ -1,3 +1,7 @@
+const { PacienteHuesped, Huesped} = require('../models/huesped');
+const {Persona, Ocupacion, Procedencia, Lugar} = require('../models/persona');
+const Paciente = require('../models/paciente');
+const {Hospital} = require('../models/hospital');
 const { Habitacion, Cama, Reservacion } = require('../models/reservaciones');
 
 
@@ -106,4 +110,46 @@ exports.getReservacionByIdHuespedActiva = async (id) => {
 
 exports.editReservacion = async (id, reservacionData) => {
   await Reservacion.update(reservacionData, { where: { id_reservacion: id } });
+};
+
+exports.getReservacion = async () =>{
+  const reservacion= await Reservacion.findAll({
+    include: [
+      {
+        model: PacienteHuesped,
+        include: [
+          {
+            model: Huesped,
+            include:[
+              {
+              model: Persona,
+              include:[
+               { model: Ocupacion,},
+               {model: Procedencia},
+               {model: Lugar},
+              ]
+              }
+            ]
+          },
+          {
+            model: Paciente,
+            include: [
+              {
+                model: Persona,
+                include:[
+                  { model: Ocupacion,},
+                  {model: Procedencia},
+                  {model: Lugar},
+                 ]
+              },
+              {
+                model: Hospital,
+              }
+            ],
+          },
+        ],
+      },
+    ],
+  });
+  return reservacion;
 };
