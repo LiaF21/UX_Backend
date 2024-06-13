@@ -36,6 +36,7 @@ router.delete("/paciente/:id", pacienteController.deletePacienteById); //funcion
 router.get("/pacientes", pacienteController.getAllPacientes); //funciona
 router.put("/paciente/:id", pacienteController.editarPaciente); //funciona
 router.get("/pacientes2", pacienteController.getAllPacientesWithPersona);
+router.get("/paciente/dni/:dni", pacienteController.getPacienteByDNI);
 
 //rutas de lista negra
 router.get("/lista-negra/:id", listaNegraController.getPersonaInList); //funciona
@@ -62,5 +63,6 @@ router.get(
   "/paciente-huesped/huesped/:id",
   paciente_huespedController.getPHbyHuesped
 ); //funciona
+
 
 module.exports = router;

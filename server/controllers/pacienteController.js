@@ -76,3 +76,18 @@ exports.getAllPacientesWithPersona = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getPacienteByDNI = async(req, res)=>{
+  try{
+    const dniH = req.params.dni;
+    const paciente = await pacienteService.gePacienteByDNI(dniH);
+    console.log("Error");
+    if(paciente){
+      res.status(201).json(paciente);
+    }else{
+      res.status(404).json({ message: "paciente no encontrado," });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
