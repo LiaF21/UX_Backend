@@ -66,6 +66,6 @@ roomRouter.get(
 );
 roomRouter.get("/reservaciones", roomController.getReservaciones);
 roomRouter.get("/reservaciones/becados", Product.getBecados);
-roomRouter.get("/reservaciones/switchCama/:id", reservacionController.switchCama);
+roomRouter.put("/reservaciones/switchCama/:id", reservacionController.switchCama);
 
 module.exports = roomRouter;

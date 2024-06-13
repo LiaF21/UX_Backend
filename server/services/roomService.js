@@ -23,6 +23,23 @@ exports.getAllHabitaciones = async () => {
   }
 };
 
+exports.checkearDisponibilidadHabitacion = async (id, t) => {
+  const camas = await Cama.findAll({
+    where: { id_habitacion: id },
+  });
+
+  let camasDisponibles = true;
+  camas.forEach((cama) => {
+    if (!cama.disponible) {
+      camasDisponibles = false;
+      return;
+    }
+  });
+
+  const habitacion = await Habitacion.findByPk(id);
+  await habitacion.update({ disponible: camasDisponibles });
+};
+
 exports.deleteHabitacionById = async (id) => {
   const borrar = await Habitacion.destroy({
     where: {

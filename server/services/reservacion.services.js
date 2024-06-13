@@ -1,11 +1,12 @@
 const Sequelize = require("../Db");
 
 const { ListaSolicitud } = require("../models/lista");
-const { Reservacion } = require("../models/reservaciones");
+const { Reservacion, Habitacion } = require("../models/reservaciones");
 const { PacienteHuesped, Huesped } = require("../models/huesped");
 const Paciente = require("../models/paciente");
 
 const { Cama } = require("../models/reservaciones");
+const roomService = require("../services/roomService");
 
 exports.createReservacion = async (idSolicitud, idCama) => {
   const t = await Sequelize.transaction();
@@ -85,6 +86,16 @@ exports.switchCama = async (id, idCama) => {
     await reservacion.update({ id_cama: idCama }, { transaction: t });
 
     await t.commit();
+
+    await roomService.checkearDisponibilidadHabitacion(
+      oldCama.id_habitacion,
+      t
+    );
+
+    await roomService.checkearDisponibilidadHabitacion(
+      newCama.id_habitacion,
+      t
+    );
 
     return reservacion;
   } catch (error) {
