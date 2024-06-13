@@ -82,7 +82,7 @@ exports.getCamasByDisponible = async () => {
     throw new Error("Error al obtener las camas disponibles: " + error.message);
   }
 };
-exports.deleteCamaById = async (id) => {
+exports.deleteCamaById = async (id) =>  {
   const borrar = await Cama.destroy({
     where: {
       id_cama: id,
@@ -182,6 +182,62 @@ exports.getReservacionByIdHuespedActiva = async (id) => {
   return reservacion;
 };
 
+exports.getGenero = async (fechaInicio, fechaFinal) => {
+  const men = await Reservacion.findAndCountAll({
+    where: {
+      fecha: {
+        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      },
+    },
+    include: [
+      {
+        model: PacienteHuesped,
+        include: [
+          {
+            model: Huesped,
+            include: [
+              {
+                model: Persona,
+                where: {
+                  genero: 'MASCULINO'
+                }
+              }
+            ]
+          },
+        ]
+      }]
+  })
+  return men
+};
+
+exports.getHuespedesMujeres = async (fechaInicio, fechaFinal) => {
+  const women = await Reservacion.findAndCountAll({
+    where: {
+      fecha: {
+        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      },
+    },
+    include: [
+      {
+        model: PacienteHuesped,
+        include: [
+          {
+            model: Huesped,
+            include: [
+              {
+                model: Persona,
+                where: {
+                  genero: 'FEMENINO'
+                }
+              }
+            ]
+          },
+        ]
+      }]
+  })
+  return women
+};
+
 exports.editReservacion = async (id, reservacionData) => {
   await Reservacion.update(reservacionData, { where: { id_reservacion: id } });
 };
@@ -205,26 +261,26 @@ exports.getReservacion = async () => {
                 ],
               },
             ],
+          }
+        ]
+      },
+      {
+        model: Paciente,
+        include: [
+          {
+            model: Hospital,
           },
           {
-            model: Paciente,
+            model: Persona,
             include: [
-              {
-                model: Hospital,
-              },
-              {
-                model: Persona,
-                include: [
-                  { model: Ocupacion },
-                  { model: Procedencia },
-                  { model: Lugar },
-                ],
-              },
+              { model: Ocupacion },
+              { model: Procedencia },
+              { model: Lugar },
             ],
-          },
-        ],
+          }
+        ]
       },
     ],
   });
-  return reservacion;
+return reservacion;
 };
