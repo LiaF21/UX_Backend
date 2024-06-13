@@ -172,6 +172,7 @@ exports.editReservacion = async (id, reservacionData) => {
 exports.getReservacion = async () => {
   const reservacion = await Reservacion.findAll({
     include: [
+      { model: Cama, include: Habitacion },
       {
         model: PacienteHuesped,
         include: [
