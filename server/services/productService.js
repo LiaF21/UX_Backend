@@ -1,21 +1,28 @@
+<<<<<<< Updated upstream
 const  {Sequelize} = require('../Db');
 const {Pago} = require('../models/reservaciones');
 const {Reglamento} = require('../models/lista');
 const{Hospital, Piso, Sala}  = require('../models/hospital');
 
+=======
+const { Sequelize } = require("../Db");
+const { Reservacion, Ofrenda } = require("../models/reservaciones");
+const { Reglamento } = require("../models/lista");
+const { Hospital, Piso, Sala } = require("../models/hospital");
+>>>>>>> Stashed changes
 
 exports.createPago = async (TransData) => {
-  const pago = await Pago.create(TransData);
+  const pago = await Ofrenda.create(TransData);
   return pago;
 };
 
 exports.getPagoById = async (id) => {
-  const pago = await Pago.findByPk(id);
+  const pago = await Ofrenda.findByPk(id);
   return pago;
 };
 
 exports.getPagosByFecha = async (fechaInicio, fechaFinal) => {
-  const pagos = await Pago.findAll({
+  const pagos = await Ofrenda.findAll({
     where: {
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
@@ -38,9 +45,15 @@ exports.getBecados = async(fechaInicio, fechaFinal)=>{
   return becados;
 };
 
+<<<<<<< Updated upstream
 exports.getDonaciones = async(fechaInicio, fechaFinal)=>{
   const donacion = await Pago.findAll({
     where:{
+=======
+exports.getDonaciones = async (fechaInicio, fechaFinal) => {
+  const donacion = await Ofrenda.findAll({
+    where: {
+>>>>>>> Stashed changes
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
       },
@@ -51,9 +64,15 @@ exports.getDonaciones = async(fechaInicio, fechaFinal)=>{
   return donacion;
 };
 
+<<<<<<< Updated upstream
 exports.getValor = async (fechaInicio, fechaFinal)=>{
   const Pago = await Pago.findOne({
     where:{
+=======
+exports.getValor = async (fechaInicio, fechaFinal) => {
+  const Pago = await Ofrenda.findOne({
+    where: {
+>>>>>>> Stashed changes
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
       },
