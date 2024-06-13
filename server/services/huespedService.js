@@ -1,5 +1,5 @@
 const sequelize = require("../Db");
-const { Huesped } = require("../models/huesped");
+const { Huesped, PacienteHuesped } = require("../models/huesped");
 const { Persona } = require("../models/persona");
 const { Reservacion, Cama, Habitacion } = require("../models/reservaciones");
 
@@ -98,6 +98,17 @@ exports.editarHuesped = async (id, huespedUpdate) => {
   }
 };
 
+exports.getHuesped = async(id) => {
+  const huesped = await Reservacion.findAll({
+    include: [{
+      model: PacienteHuesped,
+      where: {
+        id_huesped: id,
+      }
+    }]
+  });
+  return huesped;
+}
 exports.getMujeres = async () => {
   const mujeres = await Huesped.count({
     include: [
