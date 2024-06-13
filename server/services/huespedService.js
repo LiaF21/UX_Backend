@@ -44,21 +44,7 @@ exports.crearHuesped = async (huespedData) => {
   return nuevoHuesped;
 };
 
-exports.createUserAndPersona = async (userData, personaData) => {
-  const probar = await sequelize.transaction();
 
-  try {
-    const nuevaP = await Persona.create(personaData, { probar });
-    userData.id_persona = nuevaP.id_persona;
-    const nuevoU = await Usuario.create(userData, { probar });
-
-    await probar.commit();
-    return (nuevoU, nuevaP);
-  } catch (error) {
-    await probar.rollback();
-    throw new Error('Error al crear usuario y persona: ' + error.message);
-  }
-}
 exports.deleteHuespedById = async (id) => {
   const borrar = await Huesped.destroy({
     where: {
@@ -99,7 +85,6 @@ exports.getHuespedByDNI = async (dni) => {
   }
 };
 
-
 exports.editarHuesped = async (id, huespedUpdate) => {
   const huespedEditado = await Huesped.update(huespedUpdate, {
     where: { id_huesped: id },
@@ -112,3 +97,33 @@ exports.editarHuesped = async (id, huespedUpdate) => {
     return edited;
   }
 };
+
+exports.getMujeres = async () => {
+  const mujeres = await Huesped.count({
+    include: [
+      {
+        model: Persona,
+        as: 'Persona',
+        where: {
+          genero: "FEMENINO"
+        }
+      }
+    ]
+  });
+  return mujeres;
+}
+
+exports.getHombre = async () => {
+  const hombres = await Huesped.count({
+    include: [
+      {
+        model: Persona,
+        as: 'Persona',
+        where: {
+          genero: "MASCULINO"
+        }
+      }
+    ]
+  });
+  return hombres;
+}
