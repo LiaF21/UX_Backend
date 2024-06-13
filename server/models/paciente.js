@@ -12,8 +12,8 @@ const Paciente = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    nombre_paciente: {
-      type: DataTypes.STRING(100),
+    id_person: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     id_hospital: {
@@ -43,10 +43,12 @@ const Paciente = sequelize.define(
   }
 );
 
+Paciente.belongsTo(Persona, { foreignKey: "id_person" });
 Paciente.belongsTo(Hospital, { foreignKey: "id_hospital" });
 Paciente.belongsTo(Sala, { foreignKey: "id_sala" });
 Paciente.belongsTo(Piso, { foreignKey: "id_piso" });
 
+Persona.hasMany(Paciente, { foreignKey: "id_person" });
 Hospital.hasMany(Paciente, { foreignKey: "id_hospital" });
 Sala.hasMany(Paciente, { foreignKey: "id_sala" });
 Piso.hasMany(Paciente, { foreignKey: "id_piso" });
