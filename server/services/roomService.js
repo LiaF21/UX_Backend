@@ -101,6 +101,7 @@ exports.createReservacion = async (reservacionData) => {
 exports.getReservacionById = async (id) => {
   const reservacion = await Reservacion.findByPk(id, {
     include: [
+      { model: Cama, include: Habitacion },
       {
         model: PacienteHuesped,
         include: [

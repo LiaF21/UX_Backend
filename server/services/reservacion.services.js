@@ -55,3 +55,40 @@ exports.createReservacion = async (idSolicitud, idCama) => {
     throw new Error("Error al crear reservación: " + error.message);
   }
 };
+
+exports.switchCama = async (id, idCama) => {
+  const t = await Sequelize.transaction();
+
+  try {
+    const reservacion = await Reservacion.findByPk(id);
+
+    const oldCama = await Cama.findByPk(reservacion.id_cama);
+
+    if (!oldCama) {
+      throw new Error("Cama no encontrada");
+    }
+
+    await oldCama.update({ disponible: true }, { transaction: t });
+
+    if (!reservacion) {
+      throw new Error("Reservación no encontrada");
+    }
+
+    const newCama = await Cama.findByPk(idCama);
+
+    if (!newCama) {
+      throw new Error("Cama no encontrada");
+    }
+
+    await newCama.update({ disponible: false }, { transaction: t });
+
+    await reservacion.update({ id_cama: idCama }, { transaction: t });
+
+    await t.commit();
+
+    return reservacion;
+  } catch (error) {
+    await t.rollback();
+    throw new Error("Error al cambiar cama: " + error.message);
+  }
+};

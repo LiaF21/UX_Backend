@@ -19,4 +19,19 @@ exports.createReservacion = async (req, res) => {
   }
 };
 
+exports.switchCama = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { idCama } = req.body;
 
+    const reservacion = await reservacionService.switchCama(id, idCama);
+
+    if (!reservacion) {
+      return res.status(404).json({ message: "Reservacion no encontrada" });
+    }
+
+    return res.status(200).json(reservacion);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
