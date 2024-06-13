@@ -53,6 +53,7 @@ router.delete("/huesped/:id", huespedController.deleteHuespedById); //funciona
 router.get("/huespedes", huespedController.getAllHuespedes); //funciona
 router.put("/huesped/:id", huespedController.editarHuesped); //funciona
 router.get("/huesped/dni/:dni", huespedController.getHuespedByDNI);
+router.get("/getHuesped/:id", huespedController.getHuespedVisitas);
 
 router.get("/paciente-huesped/:id", paciente_huespedController.getOnePH); //funciona
 router.post("/paciente-huesped/create", paciente_huespedController.createPH); //funciona

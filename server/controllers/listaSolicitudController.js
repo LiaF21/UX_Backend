@@ -9,6 +9,15 @@ exports.getAllListaSolicitud = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 }
+exports.getSolicitudes = async (req, res) => {
+  try {
+    const solicitudes = await listaSolicitudService.getSolicitudes();
+    res.json(solicitudes);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 
 exports.crearSolicitud = async (req, res) => {
   try {

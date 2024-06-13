@@ -1,5 +1,16 @@
 const roomService = require("../services/roomService");
 
+const { Habitacion, Cama } = require("../models/reservaciones");
+
+exports.verificarDisponibilidadHabitacion = async (habitacionId) => {
+  const camas = await Cama.findAll({ where: { id_habitacion: habitacionId } });
+  const todasCamasNoDisponibles = camas.every(cama => !cama.disponible);
+  return todasCamasNoDisponibles;
+};
+
+ exports.actualizarDisponibilidadHabitacion = async (habitacionId, disponible) => {
+  await Habitacion.update({ disponible }, { where: { id_habitacion: habitacionId } });
+};
 exports.createHabitacion = async (req, res) => {
   try {
     const habitacion = await roomService.createHabitacion(req.body);
@@ -115,6 +126,23 @@ exports.getCamas = async (req, res) => {
   }
 };
 
+exports.getCamasByGender = async(req, res) => {
+  try{
+  const {genero} = req.body;
+
+  const Camas = await roomService.getCamaByGender(genero);
+
+  if(!Camas){
+    res.status(418).json({error: "Tiene que ser MASCULINO o FEMENINO para tomar café"})
+    return;
+  }
+
+  res.status(200).json(Camas);
+  } catch (error){
+    res.status(500).json({ error: error.message });
+  }
+}
+
 exports.editCama = async (req, res) => {
   try {
     await roomService.editCama(req.params.id, req.body);
@@ -135,8 +163,6 @@ exports.getCamasByDisponibilidad = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-
-
 }
 
 exports.createReservacion = async (req, res) => {
@@ -226,10 +252,3 @@ exports.getGeneros = async(req, res)=>{
   }
 };
 
-exports.getMujeres = async(req,res)=>{
-  try{
-
-  }catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
