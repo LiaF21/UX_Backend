@@ -1,15 +1,7 @@
-<<<<<<< Updated upstream
-const  {Sequelize} = require('../Db');
-const {Pago} = require('../models/reservaciones');
-const {Reglamento} = require('../models/lista');
-const{Hospital, Piso, Sala}  = require('../models/hospital');
-
-=======
 const { Sequelize } = require("../Db");
 const { Reservacion, Ofrenda } = require("../models/reservaciones");
 const { Reglamento } = require("../models/lista");
 const { Hospital, Piso, Sala } = require("../models/hospital");
->>>>>>> Stashed changes
 
 exports.createPago = async (TransData) => {
   const pago = await Ofrenda.create(TransData);
@@ -45,15 +37,9 @@ exports.getBecados = async(fechaInicio, fechaFinal)=>{
   return becados;
 };
 
-<<<<<<< Updated upstream
-exports.getDonaciones = async(fechaInicio, fechaFinal)=>{
-  const donacion = await Pago.findAll({
-    where:{
-=======
 exports.getDonaciones = async (fechaInicio, fechaFinal) => {
   const donacion = await Ofrenda.findAll({
     where: {
->>>>>>> Stashed changes
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
       },
@@ -64,15 +50,9 @@ exports.getDonaciones = async (fechaInicio, fechaFinal) => {
   return donacion;
 };
 
-<<<<<<< Updated upstream
-exports.getValor = async (fechaInicio, fechaFinal)=>{
-  const Pago = await Pago.findOne({
-    where:{
-=======
 exports.getValor = async (fechaInicio, fechaFinal) => {
   const Pago = await Ofrenda.findOne({
     where: {
->>>>>>> Stashed changes
       fecha: {
         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
       },

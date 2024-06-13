@@ -1,12 +1,8 @@
 const {ListaSolicitud} = require('../models/lista')
-<<<<<<< Updated upstream
-
-=======
 const {Persona} = require('../models/persona')
 const {Huesped, PacienteHuesped} = require('../models/huesped')
 const sequelize = require('../Db')
 const Paciente = require('../models/paciente')
->>>>>>> Stashed changes
 
 
 exports.crearListaSolicitud = async (personahuespedData, personapacienteData, huespedData, pacienteData, pacientehuespedData) =>{
