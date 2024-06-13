@@ -176,6 +176,19 @@ exports.getReservacionByIdHuespedActiva = async (req, res) => {
   }
 };
 
+exports.getReservaciones = async (req, res)=>{
+  try{
+    const reservacion = await roomService.getReservacion();
+    if(reservacion){
+      res.status(200).json(reservacion);
+    } else {
+      res.status(404).json({ message: "Reservacion no encontrada" });
+    }
+  }catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.editReservacion = async (req, res) => {
   try {
     await roomService.editReservacion(req.params.id, req.body);

@@ -31,5 +31,6 @@ roomRouter.post('/reservaciones', roomController.createReservacion);
 roomRouter.get('/reservaciones/:id', roomController.getReservacionById);
 roomRouter.put('/reservaciones/:id', roomController.editReservacion);
 roomRouter.get('/reservaciones/huesped/:id', roomController.getReservacionByIdHuespedActiva);
+roomRouter.get('/reservaciones', roomController.getReservaciones);
 
 module.exports = roomRouter;
