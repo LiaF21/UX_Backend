@@ -111,20 +111,21 @@ exports.editCama = async (id, camaData) => {
 };
 
 exports.getCamaByGender = async (genero) => {
-  if(genero != "MASCULINO" && genero != "FEMENINO"){
+  if (genero != "MASCULINO" && genero != "FEMENINO") {
     return null;
   }
-//FinaAndCountAll te devuelve un objeto que cuenta el total de filas y te devuelve los objetos tambien.
-  const Camas = await Cama.findAndCountAll({include: {
-      model: Habitacion, 
-      where: {genero: genero}
-    }})
+  //FinaAndCountAll te devuelve un objeto que cuenta el total de filas y te devuelve los objetos tambien.
+  const Camas = await Cama.findAndCountAll({
+    include: {
+      model: Habitacion,
+      where: { genero: genero },
+    },
+  });
 
-    //En el JSON se devuelven como rows and count. Rows son los objetos y count el numero
-    //Para el componente, usare count.
-    return Camas;  
-
-}
+  //En el JSON se devuelven como rows and count. Rows son los objetos y count el numero
+  //Para el componente, usare count.
+  return Camas;
+};
 
 exports.createReservacion = async (reservacionData) => {
   const reservacion = await Reservacion.create(reservacionData);
@@ -156,6 +157,14 @@ exports.getReservacionById = async (id) => {
             include: [
               {
                 model: Hospital,
+              },
+              {
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
               },
             ],
           },
@@ -202,6 +211,14 @@ exports.getReservacion = async () => {
             include: [
               {
                 model: Hospital,
+              },
+              {
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
               },
             ],
           },
