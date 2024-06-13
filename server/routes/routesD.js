@@ -26,7 +26,7 @@ router.delete('/ocupacion/:id',ocupacionController.eliminarOcupacion);
 router.get('/ocupacion/:id',ocupacionController.getOcupacion);
 
 //lista de solicitud
-router.get('/listaSolicitud', ListaSolicitudController.getAllListaSolicitud);
+router.get('/listaSolicitud', ListaSolicitudController.getSolicitudes);
 router.post('/listaSolicitud', ListaSolicitudController.crearSolicitudes);
 router.put('/listaSolicitud/:id',ListaSolicitudController.editarSolicitud);
 router.delete('/listaSolicitud/:id',ListaSolicitudController.eliminarSolicitud);
