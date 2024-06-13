@@ -25,8 +25,8 @@ router.put('/ocupacion/:id',ocupacionController.editarOcupacion);
 router.delete('/ocupacion/:id',ocupacionController.eliminarOcupacion);
 router.get('/ocupacion/:id',ocupacionController.getOcupacion);
 
-//lista espera
-router.get('/listaSolicitud', ListaSolicitudController.getAllListaSolicitud);
+//lista solicitud
+router.get('/listaSolicitud', ListaSolicitudController.getSolicitudes);
 router.post('/listaSolicitud', ListaSolicitudController.crearSolicitud);
 router.put('/listaSolicitud/:id',ListaSolicitudController.editarSolicitud);
 router.delete('/listaSolicitud/:id',ListaSolicitudController.eliminarSolicitud);
