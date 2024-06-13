@@ -211,3 +211,25 @@ exports.deleteCamaById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getGeneros = async(req, res)=>{
+  try{
+    const { fechaInicio, fechaFinal } = req.query;
+    const hombres = await roomService.getGenero(fechaInicio, fechaFinal);
+    if(hombres ){
+      res.status(201).json({hombres, message:'Hombres obtenidos con exito'});
+    }else{
+      res.status(404).json({ message: 'No hay HOMBRES en el registro' });
+    }
+  }catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getMujeres = async(req,res)=>{
+  try{
+
+  }catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
