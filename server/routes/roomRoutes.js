@@ -25,5 +25,6 @@ roomRouter.get(
   "/reservaciones/huesped/:id",
   roomController.getReservacionByIdHuespedActiva
 );
+roomRouter.get("/getreservacion/:id", roomController.getReservacion)
 
 module.exports = roomRouter;
