@@ -39,6 +39,7 @@ exports.getAllHuespedesName = async () => {
   });
   return huespedes;
 };
+
 exports.crearHuesped = async (huespedData) => {
   const nuevoHuesped = await Huesped.create(huespedData);
   return nuevoHuesped;

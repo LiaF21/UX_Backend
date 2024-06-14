@@ -117,6 +117,20 @@ exports.getCamasByRoom = async (req, res) => {
   }
 };
 
+exports.getHabitacionPorLugar = async (req, res)=>{
+  
+  try {
+    const habitacion = await roomService.getHabitacionesPorLugar(req.params.id_lugar);
+    if (habitacion && habitacion.length>0) {
+      res.status(200).json(habitacion);
+    } else {
+      res.status(404).json({ message: "Ese lugar no tiene habitaciones" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.getCamas = async (req, res) => {
   try {
     const camas = await roomService.getCamas();
@@ -215,6 +229,35 @@ exports.getReservaciones = async (req, res)=>{
   }
 };
 
+
+exports.getBecados= async (req, res)=>{
+  try{
+    const { fechaInicio, fechaFinal } = req.query;
+    const becados = await roomService.getBecados(fechaInicio, fechaFinal);
+    if(becados && becados.length>0){
+      res.status(201).json({becados, message:'Becados obtenidos con exito'});
+    }else{
+      res.status(404).json({ message: 'No hay becados en el registro' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getDonaciones= async (req, res)=>{
+  try{
+    const { fechaInicio, fechaFinal } = req.query;
+    const donacion = await roomService.getDonaciones(fechaInicio, fechaFinal);
+    if(donacion){
+      res.status(201).json({donacion, message:'Donaciones obtenidos con exito'});
+    }else{
+      res.status(404).json({ message: 'No hay donaciones en el registro' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.editReservacion = async (req, res) => {
   try {
     await roomService.editReservacion(req.params.id, req.body);
@@ -238,10 +281,24 @@ exports.deleteCamaById = async (req, res) => {
   }
 };
 
-exports.getGeneros = async(req, res)=>{
+exports.getHombres = async(req, res)=>{
   try{
     const { fechaInicio, fechaFinal } = req.query;
-    const hombres = await roomService.getGenero(fechaInicio, fechaFinal);
+    const hombres = await roomService.getHombres(fechaInicio, fechaFinal);
+    if(hombres ){
+      res.status(201).json({hombres, message:'Hombres obtenidos con exito'});
+    }else{
+      res.status(404).json({ message: 'No hay HOMBRES en el registro' });
+    }
+  }catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getMujeres = async(req, res)=>{
+  try{
+    const { fechaInicio, fechaFinal } = req.query;
+    const hombres = await roomService.getMujeres(fechaInicio, fechaFinal);
     if(hombres ){
       res.status(201).json({hombres, message:'Hombres obtenidos con exito'});
     }else{
