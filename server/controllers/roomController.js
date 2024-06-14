@@ -118,9 +118,9 @@ exports.getCamasByRoom = async (req, res) => {
 };
 
 exports.getHabitacionPorLugar = async (req, res)=>{
-  console.log (req.params.id ) ;
+  
   try {
-    const habitacion = await roomService.getHabitacionesPorLugar(req.params.lugar);
+    const habitacion = await roomService.getHabitacionesPorLugar(req.params.id_lugar);
     if (habitacion && habitacion.length>0) {
       res.status(200).json(habitacion);
     } else {
