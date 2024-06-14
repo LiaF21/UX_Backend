@@ -263,36 +263,26 @@ exports.getReservacion = async () => {
                   ],
                 },
               ],
-              model: Persona,
-              include: [
-                { model: Ocupacion, },
-                { model: Procedencia },
-                { model: Lugar },
-              ]
-              }
+          },
+          {
+            model: Paciente,
+            include: [
+              {
+                model: Hospital,
+              },
+              {
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
+              },
+            ],
+          },
         ]
       },
-      {
-        model: Paciente,
-        include: [
-          {
-            model: Hospital,
-          },
-          {
-            model: Persona,
-            include: [
-              { model: Ocupacion },
-              { model: Procedencia },
-              { model: Lugar },
-            ],
-            include: [
-              { model: Ocupacion, },
-              { model: Procedencia },
-              { model: Lugar },
-            ]
-          },
-        ],
-      },
+      
     ],
   });
 return reservacion;

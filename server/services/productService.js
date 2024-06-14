@@ -27,13 +27,8 @@ exports.getPagosByFecha = async (fechaInicio, fechaFinal) => {
 exports.getBecados = async (fechaInicio, fechaFinal) => {
   const becados = await Reservacion.findAll({
     where: {
-      fecha_entrada: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-      fecha_salida: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-
+      fecha_entrada: fechaInicio,
+      fecha_salida: fechaFinal,
       becado: true,
     },
   });
@@ -44,24 +39,13 @@ exports.getBecados = async (fechaInicio, fechaFinal) => {
 exports.getDonaciones = async (fechaInicio, fechaFinal) => {
   const donacion = await Ofrenda.findAll({
     where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-      becada: false,
+      fecha_entrada: fechaInicio,
+      fecha_salida: fechaFinal,
+      becado: false,
     },
   });
 
   return donacion;
-};
-
-exports.getValor = async (fechaInicio, fechaFinal) => {
-  const Pago = await Ofrenda.findOne({
-    where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-    },
-  });
 };
 
 exports.createRegla = async (ReglaData) => {
