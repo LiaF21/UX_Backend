@@ -24,14 +24,14 @@ exports.getAllHabitaciones = async () => {
   }
 };
 
-exports.getHabitacionesPorLugar = async (id)=>{
+exports.getHabitacionesPorLugar = async (id_lugar)=>{
   const habitacion = await Habitacion.findAll({
     where:{
-     id_lugar: id,
+      id_lugar: id_lugar,
     }
   });
   return habitacion;
-}
+};
 
 exports.checkearDisponibilidadHabitacion = async (id, t) => {
   const camas = await Cama.findAll({
@@ -265,7 +265,7 @@ exports.getHombres = async (fechaInicio, fechaFinal) => {
 };
 
 exports.getMujeres = async (fechaInicio, fechaFinal) => {
-  const men = await Reservacion.findAndCountAll({
+  const women = await Reservacion.findAndCountAll({
     where: {
       fecha_entrada: {
         [Sequelize.Op.gte]: fechaInicio,
@@ -292,7 +292,7 @@ exports.getMujeres = async (fechaInicio, fechaFinal) => {
         ]
       }]
   })
-  return men
+  return women;
 };
 
 exports.editReservacion = async (id, reservacionData) => {

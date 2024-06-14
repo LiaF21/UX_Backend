@@ -118,9 +118,10 @@ exports.getCamasByRoom = async (req, res) => {
 };
 
 exports.getHabitacionPorLugar = async (req, res)=>{
+  console.log (req.params.id ) ;
   try {
-    const habitacion = await roomService.getHabitacionesPorLugar(req.params.id_lugar);
-    if (habitacion) {
+    const habitacion = await roomService.getHabitacionesPorLugar(req.params.lugar);
+    if (habitacion && habitacion.length>0) {
       res.status(200).json(habitacion);
     } else {
       res.status(404).json({ message: "Ese lugar no tiene habitaciones" });
