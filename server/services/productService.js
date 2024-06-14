@@ -13,36 +13,50 @@ exports.getPagoById = async (id) => {
   return pago;
 };
 
-exports.getPagosByFecha = async (fechaInicio, fechaFinal) => {
-  const pagos = await Ofrenda.findAll({
-    where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-    },
-  });
-  return pagos;
-};
+// exports.getPagosByFecha = async (fechaInicio, fechaFinal) => {
+//   const pagos = await Ofrenda.findAll({
+//     where: {
+//       fecha: {
+//         [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+//       },
+//     },
+//   });
+//   return pagos;
+// };
 
 exports.getBecados = async (fechaInicio, fechaFinal) => {
   const becados = await Reservacion.findAll({
     where: {
-      fecha_entrada: fechaInicio,
-      fecha_salida: fechaFinal,
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
+      },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
+      },
       becado: true,
     },
+    include :[
+      {model:Ofrenda},
+    ],
   });
 
   return becados;
 };
 
 exports.getDonaciones = async (fechaInicio, fechaFinal) => {
-  const donacion = await Ofrenda.findAll({
+  const donacion = await Reservacion.findAll({
     where: {
-      fecha_entrada: fechaInicio,
-      fecha_salida: fechaFinal,
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
+      },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
+      },
       becado: false,
     },
+    include :[
+      {model:Ofrenda},
+    ],
   });
 
   return donacion;

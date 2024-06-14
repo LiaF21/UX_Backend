@@ -45,7 +45,7 @@ exports.getBecados= async (req, res)=>{
   try{
     const { fechaInicio, fechaFinal } = req.query;
     const becados = await productService.getBecados(fechaInicio, fechaFinal);
-    if(becados && becados.length>0){
+    if(becados){
       res.status(201).json({becados, message:'Becados obtenidos con exito'});
     }else{
       res.status(404).json({ message: 'No hay becados en el registro' });
@@ -59,7 +59,7 @@ exports.getDonaciones= async (req, res)=>{
   try{
     const { fechaInicio, fechaFinal } = req.query;
     const donacion = await productService.getDonaciones(fechaInicio, fechaFinal);
-    if(donacion && donacion.length>0){
+    if(donacion){
       res.status(201).json({donacion, message:'Donaciones obtenidos con exito'});
     }else{
       res.status(404).json({ message: 'No hay donaciones en el registro' });

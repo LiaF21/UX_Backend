@@ -133,8 +133,7 @@ const Reservacion = sequelize.define('Reservacion', {
   Lugar.hasMany(Habitacion, {foreignKey:"id_lugar"});
 
   Ofrenda.belongsTo(Reservacion, {foreignKey: "id_reservacion"});
-  Reservacion.hasMany(Ofrenda, {foreignKey: "id_reservacion"});
-
+  Reservacion.hasMany(Ofrenda, { foreignKey: 'id_reservacion' });
 
   //revisar
   PacienteHuesped.hasMany(Reservacion, {foreignKey: "id_paciente_huesped"});
