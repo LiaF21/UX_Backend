@@ -84,7 +84,7 @@ exports.getCamasByDisponible = async () => {
 
 
 }
-exports.deleteCamaById = async (id) =>{
+exports.deleteCamaById = async (id) => {
   const borrar = await Cama.destroy({
     where: {
       id_cama: id,
@@ -200,7 +200,7 @@ exports.getGenero = async (fechaInicio, fechaFinal) => {
             include: [
               {
                 model: Persona,
-                where:{
+                where: {
                   genero: 'MASCULINO'
                 }
               }
@@ -228,7 +228,7 @@ exports.getHuespedesMujeres = async (fechaInicio, fechaFinal) => {
             include: [
               {
                 model: Persona,
-                where:{
+                where: {
                   genero: 'FEMENINO'
                 }
               }
@@ -246,8 +246,6 @@ exports.editReservacion = async (id, reservacionData) => {
 
 exports.getReservacion = async () => {
   const reservacion = await Reservacion.findAll({
-exports.getReservacion = async () => {
-  const reservacion = await Reservacion.findAll({
     include: [
       { model: Cama, include: Habitacion },
       {
@@ -255,53 +253,47 @@ exports.getReservacion = async () => {
         include: [
           {
             model: Huesped,
-            include: [
-            include: [
-              {
-                model: Persona,
-                include: [
-                  { model: Ocupacion },
-                  { model: Procedencia },
-                  { model: Lugar },
-                ],
-              },
-            ],
-                model: Persona,
-                include: [
-                  { model: Ocupacion, },
-                  { model: Procedencia },
-                  { model: Lugar },
-                ]
+              include: [
+                {
+                  model: Persona,
+                  include: [
+                    { model: Ocupacion },
+                    { model: Procedencia },
+                    { model: Lugar },
+                  ],
+                },
+              ],
+              model: Persona,
+              include: [
+                { model: Ocupacion, },
+                { model: Procedencia },
+                { model: Lugar },
+              ]
               }
-            ]
+        ]
+      },
+      {
+        model: Paciente,
+        include: [
+          {
+            model: Hospital,
           },
           {
-            model: Paciente,
+            model: Persona,
             include: [
-              {
-                model: Hospital,
-              },
-              {
-                model: Hospital,
-              },
-              {
-                model: Persona,
-                include: [
-                  { model: Ocupacion },
-                  { model: Procedencia },
-                  { model: Lugar },
-                ],
-                include: [
-                  { model: Ocupacion, },
-                  { model: Procedencia },
-                  { model: Lugar },
-                ]
-              },
+              { model: Ocupacion },
+              { model: Procedencia },
+              { model: Lugar },
             ],
+            include: [
+              { model: Ocupacion, },
+              { model: Procedencia },
+              { model: Lugar },
+            ]
           },
         ],
       },
     ],
   });
-  return reservacion;
+return reservacion;
 };
