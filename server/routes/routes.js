@@ -3,7 +3,7 @@ const {Router} = require('express')
 const rutasV = require('./routesV');
 const rutasF = require('./routesF');
 const rutasL = require('./productRoutes');
-const rutasA = require('./roomRoutes');
+//const rutasA = require('./roomRoutes');
 const rutasD = require('./routesD');
 
 
@@ -19,7 +19,7 @@ router.use( rutasV);
 router.use( rutasF);
 
 //rutasA = Habitacion, Cama, Reservacion
-router.use(rutasA);
+//router.use(rutasA);
 
 // rutasL = Transaccion, Reglamento, Hospital, Piso, Sala
 router.use( rutasL);

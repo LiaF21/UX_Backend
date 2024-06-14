@@ -26,7 +26,7 @@ exports.getPersonaInList = async (req, res) => {
 
 exports.addPersonToList = async (req, res) => {
   try {
-    const { id_lista_negra, id_persona, id_regla, observacion} = req.body;
+    const { id_persona, id_regla, observacion} = req.body;
     const nuevaPersona = await listaNegraService.addToList(req.body);
     res.status(201).json(nuevaPersona);
   } catch (error) {
