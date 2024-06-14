@@ -51,7 +51,7 @@ const Reservacion = sequelize.define('Reservacion', {
     },
     id_lugar: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     nombre: {
       type: DataTypes.STRING(30),

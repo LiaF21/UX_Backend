@@ -2,7 +2,8 @@ const { PacienteHuesped, Huesped } = require('../models/huesped');
 const { Persona, Ocupacion, Procedencia, Lugar } = require('../models/persona');
 const Paciente = require('../models/paciente');
 const { Hospital } = require('../models/hospital');
-const { Habitacion, Cama, Reservacion } = require('../models/reservaciones');
+const { Habitacion, Cama, Reservacion, Ofrenda } = require('../models/reservaciones');
+const { Sequelize } = require("../Db");
 
 exports.createHabitacion = async (habitacionData) => {
   const habitacion = await Habitacion.create(habitacionData);
@@ -22,6 +23,15 @@ exports.getAllHabitaciones = async () => {
     throw Error("Error al obtener las habitaciones: " + error.message);
   }
 };
+
+exports.getHabitacionesPorLugar = async (id)=>{
+  const habitacion = await Habitacion.findAll({
+    where:{
+     id_lugar: id,
+    }
+  });
+  return habitacion;
+}
 
 exports.checkearDisponibilidadHabitacion = async (id, t) => {
   const camas = await Cama.findAll({
@@ -184,11 +194,53 @@ exports.getReservacionByIdHuespedActiva = async (id) => {
   return reservacion;
 };
 
-exports.getGenero = async (fechaInicio, fechaFinal) => {
+exports.getBecados = async (fechaInicio, fechaFinal) => {
+  const becados = await Reservacion.findAll({
+    where: {
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
+      },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
+      },
+      becado: true,
+    },
+    include: [
+      { model: Ofrenda },
+    ],
+  });
+
+  return becados;
+};
+
+exports.getDonaciones = async (fechaInicio, fechaFinal) => {
+  const donacion = await Reservacion.findAll({
+    where: {
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
+      },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
+      },
+      becado: false,
+    },
+    include: [
+      { model: Ofrenda },
+    ],
+  });
+
+  return donacion;
+};
+
+
+exports.getHombres = async (fechaInicio, fechaFinal) => {
   const men = await Reservacion.findAndCountAll({
     where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
+      },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
       },
     },
     include: [
@@ -212,11 +264,14 @@ exports.getGenero = async (fechaInicio, fechaFinal) => {
   return men
 };
 
-exports.getHuespedesMujeres = async (fechaInicio, fechaFinal) => {
-  const women = await Reservacion.findAndCountAll({
+exports.getMujeres = async (fechaInicio, fechaFinal) => {
+  const men = await Reservacion.findAndCountAll({
     where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
+      },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
       },
     },
     include: [
@@ -237,7 +292,7 @@ exports.getHuespedesMujeres = async (fechaInicio, fechaFinal) => {
         ]
       }]
   })
-  return women
+  return men
 };
 
 exports.editReservacion = async (id, reservacionData) => {

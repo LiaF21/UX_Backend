@@ -6,8 +6,7 @@ const ProductRouter = Router();
 ProductRouter.post('/pago', Product.createPago);//funciona
 ProductRouter.get('/pago/:id', Product.getpagoById);//funciona
 ProductRouter.get('/pago', Product.getpagosByFecha);//funciona
-ProductRouter.get('/pago/becados/ofrendas', Product.getBecados);//funciona
-ProductRouter.get('/pago/donaciones/ofrendas', Product.getDonaciones);//funciona
+
 
 //reglas
 ProductRouter.post("/reglas", Product.createRegla); //funciona

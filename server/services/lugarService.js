@@ -1,4 +1,4 @@
-const Lugar= require('../models/persona')
+const {Lugar}= require('../models/persona');
 
 exports.crearLugar = async (req) =>{
     const { id_Lugar, codigo} = req.body;
