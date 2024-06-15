@@ -23,6 +23,23 @@ exports.getAllHabitaciones = async () => {
   }
 };
 
+exports.checkearDisponibilidadHabitacion = async (id, t) => {
+  const camas = await Cama.findAll({
+    where: { id_habitacion: id },
+  });
+
+  let camasDisponibles = true;
+  camas.forEach((cama) => {
+    if (!cama.disponible) {
+      camasDisponibles = false;
+      return;
+    }
+  });
+
+  const habitacion = await Habitacion.findByPk(id);
+  await habitacion.update({ disponible: camasDisponibles });
+};
+
 exports.deleteHabitacionById = async (id) => {
   const borrar = await Habitacion.destroy({
     where: {
@@ -65,7 +82,7 @@ exports.getCamasByDisponible = async () => {
     throw new Error("Error al obtener las camas disponibles: " + error.message);
   }
 };
-exports.deleteCamaById = async (id) => {
+exports.deleteCamaById = async (id) =>  {
   const borrar = await Cama.destroy({
     where: {
       id_cama: id,
@@ -94,20 +111,21 @@ exports.editCama = async (id, camaData) => {
 };
 
 exports.getCamaByGender = async (genero) => {
-  if(genero != "MASCULINO" && genero != "FEMENINO"){
+  if (genero != "MASCULINO" && genero != "FEMENINO") {
     return null;
   }
-//FinaAndCountAll te devuelve un objeto que cuenta el total de filas y te devuelve los objetos tambien.
-  const Camas = await Cama.findAndCountAll({include: {
-      model: Habitacion, 
-      where: {genero: genero}
-    }})
+  //FinaAndCountAll te devuelve un objeto que cuenta el total de filas y te devuelve los objetos tambien.
+  const Camas = await Cama.findAndCountAll({
+    include: {
+      model: Habitacion,
+      where: { genero: genero },
+    },
+  });
 
-    //En el JSON se devuelven como rows and count. Rows son los objetos y count el numero
-    //Para el componente, usare count.
-    return Camas;  
-
-}
+  //En el JSON se devuelven como rows and count. Rows son los objetos y count el numero
+  //Para el componente, usare count.
+  return Camas;
+};
 
 exports.createReservacion = async (reservacionData) => {
   const reservacion = await Reservacion.create(reservacionData);
@@ -117,6 +135,7 @@ exports.createReservacion = async (reservacionData) => {
 exports.getReservacionById = async (id) => {
   const reservacion = await Reservacion.findByPk(id, {
     include: [
+      { model: Cama, include: Habitacion },
       {
         model: PacienteHuesped,
         include: [
@@ -137,15 +156,15 @@ exports.getReservacionById = async (id) => {
             model: Paciente,
             include: [
               {
+                model: Hospital,
+              },
+              {
                 model: Persona,
                 include: [
                   { model: Ocupacion },
                   { model: Procedencia },
                   { model: Lugar },
                 ],
-              },
-              {
-                model: Hospital,
               },
             ],
           },
@@ -163,6 +182,62 @@ exports.getReservacionByIdHuespedActiva = async (id) => {
   return reservacion;
 };
 
+exports.getGenero = async (fechaInicio, fechaFinal) => {
+  const men = await Reservacion.findAndCountAll({
+    where: {
+      fecha: {
+        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      },
+    },
+    include: [
+      {
+        model: PacienteHuesped,
+        include: [
+          {
+            model: Huesped,
+            include: [
+              {
+                model: Persona,
+                where: {
+                  genero: 'MASCULINO'
+                }
+              }
+            ]
+          },
+        ]
+      }]
+  })
+  return men
+};
+
+exports.getHuespedesMujeres = async (fechaInicio, fechaFinal) => {
+  const women = await Reservacion.findAndCountAll({
+    where: {
+      fecha: {
+        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      },
+    },
+    include: [
+      {
+        model: PacienteHuesped,
+        include: [
+          {
+            model: Huesped,
+            include: [
+              {
+                model: Persona,
+                where: {
+                  genero: 'FEMENINO'
+                }
+              }
+            ]
+          },
+        ]
+      }]
+  })
+  return women
+};
+
 exports.editReservacion = async (id, reservacionData) => {
   await Reservacion.update(reservacionData, { where: { id_reservacion: id } });
 };
@@ -170,6 +245,7 @@ exports.editReservacion = async (id, reservacionData) => {
 exports.getReservacion = async () => {
   const reservacion = await Reservacion.findAll({
     include: [
+      { model: Cama, include: Habitacion },
       {
         model: PacienteHuesped,
         include: [
@@ -185,26 +261,26 @@ exports.getReservacion = async () => {
                 ],
               },
             ],
+          }
+        ]
+      },
+      {
+        model: Paciente,
+        include: [
+          {
+            model: Hospital,
           },
           {
-            model: Paciente,
+            model: Persona,
             include: [
-              {
-                model: Persona,
-                include: [
-                  { model: Ocupacion },
-                  { model: Procedencia },
-                  { model: Lugar },
-                ],
-              },
-              {
-                model: Hospital,
-              },
+              { model: Ocupacion },
+              { model: Procedencia },
+              { model: Lugar },
             ],
-          },
-        ],
+          }
+        ]
       },
     ],
   });
-  return reservacion;
+return reservacion;
 };

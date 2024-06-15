@@ -1,10 +1,12 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../Db');
-const { Piso, Sala, Hospital } = require('./hospital');
-const {Persona} = require('./persona');
-const { PAGLOCK } = require('sequelize/lib/table-hints');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../Db");
+const { Piso, Sala, Hospital } = require("./hospital");
+const { Persona } = require("./persona");
+const { PAGLOCK } = require("sequelize/lib/table-hints");
 
-const Paciente = sequelize.define('Paciente', {
+const Paciente = sequelize.define(
+  "Paciente",
+  {
     id_paciente: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -34,21 +36,21 @@ const Paciente = sequelize.define('Paciente', {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-  }, {
-    tableName: 'paciente',
-    timestamps: false
-  });
+  },
+  {
+    tableName: "paciente",
+    timestamps: false,
+  }
+);
 
-  Paciente.belongsTo(Persona, { foreignKey: 'id_person' });
-  Paciente.belongsTo(Hospital, { foreignKey: 'id_hospital' });
-  Paciente.belongsTo(Sala, { foreignKey: 'id_sala' });
-  Paciente.belongsTo(Piso, { foreignKey: 'id_piso' });
-  
-  Persona.hasMany(Paciente, { foreignKey: 'id_person' });
-  Hospital.hasMany(Paciente, { foreignKey: 'id_hospital' });
-  Sala.hasMany(Paciente, { foreignKey: 'id_sala' });
-  Piso.hasMany(Paciente, { foreignKey: 'id_piso' });
+Paciente.belongsTo(Persona, { foreignKey: "id_person" });
+Paciente.belongsTo(Hospital, { foreignKey: "id_hospital" });
+Paciente.belongsTo(Sala, { foreignKey: "id_sala" });
+Paciente.belongsTo(Piso, { foreignKey: "id_piso" });
 
-  module.exports = Paciente;
+Persona.hasMany(Paciente, { foreignKey: "id_person" });
+Hospital.hasMany(Paciente, { foreignKey: "id_hospital" });
+Sala.hasMany(Paciente, { foreignKey: "id_sala" });
+Piso.hasMany(Paciente, { foreignKey: "id_piso" });
 
-  
+module.exports = Paciente;

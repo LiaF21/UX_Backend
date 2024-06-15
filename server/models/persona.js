@@ -48,7 +48,7 @@ const Persona = sequelize.define('Persona', {
       allowNull: false,
     },
     fecha_nacimiento: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
   }, {

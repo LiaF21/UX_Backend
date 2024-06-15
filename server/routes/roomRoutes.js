@@ -13,30 +13,6 @@ roomRouter.get("/lugar/:id", lugarController.getlugar);
 roomRouter.put("/lugar/:id", lugarController.editarlugar);
 roomRouter.delete("/lugar/:id", lugarController.eliminarlugar);
 
-roomRouter.post("/:id/verificar-disponibilidad", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const todasCamasNoDisponibles =
-      await roomController.verificarDisponibilidadHabitacion(id);
-    await roomController.actualizarDisponibilidadHabitacion(
-      id,
-      !todasCamasNoDisponibles
-    );
-    res
-      .status(200)
-      .json({
-        message: "Disponibilidad de la habitación actualizada correctamente.",
-      });
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({
-        error: "Error al actualizar la disponibilidad de la habitación.",
-      });
-  }
-});
-
 roomRouter.post("/habitaciones", roomController.createHabitacion);
 roomRouter.get("/habitaciones", roomController.getAllHabitaciones);
 roomRouter.get("/habitaciones/:id", roomController.getHabitacionById);
@@ -62,11 +38,22 @@ roomRouter.get(
   ofrendaController.getOfrendasByReservacion
 );
 
+roomRouter.post("/reservaciones", reservacionController.createReservacion);
+roomRouter.get("/reservaciones/:id", roomController.getReservacionById);
+roomRouter.put("/reservaciones/:id", roomController.editReservacion);
+roomRouter.get(
+  "/reservaciones/huesped/:id",
+  roomController.getReservacionByIdHuespedActiva
+);
+roomRouter.get("/reservaciones", roomController.getReservaciones);
+roomRouter.get("/reservaciones/becados", Product.getBecados);
+roomRouter.put("/reservaciones/switchCama/:id", reservacionController.switchCama);
+
 roomRouter.post('/reservaciones', roomController.createReservacion);
 roomRouter.get('/reservaciones/:id', roomController.getReservacionById);
 roomRouter.put('/reservaciones/:id', roomController.editReservacion);
 roomRouter.get('/reservaciones/huesped/:id', roomController.getReservacionByIdHuespedActiva);
 roomRouter.get('/reservaciones', roomController.getReservaciones);
-roomRouter.get("/reservaciones/becados", Product.getBecados);
+roomRouter.get('/huespedPorGenero/hombres', roomController.getGeneros);
 
 module.exports = roomRouter;

@@ -4,18 +4,29 @@ const { Huesped, PacienteHuesped } = require("../models/huesped");
 const { Hospital } = require("../models/hospital");
 const Paciente = require("../models/paciente");
 
-exports.crearListaSolicitud = async (req) => {
-  const { id_lista_solicitud, id_persona, observacion, fecha_entrada } =
-    req.body;
-  const nuevaEspera = await ListaSolicitud.create({
-    id_lista_solicitud,
-    id_persona,
-    observacion,
-    fecha_entrada,
-  });
+exports.crearListaSolicitud = async (personahuespedData, personapacienteData, huespedData, pacienteData, pacientehuespedData) =>{
+  const probar = await sequelize.transaction();
+  try{
+   const nuevaPersona = await Persona.create(personahuespedData, {probar});
+   huespedData.id_huesped = nuevaPersona.id_persona;
+   const nuevoHuesped = await Huesped.create(huespedData,  {probar});
 
-  return nuevaEspera;
-};
+   const nuevoPersona2 = await Persona.create(personapacienteData,  {probar});
+   pacienteData.id_persona = nuevoPersona2.id_persona;
+   const nuevaPaciente = await Paciente.create(pacienteData, {probar});
+
+    pacientehuespedData.id_huesped = nuevoHuesped.id_huesped;
+    pacientehuespedData.id_paciente = nuevaPaciente.id_paciente;
+    const nuevoPHData = await PacienteHuesped.create(pacientehuespedData, {probar});
+    
+    await probar.commit();
+    return nuevoPHData;
+
+   }catch (error) {
+    await probar.rollback();
+    throw new Error('Error al crear usuario y persona: ' + error.message);
+   }
+}
 exports.getSolicitudes = async () => {
   try {
     const solicitudes = await ListaSolicitud.findAll({
