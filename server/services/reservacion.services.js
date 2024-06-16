@@ -12,6 +12,8 @@ exports.createReservacion = async (idSolicitud, idCama) => {
   const t = await Sequelize.transaction();
 
   try {
+    console.log(idSolicitud, idCama);
+
     const solicitud = await ListaSolicitud.findByPk(idSolicitud, {
       include: [
         {
@@ -31,7 +33,15 @@ exports.createReservacion = async (idSolicitud, idCama) => {
       throw new Error("Cama no encontrada");
     }
 
-    await cama.update({ disponible: false }, { transaction: t });
+    cama.set({ disponible: false }, { transaction: t });
+
+    console.log(cama);
+
+    await cama
+      .save({ transaction: t })
+      .then(roomService.checkearDisponibilidadHabitacion(cama.id_habitacion, cama));
+
+    console.log("paso checkear disponibilidad");
 
     const nuevaReservacion = {
       id_paciente_huesped: solicitud.id_paciente_huesped,
@@ -39,20 +49,26 @@ exports.createReservacion = async (idSolicitud, idCama) => {
       id_hospital: solicitud.PacienteHuesped.Paciente.id_hospital,
       fecha_entrada: solicitud.fecha_entrada,
       fecha_salida: solicitud.fecha_salida,
-      becado: solicitud.becado,
+      becado: solicitud.becada,
     };
 
     const reservacion = await Reservacion.create(nuevaReservacion, {
       transaction: t,
     });
 
+    console.log("paso crear reservacion");
+
     await solicitud.destroy({ transaction: t });
+
+    console.log("paso destruir solicitud");
 
     await t.commit();
 
     return reservacion;
   } catch (error) {
     await t.rollback();
+
+    console.log(error);
     throw new Error("Error al crear reservación: " + error.message);
   }
 };
@@ -87,15 +103,9 @@ exports.switchCama = async (id, idCama) => {
 
     await t.commit();
 
-    await roomService.checkearDisponibilidadHabitacion(
-      oldCama.id_habitacion,
-      t
-    );
+    await roomService.checkearDisponibilidadHabitacion(oldCama.id_habitacion, oldCama);
 
-    await roomService.checkearDisponibilidadHabitacion(
-      newCama.id_habitacion,
-      t
-    );
+    await roomService.checkearDisponibilidadHabitacion(newCama.id_habitacion, newCama);
 
     return reservacion;
   } catch (error) {
