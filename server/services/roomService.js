@@ -1,8 +1,13 @@
-const { PacienteHuesped, Huesped } = require('../models/huesped');
-const { Persona, Ocupacion, Procedencia, Lugar } = require('../models/persona');
-const Paciente = require('../models/paciente');
-const { Hospital } = require('../models/hospital');
-const { Habitacion, Cama, Reservacion, Ofrenda } = require('../models/reservaciones');
+const { PacienteHuesped, Huesped } = require("../models/huesped");
+const { Persona, Ocupacion, Procedencia, Lugar } = require("../models/persona");
+const Paciente = require("../models/paciente");
+const { Hospital } = require("../models/hospital");
+const {
+  Habitacion,
+  Cama,
+  Reservacion,
+  Ofrenda,
+} = require("../models/reservaciones");
 const { Sequelize } = require("../Db");
 
 exports.createHabitacion = async (habitacionData) => {
@@ -24,11 +29,11 @@ exports.getAllHabitaciones = async () => {
   }
 };
 
-exports.getHabitacionesPorLugar = async (id_lugar)=>{
+exports.getHabitacionesPorLugar = async (id_lugar) => {
   const habitacion = await Habitacion.findAll({
-    where:{
+    where: {
       id_lugar: id_lugar,
-    }
+    },
   });
   return habitacion;
 };
@@ -91,9 +96,7 @@ exports.getCamasByDisponible = async () => {
   } catch (error) {
     throw new Error("Error al obtener las camas disponibles: " + error.message);
   }
-
-
-}
+};
 exports.deleteCamaById = async (id) => {
   const borrar = await Cama.destroy({
     where: {
@@ -205,9 +208,7 @@ exports.getBecados = async (fechaInicio, fechaFinal) => {
       },
       becado: true,
     },
-    include: [
-      { model: Ofrenda },
-    ],
+    include: [{ model: Ofrenda }],
   });
 
   return becados;
@@ -224,14 +225,11 @@ exports.getDonaciones = async (fechaInicio, fechaFinal) => {
       },
       becado: false,
     },
-    include: [
-      { model: Ofrenda },
-    ],
+    include: [{ model: Ofrenda }],
   });
 
   return donacion;
 };
-
 
 exports.getHombres = async (fechaInicio, fechaFinal) => {
   const men = await Reservacion.findAndCountAll({
@@ -253,15 +251,16 @@ exports.getHombres = async (fechaInicio, fechaFinal) => {
               {
                 model: Persona,
                 where: {
-                  genero: 'MASCULINO'
-                }
-              }
-            ]
+                  genero: "MASCULINO",
+                },
+              },
+            ],
           },
-        ]
-      }]
-  })
-  return men
+        ],
+      },
+    ],
+  });
+  return men;
 };
 
 exports.getMujeres = async (fechaInicio, fechaFinal) => {
@@ -284,14 +283,15 @@ exports.getMujeres = async (fechaInicio, fechaFinal) => {
               {
                 model: Persona,
                 where: {
-                  genero: 'FEMENINO'
-                }
-              }
-            ]
+                  genero: "FEMENINO",
+                },
+              },
+            ],
           },
-        ]
-      }]
-  })
+        ],
+      },
+    ],
+  });
   return women;
 };
 
@@ -308,29 +308,36 @@ exports.getReservacion = async () => {
         include: [
           {
             model: Huesped,
-              include: [
-                {
-                  model: Persona,
-                  include: [
-                    { model: Ocupacion },
-                    { model: Procedencia },
-                    { model: Lugar },
-                  ],
-                },
-              ],
-          },
-          {
-            model: Persona,
             include: [
-              { model: Ocupacion },
-              { model: Procedencia },
-              { model: Lugar },
+              {
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
+              },
             ],
           },
-        ]
+          {
+            model: Paciente,
+            include: [
+              {
+                model: Hospital,
+              },
+              {
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
+              },
+            ],
+          },
+        ],
       },
-      
     ],
   });
-return reservacion;
+  return reservacion;
 };
