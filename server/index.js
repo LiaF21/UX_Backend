@@ -1,7 +1,9 @@
+require ('dotenv').config();
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const port = 3001;
+
 const morgan = require("morgan");
 const db = require("./Db");
 
@@ -19,6 +21,10 @@ app.use(routes);
 app.use(miscelanous);
 app.use(V);
 app.use('/api', excelRoutes); // nueva ruta
+
+// const jwt = require("jsonwebtoken");
+
+const port = process.env.PORT || 3001;
 
 
 
@@ -39,7 +45,9 @@ const initApp = async () => {
       console.log(`Server is running at: http://localhost:${port}`);
     });
   } catch (error) {
-    console.error("Unable to connect to the database:", error);
+    console.error("Unable to connect to the database:", error.message);
+    console.error('Parent error:', error.parent);
+    console.error('Error details:', error);
   }
 };
 
@@ -48,7 +56,9 @@ db.sync({ force: false, alter: false})
     console.log("Database synced without altering existing schema!");
   })
   .catch((error) => {
-    console.error("Error syncing database:", error);
+    console.error("Error syncing database:", error.message);
+    console.error('Parent error:', error.parent);
+    console.error('Error details:', error);
   });
 
 
