@@ -1,9 +1,12 @@
 const sequelize = require('../Db');
-const {ListaNegra} = require('../models/lista');
+const {ListaNegra,Reglamento} = require('../models/lista');
 const {Persona} = require('../models/persona')
 
 exports.getAllLista = async () =>{
-    const list = await ListaNegra.findAll({include: 'Persona'});
+    const list = await ListaNegra.findAll({include: [
+        { model: Persona },
+        { model: Reglamento }
+    ]});
     return list;
 };
 

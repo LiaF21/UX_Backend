@@ -8,10 +8,15 @@ const Afiliado = sequelize.define('Afiliado', {
       primaryKey: true,
       autoIncrement: true
     },
-    id_persona: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+    dni: {
+      type: DataTypes.STRING(20),
+      allowNull: true 
     },
+    nombre:  {
+      type: DataTypes.STRING(100),
+      allowNull: true 
+    },
+    
     condicion: {
       type: DataTypes.STRING(60),
     }
@@ -56,7 +61,6 @@ const Afiliado = sequelize.define('Afiliado', {
 
 
 
-  Afiliado.belongsTo(Persona, {foreignKey: 'id_persona'})
   PatronoAfiliado.belongsTo(Patrono, {foreignKey: 'id_patrono'})
   
   Patrono.hasMany(PatronoAfiliado, { foreignKey: 'id_patrono' });

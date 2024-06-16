@@ -18,12 +18,12 @@ const Huesped = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    activo:{
+    activo: {
       type: DataTypes.BOOLEAN,
     },
     reingreso: {
       type: DataTypes.BOOLEAN,
-      allowNull:false,
+      allowNull: false,
     },
   },
   {
@@ -48,9 +48,9 @@ const PacienteHuesped = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    parentesco_paciente:{
+    parentesco_paciente: {
       type: DataTypes.STRING(50),
-    }
+    },
   },
   {
     tableName: "paciente_huesped",
@@ -125,6 +125,12 @@ Huesped.hasMany(AfiliadoHuesped, { foreignKey: "id_huesped" });
 
 Paciente.hasMany(PacienteHuesped, { foreignKey: "id_paciente" });
 Huesped.hasMany(PacienteHuesped, { foreignKey: "id_huesped" });
-PacienteHuesped.belongsTo(Huesped, { foreignKey: 'id_huesped' });
-Huesped.belongsTo(Persona, { foreignKey: 'id_persona' });
-module.exports = { Huesped, PacienteHuesped, AfiliadoHuesped, IglesiaHuesped };
+PacienteHuesped.belongsTo(Huesped, { foreignKey: "id_huesped" });
+Huesped.belongsTo(Persona, { foreignKey: "id_persona" });
+
+module.exports = {
+  Huesped,
+  PacienteHuesped,
+  AfiliadoHuesped,
+  IglesiaHuesped,
+};

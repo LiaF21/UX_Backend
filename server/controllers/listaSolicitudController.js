@@ -1,14 +1,13 @@
-const listaSolicitudService = require('../services/listaSolicitudService');
+const listaSolicitudService = require("../services/listaSolicitudService");
 
 exports.getAllListaSolicitud = async (req, res) => {
-
   try {
     const lista = await listaSolicitudService.getAllListaSolicitud();
-    res.status(201).json(lista)
+    res.status(201).json(lista);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 exports.getSolicitudes = async (req, res) => {
   try {
     const solicitudes = await listaSolicitudService.getSolicitudes();
@@ -18,38 +17,31 @@ exports.getSolicitudes = async (req, res) => {
   }
 };
 
-
 exports.crearSolicitud = async (req, res) => {
   try {
-    const espera = await listaSolicitudService.crearListaSolicitud(req)
-    console.log("creando espera")
+    const espera = await listaSolicitudService.crearListaSolicitud(req.body);
     res.status(201).json(espera);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-
-}
+};
 exports.getListaSolicitud = async (req, res) => {
   try {
-    const espera = await listaSolicitudService.getSolicitud(req)
-    if (!espera) return res.status(404).json({ message: 'No existe espera' })
-    res.status(201).json(espera)
+    const espera = await listaSolicitudService.getSolicitud(req);
+    if (!espera) return res.status(404).json({ message: "No existe espera" });
+    res.status(201).json(espera);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-
-}
+};
 exports.editarSolicitud = async (req, res) => {
-
   try {
     const editar = await listaSolicitudService.editarListaSolicitud(req);
-    res.status(201).json(editar)
-
+    res.status(201).json(editar);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-
+};
 
 exports.eliminarSolicitud = async (req, res) => {
   try {
@@ -71,4 +63,4 @@ exports.crearSolicitudes = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};

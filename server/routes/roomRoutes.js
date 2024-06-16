@@ -38,6 +38,9 @@ roomRouter.get(
   ofrendaController.getOfrendasByReservacion
 );
 
+roomRouter.get('/pago/becados/ofrendas', roomController.getBecados);//funciona
+roomRouter.get('/pago/donaciones/ofrendas', roomController.getDonaciones);//funciona
+
 roomRouter.post("/reservaciones", reservacionController.createReservacion);
 roomRouter.get("/reservaciones/:id", roomController.getReservacionById);
 roomRouter.put("/reservaciones/:id", roomController.editReservacion);
@@ -45,14 +48,11 @@ roomRouter.get(
   "/reservaciones/huesped/:id",
   roomController.getReservacionByIdHuespedActiva
 );
-roomRouter.get("/reservaciones", roomController.getReservaciones);
-roomRouter.get("/reservaciones/becados", Product.getBecados);
+// roomRouter.get("/reservaciones", roomController.getReservaciones);
+
+roomRouter.get('/habitacion/lugar/:id_lugar', roomController.getHabitacionPorLugar);
 roomRouter.put("/reservaciones/switchCama/:id", reservacionController.switchCama);
 
-roomRouter.post('/reservaciones', roomController.createReservacion);
-roomRouter.get('/reservaciones/:id', roomController.getReservacionById);
-roomRouter.put('/reservaciones/:id', roomController.editReservacion);
-roomRouter.get('/reservaciones/huesped/:id', roomController.getReservacionByIdHuespedActiva);
 roomRouter.get('/reservaciones', roomController.getReservaciones);
 //roomRouter.get('/huespedPorGenero/hombres', roomController.getGeneros);
 

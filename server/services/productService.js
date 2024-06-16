@@ -1,4 +1,4 @@
-const { Sequelize } = require("../Db");
+
 const { Reservacion, Ofrenda } = require("../models/reservaciones");
 const { Reglamento } = require("../models/lista");
 const { Hospital, Piso, Sala } = require("../models/hospital");
@@ -13,56 +13,6 @@ exports.getPagoById = async (id) => {
   return pago;
 };
 
-exports.getPagosByFecha = async (fechaInicio, fechaFinal) => {
-  const pagos = await Ofrenda.findAll({
-    where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-    },
-  });
-  return pagos;
-};
-
-exports.getBecados = async (fechaInicio, fechaFinal) => {
-  const becados = await Reservacion.findAll({
-    where: {
-      fecha_entrada: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-      fecha_salida: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-
-      becado: true,
-    },
-  });
-
-  return becados;
-};
-
-exports.getDonaciones = async (fechaInicio, fechaFinal) => {
-  const donacion = await Ofrenda.findAll({
-    where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-      becada: false,
-    },
-  });
-
-  return donacion;
-};
-
-exports.getValor = async (fechaInicio, fechaFinal) => {
-  const Pago = await Ofrenda.findOne({
-    where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
-      },
-    },
-  });
-};
 
 exports.createRegla = async (ReglaData) => {
   const regla = await Reglamento.create(ReglaData);

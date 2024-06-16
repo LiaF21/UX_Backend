@@ -2,7 +2,13 @@ const { PacienteHuesped, Huesped } = require("../models/huesped");
 const { Persona, Ocupacion, Procedencia, Lugar } = require("../models/persona");
 const Paciente = require("../models/paciente");
 const { Hospital } = require("../models/hospital");
-const { Habitacion, Cama, Reservacion } = require("../models/reservaciones");
+const {
+  Habitacion,
+  Cama,
+  Reservacion,
+  Ofrenda,
+} = require("../models/reservaciones");
+const { Sequelize } = require("../Db");
 
 exports.createHabitacion = async (habitacionData) => {
   const habitacion = await Habitacion.create(habitacionData);
@@ -21,6 +27,15 @@ exports.getAllHabitaciones = async () => {
   } catch (error) {
     throw Error("Error al obtener las habitaciones: " + error.message);
   }
+};
+
+exports.getHabitacionesPorLugar = async (id_lugar) => {
+  const habitacion = await Habitacion.findAll({
+    where: {
+      id_lugar: id_lugar,
+    },
+  });
+  return habitacion;
 };
 
 exports.checkearDisponibilidadHabitacion = async (id, t) => {
@@ -82,7 +97,7 @@ exports.getCamasByDisponible = async () => {
     throw new Error("Error al obtener las camas disponibles: " + error.message);
   }
 };
-exports.deleteCamaById = async (id) =>  {
+exports.deleteCamaById = async (id) => {
   const borrar = await Cama.destroy({
     where: {
       id_cama: id,
@@ -182,39 +197,48 @@ exports.getReservacionByIdHuespedActiva = async (id) => {
   return reservacion;
 };
 
-exports.getGenero = async (fechaInicio, fechaFinal) => {
-  const men = await Reservacion.findAndCountAll({
+exports.getBecados = async (fechaInicio, fechaFinal) => {
+  const becados = await Reservacion.findAll({
     where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
       },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
+      },
+      becado: true,
     },
-    include: [
-      {
-        model: PacienteHuesped,
-        include: [
-          {
-            model: Huesped,
-            include: [
-              {
-                model: Persona,
-                where: {
-                  genero: 'MASCULINO'
-                }
-              }
-            ]
-          },
-        ]
-      }]
-  })
-  return men
+    include: [{ model: Ofrenda }],
+  });
+
+  return becados;
 };
 
-exports.getHuespedesMujeres = async (fechaInicio, fechaFinal) => {
-  const women = await Reservacion.findAndCountAll({
+exports.getDonaciones = async (fechaInicio, fechaFinal) => {
+  const donacion = await Reservacion.findAll({
     where: {
-      fecha: {
-        [Sequelize.Op.between]: [new Date(fechaInicio), new Date(fechaFinal)],
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
+      },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
+      },
+      becado: false,
+    },
+    include: [{ model: Ofrenda }],
+  });
+
+  return donacion;
+};
+
+exports.getHombres = async (fechaInicio, fechaFinal) => {
+  const men = await Reservacion.findAndCountAll({
+    where: {
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
+      },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
       },
     },
     include: [
@@ -227,15 +251,48 @@ exports.getHuespedesMujeres = async (fechaInicio, fechaFinal) => {
               {
                 model: Persona,
                 where: {
-                  genero: 'FEMENINO'
-                }
-              }
-            ]
+                  genero: "MASCULINO",
+                },
+              },
+            ],
           },
-        ]
-      }]
-  })
-  return women
+        ],
+      },
+    ],
+  });
+  return men;
+};
+
+exports.getMujeres = async (fechaInicio, fechaFinal) => {
+  const women = await Reservacion.findAndCountAll({
+    where: {
+      fecha_entrada: {
+        [Sequelize.Op.gte]: fechaInicio,
+      },
+      fecha_salida: {
+        [Sequelize.Op.lte]: fechaFinal,
+      },
+    },
+    include: [
+      {
+        model: PacienteHuesped,
+        include: [
+          {
+            model: Huesped,
+            include: [
+              {
+                model: Persona,
+                where: {
+                  genero: "FEMENINO",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+  return women;
 };
 
 exports.editReservacion = async (id, reservacionData) => {
@@ -261,26 +318,26 @@ exports.getReservacion = async () => {
                 ],
               },
             ],
-          }
-        ]
-      },
-      {
-        model: Paciente,
-        include: [
-          {
-            model: Hospital,
           },
           {
-            model: Persona,
+            model: Paciente,
             include: [
-              { model: Ocupacion },
-              { model: Procedencia },
-              { model: Lugar },
+              {
+                model: Hospital,
+              },
+              {
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
+              },
             ],
-          }
-        ]
+          },
+        ],
       },
     ],
   });
-return reservacion;
+  return reservacion;
 };
