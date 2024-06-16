@@ -54,11 +54,11 @@ const ListaNegra = sequelize.define('ListaNegra', {
       type: DataTypes.TEXT,
     },
     fecha_entrada: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     fecha_salida: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
     },
     becada:{
       type: DataTypes.BOOLEAN,

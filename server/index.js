@@ -41,7 +41,7 @@ const initApp = async () => {
   }
 };
 
-db.sync({ force: false, alter: false})
+db.sync({ force: false, alter: true})
   .then(() => {
     console.log("Database synced without altering existing schema!");
   })
