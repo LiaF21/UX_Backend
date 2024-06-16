@@ -146,4 +146,4 @@ Paciente.hasMany(PacienteHuesped, { foreignKey: "id_paciente" });
 Huesped.hasMany(PacienteHuesped, { foreignKey: "id_huesped" });
 PacienteHuesped.belongsTo(Huesped, { foreignKey: 'id_huesped' });
 Huesped.belongsTo(Persona, { foreignKey: 'id_persona' });
-module.exports = { Huesped, PacienteHuesped, AfiliadoHuesped, IglesiaHuesped,CausaVisita};
+module.exports = { Huesped, PacienteHuesped, AfiliadoHuesped, IglesiaHuesped, CausaVisita};

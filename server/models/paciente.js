@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../Db");
 const { Piso, Sala, Hospital } = require("./hospital");
 const { Persona } = require("./persona");
-const { PAGLOCK } = require("sequelize/lib/table-hints");
+const { CausaVisita } = require("./huesped");
 
 const Paciente = sequelize.define(
   "Paciente",
@@ -28,9 +28,9 @@ const Paciente = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    causa_visita: {
-      type: DataTypes.STRING(100),
-      allowNull: true,
+    id_causa_visita: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     observacion: {
       type: DataTypes.TEXT,
@@ -42,6 +42,8 @@ const Paciente = sequelize.define(
     timestamps: false,
   }
 );
+
+Paciente.belongsTo(CausaVisita, { foreignKey: "id_causa_visita" });
 
 Paciente.belongsTo(Persona, { foreignKey: "id_person" });
 Paciente.belongsTo(Hospital, { foreignKey: "id_hospital" });
