@@ -227,16 +227,38 @@ exports.getSolicitudes = async () => {
       include: {
         model: PacienteHuesped,
         attributes: ["id_paciente_huesped"],
-        include: {
+        include: [{
           model: Huesped,
-          attributes: ["id_huesped"],
-          include: {
-            model: Persona,
-            attributes: ["genero", "primer_nombre", "primer_apellido", "dni"],
+          include: 
+            {
+              model: Persona,
+              include: [
+                { model: Ocupacion },
+                { model: Procedencia },
+                { model: Lugar },
+              ]
+        }
           },
+            {
+              model: Paciente,
+              include: [
+                {
+                  model: Persona,
+                  include: [
+                    { model: Ocupacion },
+                    { model: Procedencia },
+                    { model: Lugar },
+                  ],
+                },
+                {
+                  model: Hospital,
+                },
+              ],
+            },
+          ],
         },
       },
-    });
+    );
     return solicitudes;
   } catch (error) {
     console.error("Error fetching solicitudes:", error);
@@ -251,11 +273,45 @@ exports.getAllListaSolicitud = async () => {
 
 exports.getSolicitud = async (req, res) => {
   const { id } = req.params;
+ console.log(id);
   const espera = await ListaSolicitud.findOne({
-    where: {
-      id_lista_solicitud: id,
+    where: {id_lista_solicitud:id},
+    include: {
+      model: PacienteHuesped,
+      attributes: ["id_paciente_huesped"],
+      include: [{
+        model: Huesped,
+        include: 
+          {
+            model: Persona,
+            include: [
+              { model: Ocupacion },
+              { model: Procedencia },
+              { model: Lugar },
+            ]
+      }
+        },
+          {
+            model: Paciente,
+            include: [
+              {
+                model: Persona,
+                include: [
+                  { model: Ocupacion },
+                  { model: Procedencia },
+                  { model: Lugar },
+                ],
+              },
+              {
+                model: Hospital,
+              },
+            ],
+          },
+        ],
+      },
     },
-  });
+  );
+
   return espera;
 };
 

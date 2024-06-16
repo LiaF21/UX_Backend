@@ -320,19 +320,11 @@ exports.getReservacion = async () => {
               ],
           },
           {
-            model: Paciente,
+            model: Persona,
             include: [
-              {
-                model: Hospital,
-              },
-              {
-                model: Persona,
-                include: [
-                  { model: Ocupacion },
-                  { model: Procedencia },
-                  { model: Lugar },
-                ],
-              },
+              { model: Ocupacion },
+              { model: Procedencia },
+              { model: Lugar },
             ],
           },
         ]
