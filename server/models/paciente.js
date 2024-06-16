@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../Db");
 const { Piso, Sala, Hospital } = require("./hospital");
 const { Persona } = require("./persona");
-const { CausaVisita } = require("./huesped");
+const CausaVisita = require("./causaVisita");
 
 const Paciente = sequelize.define(
   "Paciente",
@@ -50,6 +50,7 @@ Paciente.belongsTo(Hospital, { foreignKey: "id_hospital" });
 Paciente.belongsTo(Sala, { foreignKey: "id_sala" });
 Paciente.belongsTo(Piso, { foreignKey: "id_piso" });
 
+CausaVisita.hasMany(Paciente, { foreignKey: "id_causa_visita" });
 Persona.hasMany(Paciente, { foreignKey: "id_person" });
 Hospital.hasMany(Paciente, { foreignKey: "id_hospital" });
 Sala.hasMany(Paciente, { foreignKey: "id_sala" });
