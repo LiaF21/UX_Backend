@@ -5,7 +5,7 @@ const ocupacionController = require('../controllers/ocupacionController');
 const ListaSolicitudController = require('../controllers/listaSolicitudController');
 const iglesiaController = require('../controllers/iglesiaController');
 const iglesiaHuespedController = require('../controllers/iglesiaHuespedController');
-
+const causaVisitaController = require('../controllers/causaVisitaController')
 
 const router = Router();
 
@@ -46,4 +46,10 @@ router.put('/iglesiaHuesped/:id',iglesiaHuespedController.editarIglesiaH);
 router.delete('/iglesiaHuesped/:id',iglesiaHuespedController.eliminarIglesiaH);
 router.get('/iglesiaHuesped/:id',iglesiaHuespedController.getIglesiaH);
 
+//Causa Visita
+router.get('/causaVisita',causaVisitaController.getAllCausas);
+router.post('/causaVisita',causaVisitaController.createCausaVisita);
+router.put('/causaVisita/:id',causaVisitaController.editarCausa);
+router.delete('/causaVisita/:id',causaVisitaController.deleteCausaVisita);
+router.get('/causaVisita/:id',causaVisitaController.getCausaById);
 module.exports = router;

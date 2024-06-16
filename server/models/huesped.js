@@ -104,6 +104,25 @@ const IglesiaHuesped = sequelize.define(
   }
 );
 
+const CausaVisita =  sequelize.define(
+  "CausaVisita",
+  {
+    id_causa_visita:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    causa:{
+      type: DataTypes.STRING
+    }
+  },
+  {
+    tableName:"causa_visita",
+    timestamps: false
+  }
+)
+
+
 Huesped.belongsTo(Persona, { foreignKey: "id_persona" });
 // Huesped.hasMany(Transaccion, {foreignKey: 'id_transaccion'});
 
@@ -127,4 +146,4 @@ Paciente.hasMany(PacienteHuesped, { foreignKey: "id_paciente" });
 Huesped.hasMany(PacienteHuesped, { foreignKey: "id_huesped" });
 PacienteHuesped.belongsTo(Huesped, { foreignKey: 'id_huesped' });
 Huesped.belongsTo(Persona, { foreignKey: 'id_persona' });
-module.exports = { Huesped, PacienteHuesped, AfiliadoHuesped, IglesiaHuesped };
+module.exports = { Huesped, PacienteHuesped, AfiliadoHuesped, IglesiaHuesped,CausaVisita};
