@@ -1,5 +1,5 @@
 const { ListaSolicitud } = require("../models/lista");
-const { Persona } = require("../models/persona");
+const { Persona, Ocupacion, Procedencia, Lugar } = require("../models/persona");
 const {
   Huesped,
   PacienteHuesped,
@@ -7,6 +7,7 @@ const {
 } = require("../models/huesped");
 const sequelize = require("../Db");
 const Paciente = require("../models/paciente");
+const {Hospital} = require("../models/hospital");
 const { Patrono, PatronoAfiliado, Afiliado } = require("../models/afiliado");
 
 const handlePersona = async (personaData) => {
@@ -51,7 +52,6 @@ const handlePatrono = async (patronoData) => {
   const patrono = await Patrono.findOne({
     where: { id_patrono: patronoData.id_patrono },
   });
-
 
   if (patrono) return patrono;
 
@@ -227,70 +227,18 @@ exports.getSolicitudes = async () => {
       include: {
         model: PacienteHuesped,
         attributes: ["id_paciente_huesped"],
-        include: [{
-          model: Huesped,
-          include: 
-            {
+        include: [
+          {
+            model: Huesped,
+            include: {
               model: Persona,
               include: [
                 { model: Ocupacion },
                 { model: Procedencia },
                 { model: Lugar },
-              ]
-        }
-          },
-            {
-              model: Paciente,
-              include: [
-                {
-                  model: Persona,
-                  include: [
-                    { model: Ocupacion },
-                    { model: Procedencia },
-                    { model: Lugar },
-                  ],
-                },
-                {
-                  model: Hospital,
-                },
               ],
             },
-          ],
-        },
-      },
-    );
-    return solicitudes;
-  } catch (error) {
-    console.error("Error fetching solicitudes:", error);
-    throw error;
-  }
-};
-
-exports.getAllListaSolicitud = async () => {
-  const esperas = await ListaSolicitud.findAll();
-  return esperas;
-};
-
-exports.getSolicitud = async (req, res) => {
-  const { id } = req.params;
- console.log(id);
-  const espera = await ListaSolicitud.findOne({
-    where: {id_lista_solicitud:id},
-    include: {
-      model: PacienteHuesped,
-      attributes: ["id_paciente_huesped"],
-      include: [{
-        model: Huesped,
-        include: 
-          {
-            model: Persona,
-            include: [
-              { model: Ocupacion },
-              { model: Procedencia },
-              { model: Lugar },
-            ]
-      }
-        },
+          },
           {
             model: Paciente,
             include: [
@@ -309,8 +257,58 @@ exports.getSolicitud = async (req, res) => {
           },
         ],
       },
+    });
+    return solicitudes;
+  } catch (error) {
+    console.error("Error fetching solicitudes:", error);
+    throw error;
+  }
+};
+
+exports.getAllListaSolicitud = async () => {
+  const esperas = await ListaSolicitud.findAll();
+  return esperas;
+};
+
+exports.getSolicitud = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const espera = await ListaSolicitud.findOne({
+    where: { id_lista_solicitud: id },
+    include: {
+      model: PacienteHuesped,
+      attributes: ["id_paciente_huesped"],
+      include: [
+        {
+          model: Huesped,
+          include: {
+            model: Persona,
+            include: [
+              { model: Ocupacion },
+              { model: Procedencia },
+              { model: Lugar },
+            ],
+          },
+        },
+        {
+          model: Paciente,
+          include: [
+            {
+              model: Persona,
+              include: [
+                { model: Ocupacion },
+                { model: Procedencia },
+                { model: Lugar },
+              ],
+            },
+            {
+              model: Hospital,
+            },
+          ],
+        },
+      ],
     },
-  );
+  });
 
   return espera;
 };
