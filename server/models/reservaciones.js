@@ -16,7 +16,7 @@ const Reservacion = sequelize.define('Reservacion', {
     },
     id_cama: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     id_hospital: {
       type: DataTypes.INTEGER,
