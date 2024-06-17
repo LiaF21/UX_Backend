@@ -21,7 +21,7 @@ async function getPersonsInListaEspera(req, res) {
 const getReservaciones = async (req, res) => {
   const { startDate, endDate } = req.query;
   if (!startDate || !endDate) {
-    return res.status(400).json({ error: 'Please provide startDate and endDate query parameters.' });
+    return res.status(400).json({ error: 'Faltan parametros de fechas.' });
   }
 
   try {
@@ -29,12 +29,68 @@ const getReservaciones = async (req, res) => {
     res.json(reservaciones);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'An error occurred while fetching the reservations.' });
+    res.status(500).json({ error: 'Error al obtener salidas de huespedes.' });
   }
 };
 
+const getActiveHuespedes = async (req, res) => {
+  try {
+    const activeHuespedesCount = await MiscelanousService.countActiveHuespedes();
+    res.json({ activeHuespedesCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al contar huespedes activos.' });
+  }
+};
+
+const getPersonasBeneficiadas = async (req, res) => {
+  try {
+    const personasBeneficiadasCount = await MiscelanousService.countPersonasBeneficiadas();
+    res.json({ personasBeneficiadasCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al contar los beneficiados.' });
+  }
+};
+
+const getCamasDisponibles = async (req, res) => {
+  try {
+    const camasDisponiblesCount = await MiscelanousService.countCamasDisponibles();
+    res.json({ camasDisponiblesCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al contar camas disponibles.' });
+  }
+};
+
+const getNumeroCamas = async (req, res) => {
+  try {
+    const numeroCamasCount = await MiscelanousService.countNumeroCamas();
+    res.json({ numeroCamasCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al contar camas' });
+  }
+};
+
+const getTop3Closest = async (req, res) => {
+  try {
+    const top3ClosestFechaSalida = await MiscelanousService.getTop3ClosestFechaSalida();
+    res.json(top3ClosestFechaSalida);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener las 3 personas' });
+  }
+};
+
+
 module.exports = {
   getPersonsInListaEspera,
-  getReservaciones
+  getReservaciones,
+  getActiveHuespedes,
+  getPersonasBeneficiadas,
+  getCamasDisponibles,
+  getNumeroCamas,
+  getTop3Closest
 };
 

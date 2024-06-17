@@ -24,7 +24,7 @@ async function getPersonsInListaEsperaService() {
 const getReservaciones = async (startDate, endDate) => {
   const query = `
     SELECT 
-      CONCAT(p.primer_nombre, '', p.primer_apellido) AS nombre,
+      CONCAT(p.primer_nombre, ' ', p.primer_apellido) AS nombre,
       CONCAT(hab.nombre, ' - ', c.nomre) AS se_hospeda,
       r.fecha_salida
     FROM 
@@ -48,9 +48,76 @@ const getReservaciones = async (startDate, endDate) => {
   return results;
 };
 
+const countActiveHuespedes = async () => {
+  const query = `
+    SELECT COUNT(*) AS activeHuespedesCount
+    FROM reservacion
+    WHERE activa = true;
+  `;
+  const [results] = await sequelize.query(query);
+  return results[0].activehuespedescount;
+};
+
+const countPersonasBeneficiadas = async () => {
+  const query = `
+    SELECT COUNT(*) AS personasBeneficiadasCount
+    FROM reservacion;
+  `;
+  const [results] = await sequelize.query(query);
+  return results[0].personasbeneficiadascount;
+};
+
+const countCamasDisponibles = async () => {
+  const query = `
+    SELECT COUNT(*) AS camasDisponiblesCount
+    FROM cama
+    WHERE disponible = true;
+  `;
+  const [results] = await sequelize.query(query);
+  return results[0].camasdisponiblescount;
+};
+
+const countNumeroCamas = async () => {
+  const query = `
+    SELECT COUNT(*) AS numeroCamasCount
+    FROM cama;
+  `;
+  const [results] = await sequelize.query(query);
+  return results[0].numerocamascount;
+};
+
+const getTop3ClosestFechaSalida = async () => {
+  const query = `
+    SELECT 
+      CONCAT(p.primer_nombre, ' ', p.primer_apellido) AS nombre,
+      r.fecha_salida
+    FROM 
+      reservacion r
+    JOIN 
+      paciente_huesped ph ON r.id_paciente_huesped = ph.id_paciente_huesped
+    JOIN 
+      huesped h ON ph.id_huesped = h.id_huesped
+    JOIN 
+      persona p ON h.id_persona = p.id_persona
+    WHERE 
+      r.activa = true
+    ORDER BY 
+      r.fecha_salida ASC
+    LIMIT 3;
+  `;
+  const [results] = await sequelize.query(query);
+  return results;
+};
+
+
 module.exports = {
   getPersonsInListaEsperaService,
-  getReservaciones
+  getReservaciones,
+  countActiveHuespedes,
+  countPersonasBeneficiadas,
+  countCamasDisponibles,
+  countNumeroCamas,
+  getTop3ClosestFechaSalida
 };
 
 
