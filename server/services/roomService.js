@@ -38,21 +38,37 @@ exports.getHabitacionesPorLugar = async (id_lugar) => {
   return habitacion;
 };
 
-exports.checkearDisponibilidadHabitacion = async (id, t) => {
-  const camas = await Cama.findAll({
-    where: { id_habitacion: id },
-  });
+exports.checkearDisponibilidadHabitacion = async (id, newCama) => {
+  try {
+    const camas = await Cama.findAll({
+      where: { id_habitacion: id },
+    });
 
-  let camasDisponibles = true;
-  camas.forEach((cama) => {
-    if (!cama.disponible) {
-      camasDisponibles = false;
-      return;
-    }
-  });
+    console.log(camas);
+    let camasDisponibles = false;
+    camas.forEach((cama) => {
+      if (cama.id_cama === newCama.id_cama) {
+        if (newCama.disponible) {
+          camasDisponibles = true;
+          return;
+        }
+      } else {
+        if (cama.disponible) {
+          camasDisponibles = true;
+          return;
+        }
+      }
+    });
 
-  const habitacion = await Habitacion.findByPk(id);
-  await habitacion.update({ disponible: camasDisponibles });
+    const habitacion = await Habitacion.findByPk(id);
+    await habitacion.update({ disponible: camasDisponibles });
+  } catch (error) {
+    console.log(error);
+
+    throw new Error(
+      "Error al verificar disponibilidad de la habitación: " + error.message
+    );
+  }
 };
 
 exports.deleteHabitacionById = async (id) => {

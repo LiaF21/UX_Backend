@@ -44,6 +44,7 @@ router.post("/lista-negra/create", listaNegraController.addPersonToList); //func
 router.delete("/lista-negra/:id", listaNegraController.sacarDeLista); //funciona
 router.get("/lista-negra", listaNegraController.getList); //funciona
 router.put("/lista-negra/:id", listaNegraController.editarPersonaInList); //funciona
+router.get("/lista-negra/persona/:id", listaNegraController.getPersonaInListByPersonaId); //funciona
 
 //rutas de huesped
 router.get("/huesped/:id", huespedController.getHuespedById); //funciona
