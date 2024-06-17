@@ -1,11 +1,15 @@
 const Sequelize = require("../Db");
 
+const { Op } = require("@sequelize/core");
 const { ListaSolicitud } = require("../models/lista");
-const { Reservacion, Habitacion } = require("../models/reservaciones");
+const { Reservacion, Habitacion, Cama } = require("../models/reservaciones");
 const { PacienteHuesped, Huesped } = require("../models/huesped");
+
+const { Persona, Ocupacion, Procedencia, Lugar } = require("../models/persona");
 const Paciente = require("../models/paciente");
 
-const { Cama } = require("../models/reservaciones");
+const { Hospital } = require("../models/hospital");
+
 const roomService = require("../services/roomService");
 
 exports.createReservacion = async (idSolicitud, idCama) => {
@@ -166,5 +170,98 @@ exports.getReservacionActivaByIdCama = async (idCama) => {
     });
   } catch (error) {
     throw new Error("Error al obtener reservación: " + error.message);
+  }
+};
+
+exports.getAcompañanteHuesped = async (idReservacion) => {
+  const t = await Sequelize.transaction();
+
+  try {
+    const resHuesped = await Reservacion.findByPk(
+      idReservacion,
+      {
+        include: [
+          {
+            model: PacienteHuesped,
+            include: Huesped,
+          },
+        ],
+      },
+      { transaction: t }
+    );
+
+    if (!resHuesped) {
+      throw new Error("Reservacion no encontrada");
+    }
+
+    const acompanantePaciente = await PacienteHuesped.findOne(
+      {
+        where: {
+          id_paciente: resHuesped.PacienteHuesped.id_paciente,
+          id_huesped: {
+            [Op.ne]: resHuesped.PacienteHuesped.id_huesped,
+          },
+        },
+      },
+      { transaction: t }
+    );
+
+    if (!acompanantePaciente) {
+      return null;
+    }
+
+    const acompanante = await Reservacion.findOne(
+      {
+        where: {
+          id_paciente_huesped: acompanantePaciente.id_paciente_huesped,
+          activa: true,
+        },
+        include: [
+          { model: Cama, include: Habitacion },
+          {
+            model: PacienteHuesped,
+            include: [
+              {
+                model: Huesped,
+                include: [
+                  {
+                    model: Persona,
+                    include: [
+                      { model: Ocupacion },
+                      { model: Procedencia },
+                      { model: Lugar },
+                    ],
+                  },
+                ],
+              },
+              {
+                model: Paciente,
+                include: [
+                  {
+                    model: Hospital,
+                  },
+                  {
+                    model: Persona,
+                    include: [
+                      { model: Ocupacion },
+                      { model: Procedencia },
+                      { model: Lugar },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      { transaction: t }
+    );
+
+    await t.commit();
+
+    return acompanante;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener acompanante", error);
   }
 };

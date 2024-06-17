@@ -69,3 +69,21 @@ exports.getReservacionActivaByIdCama = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+exports.getAcompanantesByReservacion = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const acompanantes = await reservacionService.getAcompañanteHuesped(
+      id
+    );
+
+    if (!acompanantes) {
+      return res.status(404).json({ message: "Acompañantes no encontrados" });
+    }
+
+    return res.status(200).json(acompanantes);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};

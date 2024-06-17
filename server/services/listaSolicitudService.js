@@ -186,7 +186,7 @@ exports.crearListaSolicitud = async (data) => {
         {
           id_paciente: paciente.id_paciente,
           id_huesped: huespedAcompanante.id_huesped,
-          parentesco: pacienteData.parentesco,
+          parentesco_paciente: pacienteData.parentesco,
         },
         { transaction: probar }
       );
