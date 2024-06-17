@@ -54,6 +54,9 @@ roomRouter.get('/habitacion/lugar/:id_lugar', roomController.getHabitacionPorLug
 roomRouter.put("/reservaciones/switchCama/:id", reservacionController.switchCama);
 
 roomRouter.get('/reservaciones', roomController.getReservaciones);
+
 //roomRouter.get('/huespedPorGenero/hombres', roomController.getGeneros);
+roomRouter.get('/reservaciones/huespedPorGenero/hombres', roomController.getHombres);
+roomRouter.get('/reservaciones/huespedPorGenero/mujeres', roomController.getMujeres);
 
 module.exports = roomRouter;

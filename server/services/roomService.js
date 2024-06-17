@@ -237,19 +237,22 @@ exports.getHombres = async (fechaInicio, fechaFinal) => {
       fecha_entrada: {
         [Sequelize.Op.gte]: fechaInicio,
       },
-      fecha_salida: {
+      fecha_entrada: {
         [Sequelize.Op.lte]: fechaFinal,
       },
     },
     include: [
       {
         model: PacienteHuesped,
+        required: true,
         include: [
           {
             model: Huesped,
+            required: true,
             include: [
               {
                 model: Persona,
+                required: true,
                 where: {
                   genero: "MASCULINO",
                 },
@@ -269,7 +272,7 @@ exports.getMujeres = async (fechaInicio, fechaFinal) => {
       fecha_entrada: {
         [Sequelize.Op.gte]: fechaInicio,
       },
-      fecha_salida: {
+      fecha_entrada: {
         [Sequelize.Op.lte]: fechaFinal,
       },
     },
@@ -285,10 +288,13 @@ exports.getMujeres = async (fechaInicio, fechaFinal) => {
                 where: {
                   genero: "FEMENINO",
                 },
+                required: true,
               },
             ],
+            required:true,
           },
         ],
+        required:true,
       },
     ],
   });
