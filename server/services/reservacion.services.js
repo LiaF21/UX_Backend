@@ -132,7 +132,10 @@ exports.darAltaServie = async (id) => {
       throw new Error("Reservación no encontrada");
     }
 
-    await reservacion.update({ fecha_salida: new Date(), activa: false }, { transaction: t });
+    await reservacion.update(
+      { fecha_salida: new Date(), activa: false },
+      { transaction: t }
+    );
 
     const cama = await Cama.findByPk(reservacion.id_cama);
 
@@ -153,5 +156,15 @@ exports.darAltaServie = async (id) => {
   } catch (error) {
     await t.rollback();
     throw new Error("Error al dar de alta: " + error.message);
+  }
+};
+
+exports.getReservacionActivaByIdCama = async (idCama) => {
+  try {
+    return Reservacion.findOne({
+      where: { id_cama: idCama, activa: true },
+    });
+  } catch (error) {
+    throw new Error("Error al obtener reservación: " + error.message);
   }
 };

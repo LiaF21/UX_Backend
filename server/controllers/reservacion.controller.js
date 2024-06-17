@@ -51,3 +51,21 @@ exports.darAltaService = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+exports.getReservacionActivaByIdCama = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const reservacion = await reservacionService.getReservacionActivaByIdCama(
+      id
+    );
+
+    if (!reservacion) {
+      return res.status(404).json({ message: "Reservacion no encontrada" });
+    }
+
+    return res.status(200).json(reservacion);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
