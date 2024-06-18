@@ -295,22 +295,22 @@ exports.getMujeres = async (fechaInicio, fechaFinal) => {
     include: [
       {
         model: PacienteHuesped,
+        required: true,
         include: [
           {
             model: Huesped,
+            required: true,
             include: [
               {
                 model: Persona,
+                required: true,
                 where: {
                   genero: "FEMENINO",
                 },
-                required: true,
               },
             ],
-            required:true,
           },
         ],
-        required:true,
       },
     ],
   });

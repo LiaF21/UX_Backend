@@ -48,7 +48,7 @@ roomRouter.get(
   "/reservaciones/huesped/:id",
   roomController.getReservacionByIdHuespedActiva
 );
-// roomRouter.get("/reservaciones", roomController.getReservaciones);
+//roomRouter.get("/getreservacion", roomController.getReservaciones);
 
 roomRouter.get('/habitacion/lugar/:id_lugar', roomController.getHabitacionPorLugar);
 roomRouter.put("/reservaciones/switchCama/:id", reservacionController.switchCama);
