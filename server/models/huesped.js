@@ -58,29 +58,6 @@ const PacienteHuesped = sequelize.define(
   }
 );
 
-const AfiliadoHuesped = sequelize.define(
-  "AfiliadoHuesped",
-  {
-    id_afiliado_huesped: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    id_afiliado: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    id_huesped: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-  },
-  {
-    tableName: "afiliado_huesped",
-    timestamps: false,
-  }
-);
-
 const IglesiaHuesped = sequelize.define(
   "IglesiaHuesped",
   {
@@ -109,19 +86,14 @@ Huesped.belongsTo(Persona, { foreignKey: "id_persona" });
 
 // Transaccion.belongsTo(Huesped, {foreignKey: "id_huesped"});
 
+
 IglesiaHuesped.belongsTo(Huesped, { foreignKey: "id_huesped" });
 IglesiaHuesped.belongsTo(Iglesia, { foreignKey: "id_iglesia" });
 Iglesia.hasMany(IglesiaHuesped, { foreignKey: "id_iglesia" });
 Huesped.hasMany(IglesiaHuesped, { foreignKey: "id_huesped" });
 
-AfiliadoHuesped.belongsTo(Huesped, { foreignKey: "id_huesped" });
-AfiliadoHuesped.belongsTo(Afiliado, { foreignKey: "id_afiliado" });
-
 PacienteHuesped.belongsTo(Huesped, { foreignKey: "id_huesped" });
 PacienteHuesped.belongsTo(Paciente, { foreignKey: "id_paciente" });
-
-Afiliado.hasMany(AfiliadoHuesped, { foreignKey: "id_afiliado" });
-Huesped.hasMany(AfiliadoHuesped, { foreignKey: "id_huesped" });
 
 Paciente.hasMany(PacienteHuesped, { foreignKey: "id_paciente" });
 Huesped.hasMany(PacienteHuesped, { foreignKey: "id_huesped" });
@@ -131,6 +103,5 @@ Huesped.belongsTo(Persona, { foreignKey: "id_persona" });
 module.exports = {
   Huesped,
   PacienteHuesped,
-  AfiliadoHuesped,
   IglesiaHuesped,
 };

@@ -1,9 +1,12 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../Db');
-const {Persona} = require('./persona');
-const {PacienteHuesped} = require("./huesped");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../Db");
+const { Persona } = require("./persona");
+const { PacienteHuesped } = require("./huesped");
+const { Afiliado } = require("./afiliado");
 
-const ListaNegra = sequelize.define('ListaNegra', {
+const ListaNegra = sequelize.define(
+  "ListaNegra",
+  {
     id_lista_negra: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -20,12 +23,16 @@ const ListaNegra = sequelize.define('ListaNegra', {
     observacion: {
       type: DataTypes.TEXT,
     },
-  }, {
-    tableName: 'lista_negra',
+  },
+  {
+    tableName: "lista_negra",
     timestamps: false,
-  });
+  }
+);
 
-  const Reglamento = sequelize.define('Reglamento', {
+const Reglamento = sequelize.define(
+  "Reglamento",
+  {
     id_regla: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -35,12 +42,16 @@ const ListaNegra = sequelize.define('ListaNegra', {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-  }, {
-    tableName: 'reglamento',
+  },
+  {
+    tableName: "reglamento",
     timestamps: false,
-  });
+  }
+);
 
-  const ListaSolicitud = sequelize.define('ListaSolicitud', {
+const ListaSolicitud = sequelize.define(
+  "ListaSolicitud",
+  {
     id_lista_solicitud: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -60,19 +71,29 @@ const ListaNegra = sequelize.define('ListaNegra', {
     fecha_salida: {
       type: DataTypes.DATEONLY,
     },
-    becada:{
+    becada: {
       type: DataTypes.BOOLEAN,
     },
-  }, {
-    tableName: 'lista_solicitud',
+
+    id_afiliado: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+  },
+  {
+    tableName: "lista_solicitud",
     timestamps: false,
-  });
+  }
+);
 
-  ListaNegra.belongsTo(Persona, { foreignKey: 'id_persona' });
-  ListaNegra.belongsTo(Reglamento, { foreignKey: 'id_regla' });
-  PacienteHuesped.hasMany(ListaSolicitud, { foreignKey: 'id_paciente_huesped' });
-  ListaSolicitud.belongsTo(PacienteHuesped, { foreignKey: 'id_paciente_huesped' });
+ListaSolicitud.belongsTo(Afiliado, { foreignKey: "id_afiliado" });
+Afiliado.hasMany(ListaSolicitud, { foreignKey: "id_afiliado" });
 
-  module.exports = { ListaNegra, Reglamento, ListaSolicitud };
+ListaNegra.belongsTo(Persona, { foreignKey: "id_persona" });
+ListaNegra.belongsTo(Reglamento, { foreignKey: "id_regla" });
+PacienteHuesped.hasMany(ListaSolicitud, { foreignKey: "id_paciente_huesped" });
+ListaSolicitud.belongsTo(PacienteHuesped, {
+  foreignKey: "id_paciente_huesped",
+});
 
-  
+module.exports = { ListaNegra, Reglamento, ListaSolicitud };
