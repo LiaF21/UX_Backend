@@ -101,11 +101,18 @@ exports.editarHuesped = async (id, huespedUpdate) => {
 
 exports.getHuesped = async(id) => {
   const huesped = await Reservacion.findAll({
+    required: true,
     include: [{
-      model: PacienteHuesped,
-      where: {
-        id_huesped: id,
-      }
+      model: PacienteHuesped ,  
+      required: true,
+        include: [{
+          model: Huesped ,  
+          required: true,
+          include: [Persona],
+          where: {
+            id_persona: id,
+          }
+        }]
     }]
   });
   return huesped;
