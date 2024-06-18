@@ -363,3 +363,26 @@ exports.getReservacion = async () => {
   });
   return reservacion;
 };
+
+exports.getCamasHuesped = async (id) => {
+  try {
+    const reservacion = await Cama.findAll({
+      where: {
+        id_habitacion: id
+      },
+      include: [{
+        model: Reservacion,
+        include: [{
+          model: PacienteHuesped ,  
+        include: [{
+          model: Huesped ,  
+          include: [Persona]
+        }]
+        }]
+      }]
+    })
+    return reservacion;
+  } catch (error) {
+    throw Error("Error al obtener las reserevaciones: " + error.message);
+  }
+};
