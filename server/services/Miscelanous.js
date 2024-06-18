@@ -41,7 +41,9 @@ const getReservaciones = async (startDate, endDate) => {
       habitacion hab ON c.id_habitacion = hab.id_habitacion
     WHERE 
       r.fecha_salida BETWEEN :startDate AND :endDate
-      AND r.activa = true;
+      AND r.activa = true
+    ORDER BY
+      r.fecha_salida ASC;  
   `;
   const replacements = { startDate, endDate };
   const [results] = await sequelize.query(query, { replacements });
