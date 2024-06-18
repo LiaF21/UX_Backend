@@ -265,3 +265,50 @@ exports.getAcompañanteHuesped = async (idReservacion) => {
     throw new Error("Error al obtener acompanante", error);
   }
 };
+
+exports.getReservacionesActivas = async () => {
+  try {
+    return Reservacion.findAll({
+      where: { activa: true },
+      include: [
+        { model: Cama, include: Habitacion },
+        {
+          model: PacienteHuesped,
+          include: [
+            {
+              model: Huesped,
+              include: [
+                {
+                  model: Persona,
+                  include: [
+                    { model: Ocupacion },
+                    { model: Procedencia },
+                    { model: Lugar },
+                  ],
+                },
+              ],
+            },
+            {
+              model: Paciente,
+              include: [
+                {
+                  model: Hospital,
+                },
+                {
+                  model: Persona,
+                  include: [
+                    { model: Ocupacion },
+                    { model: Procedencia },
+                    { model: Lugar },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  } catch (error) {
+    throw new Error("Error al obtener reservaciones activas", error);
+  }
+};
