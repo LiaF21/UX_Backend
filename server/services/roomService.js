@@ -253,19 +253,22 @@ exports.getHombres = async (fechaInicio, fechaFinal) => {
       fecha_entrada: {
         [Sequelize.Op.gte]: fechaInicio,
       },
-      fecha_salida: {
+      fecha_entrada: {
         [Sequelize.Op.lte]: fechaFinal,
       },
     },
     include: [
       {
         model: PacienteHuesped,
+        required: true,
         include: [
           {
             model: Huesped,
+            required: true,
             include: [
               {
                 model: Persona,
+                required: true,
                 where: {
                   genero: "MASCULINO",
                 },
@@ -285,19 +288,22 @@ exports.getMujeres = async (fechaInicio, fechaFinal) => {
       fecha_entrada: {
         [Sequelize.Op.gte]: fechaInicio,
       },
-      fecha_salida: {
+      fecha_entrada: {
         [Sequelize.Op.lte]: fechaFinal,
       },
     },
     include: [
       {
         model: PacienteHuesped,
+        required: true,
         include: [
           {
             model: Huesped,
+            required: true,
             include: [
               {
                 model: Persona,
+                required: true,
                 where: {
                   genero: "FEMENINO",
                 },
@@ -356,4 +362,27 @@ exports.getReservacion = async () => {
     ],
   });
   return reservacion;
+};
+
+exports.getCamasHuesped = async (id) => {
+  try {
+    const reservacion = await Cama.findAll({
+      where: {
+        id_habitacion: id
+      },
+      include: [{
+        model: Reservacion,
+        include: [{
+          model: PacienteHuesped ,  
+        include: [{
+          model: Huesped ,  
+          include: [Persona]
+        }]
+        }]
+      }]
+    })
+    return reservacion;
+  } catch (error) {
+    throw Error("Error al obtener las reserevaciones: " + error.message);
+  }
 };
