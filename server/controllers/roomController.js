@@ -229,6 +229,19 @@ exports.getReservaciones = async (req, res)=>{
   }
 };
 
+exports.getCamasHuesped = async (req, res) => {
+  try {
+    const reservacion = await roomService.getCamasHuesped(req.params.id);
+    if (reservacion) {
+      res.status(200).json(reservacion);
+    } else {
+      res.status(404).json({ message: "Reservaciones no encontrada" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 
 exports.getBecados= async (req, res)=>{
   try{

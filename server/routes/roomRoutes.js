@@ -48,7 +48,7 @@ roomRouter.get(
   "/reservaciones/huesped/:id",
   roomController.getReservacionByIdHuespedActiva
 );
-// roomRouter.get("/reservaciones", roomController.getReservaciones);
+//roomRouter.get("/getreservacion", roomController.getReservaciones);
 
 roomRouter.get('/habitacion/lugar/:id_lugar', roomController.getHabitacionPorLugar);
 roomRouter.put("/reservaciones/switchCama/:id", reservacionController.switchCama);
@@ -58,6 +58,11 @@ roomRouter.get("/reservaciones/acompanante/:id", reservacionController.getAcompa
 roomRouter.get("/reservacionesActivas/", reservacionController.getReservacionesActivas);
 
 roomRouter.get('/reservaciones', roomController.getReservaciones);
+
+roomRouter.get('/getreservacion/:id', roomController.getCamasHuesped);
+
 //roomRouter.get('/huespedPorGenero/hombres', roomController.getGeneros);
+roomRouter.get('/reservaciones/huespedPorGenero/hombres', roomController.getHombres);
+roomRouter.get('/reservaciones/huespedPorGenero/mujeres', roomController.getMujeres);
 
 module.exports = roomRouter;
