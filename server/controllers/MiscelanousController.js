@@ -87,11 +87,12 @@ const getDepartamentosRegistrados = async (req, res) => {
   try {
     const countDepartamentos = await MiscelanousService.countDepartamentosRegistrados();
     res.json(countDepartamentos);
-  }catch(error){
+  } catch (error) {
     console.error(error);
-    res.status(500).json({ error : 'Error al obtener los departamentos'})
+    res.status(500).json({ error: 'Error al obtener los departamentos' });
   }
 }
+
 
 module.exports = {
   getPersonsInListaEspera,

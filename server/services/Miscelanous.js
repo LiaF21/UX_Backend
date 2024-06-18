@@ -117,10 +117,9 @@ const countDepartamentosRegistrados = async () => {
     FROM procedencia;
   `;
   const [results] = await sequelize.query(query);
-  const totalDepartamentosRegistrados = results[0].total_departamentos_registrados;
-  const totalDepartamentosEsperados = 18;
-  return `${totalDepartamentosRegistrados}/${totalDepartamentosEsperados}`;
+  return { total_departamentos_registrados: results[0].total_departamentos_registrados };
 };
+
 
 
 module.exports = {
