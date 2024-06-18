@@ -109,6 +109,18 @@ const getTop3ClosestFechaSalida = async () => {
   return results;
 };
 
+const countDepartamentosRegistrados = async () => {
+  const query = `
+    SELECT COUNT(DISTINCT TRIM(LOWER(departamento))) AS total_departamentos_registrados
+    FROM procedencia;
+  `;
+  const [results] = await sequelize.query(query);
+  //const totalDepartamentosRegistrados = results[0].total_departamentos_registrados;
+  //const totalDepartamentosEsperados = 18;
+  //return `${totalDepartamentosRegistrados}/${totalDepartamentosEsperados}`;
+  return results;
+};
+
 
 module.exports = {
   getPersonsInListaEsperaService,
@@ -117,7 +129,8 @@ module.exports = {
   countPersonasBeneficiadas,
   countCamasDisponibles,
   countNumeroCamas,
-  getTop3ClosestFechaSalida
+  getTop3ClosestFechaSalida,
+  countDepartamentosRegistrados
 };
 
 

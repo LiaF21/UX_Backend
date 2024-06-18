@@ -11,7 +11,7 @@ router.get('/personas-beneficiadas', MiscelanousController.getPersonasBeneficiad
 router.get('/camas-disponibles', MiscelanousController.getCamasDisponibles);
 router.get('/numero-camas', MiscelanousController.getNumeroCamas);
 router.get('/top3-salidas', MiscelanousController.getTop3Closest);
-
+router.get('/departamentos-registrados', MiscelanousController.getDepartamentosRegistrados);
 
 
 module.exports = router;
