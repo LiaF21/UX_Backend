@@ -8,8 +8,7 @@ const db = require("./Db");
 //Routes
 const routes = require("./routes/routes");
 const miscelanous = require("./routes/MiscelanousRoutes");
-const V = require("./routes/routesV");
-const excelRoutes = require("./routes/excelRoutes"); // nueva ruta
+
 
 app.use(morgan("dev"));
 app.use(cors());
@@ -17,8 +16,8 @@ app.use(express.json());
 app.use(routes);
 
 app.use(miscelanous);
-app.use(V);
-app.use('/api', excelRoutes); // nueva ruta
+
+
 
 
 
@@ -43,7 +42,7 @@ const initApp = async () => {
   }
 };
 
-db.sync({ force: false, alter: true})
+db.sync({ force: false, alter: false})
   .then(() => {
     console.log("Database synced without altering existing schema!");
   })
