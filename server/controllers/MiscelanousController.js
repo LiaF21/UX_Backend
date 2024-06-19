@@ -85,13 +85,13 @@ const getTop3Closest = async (req, res) => {
 
 const getDepartamentosRegistrados = async (req, res) => {
   try {
-    const countDepartamentos = await MiscelanousService.countDepartamentosRegistrados();
-    res.json(countDepartamentos);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener los departamentos' });
+  const countDepartamentos = await MiscelanousService.countDepartamentosRegistrados();
+  res.json(countDepartamentos);
+  }catch(error){
+  console.error(error);
+  res.status(500).json({ error : 'Error al obtener los departamentos'})
   }
-}
+  }
 
 
 module.exports = {

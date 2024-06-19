@@ -1,6 +1,6 @@
-const {ListaEspera } = require('../models/lista');
+const { ListaEspera } = require('../models/lista');
 const Paciente = require('../models/paciente');
-const {Persona} = require('../models/persona');
+const { Persona } = require('../models/persona');
 const sequelize = require('../Db');
 
 async function getPersonsInListaEsperaService() {
@@ -111,14 +111,12 @@ const getTop3ClosestFechaSalida = async () => {
   return results;
 };
 
+
 const countDepartamentosRegistrados = async () => {
-  const query = `
-    SELECT COUNT(DISTINCT TRIM(LOWER(departamento))) AS total_departamentos_registrados
-    FROM procedencia;
-  `;
+  const query = 'SELECT COUNT(DISTINCT TRIM(LOWER(departamento))) AS total_departamentos_registrados FROM procedencia;' ;
   const [results] = await sequelize.query(query);
-  return { total_departamentos_registrados: results[0].total_departamentos_registrados };
-};
+  return results[0].total_departamentos_registrados;
+  };
 
 
 
