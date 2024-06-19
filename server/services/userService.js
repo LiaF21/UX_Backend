@@ -15,6 +15,9 @@ exports.getUserByUsername = async (username) => {
         },
       ],
     });
+
+    
+
     return user;
   } catch (error) {
     console.error("Error retrieving user by username:", error);
