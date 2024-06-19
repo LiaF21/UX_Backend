@@ -247,7 +247,7 @@ exports.getBecados= async (req, res)=>{
   try{
     const { fechaInicio, fechaFinal } = req.query;
     const becados = await roomService.getBecados(fechaInicio, fechaFinal);
-    if(becados && becados.length>0){
+    if(becados){
       res.status(201).json({becados, message:'Becados obtenidos con exito'});
     }else{
       res.status(404).json({ message: 'No hay becados en el registro' });
