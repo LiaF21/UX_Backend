@@ -342,6 +342,16 @@ exports.getHombres = async (fechaInicio, fechaFinal) => {
           },
         ],
       },
+      {
+        model: AfiliadoReservacion,
+        include: {
+          model: Afiliado,
+          include: {
+            model: PatronoAfiliado,
+            include: { model: Patrono },
+          },
+        },
+      },
     ],
   });
   return men;
@@ -376,6 +386,16 @@ exports.getMujeres = async (fechaInicio, fechaFinal) => {
             ],
           },
         ],
+      },
+      {
+        model: AfiliadoReservacion,
+        include: {
+          model: Afiliado,
+          include: {
+            model: PatronoAfiliado,
+            include: { model: Patrono },
+          },
+        },
       },
     ],
   });
