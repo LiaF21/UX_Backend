@@ -6,9 +6,13 @@ const {
   Habitacion,
   Cama,
   Reservacion,
+  AfiliadoReservacion,
   Ofrenda,
 } = require("../models/reservaciones");
 const { Sequelize } = require("../Db");
+
+const { Afiliado, Patrono, PatronoAfiliado } = require("../models/afiliado");
+const { where } = require("sequelize");
 
 exports.createHabitacion = async (habitacionData) => {
   const habitacion = await Habitacion.create(habitacionData);
@@ -214,23 +218,54 @@ exports.getReservacionByIdHuespedActiva = async (id) => {
 };
 
 exports.getBecados = async (fechaInicio, fechaFinal) => {
-  const becados = await Reservacion.findAll({
-    where: {
-      fecha_entrada: {
-        [Sequelize.Op.gte]: fechaInicio,
+  try {
+    const becados = await Ofrenda.findAll({
+      where: {
+        fecha: {
+          [Sequelize.Op.gte]: fechaInicio,
+          [Sequelize.Op.lte]: fechaFinal,
+        },
       },
-      fecha_salida: {
-        [Sequelize.Op.lte]: fechaFinal,
-      },
-      becado: true,
-    },
-    include: [{ model: Ofrenda }],
-  });
+      include: [
+        {
+          model: Reservacion,
+          where: {
+            becado: true,
+          },
+          include: [
+            {
+              model: PacienteHuesped,
+              include: [
+                {
+                  model: Huesped,
+                  include: Persona,
+                },
+              ],
+            },
+            {
+              model: AfiliadoReservacion,
+              include: {
+                model: Afiliado,
+                include: {
+                  model: PatronoAfiliado,
+                  include: { model: Patrono },
+                },
+              },
+            },
+          ],
+        },
+      ],
+    });
 
-  return becados;
+    return becados;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.getDonaciones = async (fechaInicio, fechaFinal) => {
+  /*
+
   const donacion = await Reservacion.findAll({
     where: {
       fecha_entrada: {
@@ -241,7 +276,58 @@ exports.getDonaciones = async (fechaInicio, fechaFinal) => {
       },
       becado: false,
     },
-    include: [{ model: Ofrenda }],
+    include: [
+      { model: Ofrenda },
+      {
+        model: PacienteHuesped,
+        include: { model: Huesped, include: Persona },
+      },
+      {
+        model: AfiliadoReservacion,
+        include: {
+          model: Afiliado,
+          include: {
+            model: PatronoAfiliado,
+            include: { model: Patrono },
+          },
+        },
+      },
+    ],
+  });
+
+  */
+
+  const donacion = await Ofrenda.findAll({
+    where: {
+      fecha: {
+        [Sequelize.Op.gte]: fechaInicio,
+        [Sequelize.Op.lte]: fechaFinal,
+      },
+    },
+    include: [
+      {
+        model: Reservacion,
+        where: {
+          becado: false,
+        },
+        include: [
+          {
+            model: PacienteHuesped,
+            include: { model: Huesped, include: Persona },
+          },
+          {
+            model: AfiliadoReservacion,
+            include: {
+              model: Afiliado,
+              include: {
+                model: PatronoAfiliado,
+                include: { model: Patrono },
+              },
+            },
+          },
+        ],
+      },
+    ],
   });
 
   return donacion;
@@ -368,19 +454,25 @@ exports.getCamasHuesped = async (id) => {
   try {
     const reservacion = await Cama.findAll({
       where: {
-        id_habitacion: id
+        id_habitacion: id,
       },
-      include: [{
-        model: Reservacion,
-        include: [{
-          model: PacienteHuesped ,  
-        include: [{
-          model: Huesped ,  
-          include: [Persona]
-        }]
-        }]
-      }]
-    })
+      include: [
+        {
+          model: Reservacion,
+          include: [
+            {
+              model: PacienteHuesped,
+              include: [
+                {
+                  model: Huesped,
+                  include: [Persona],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
     return reservacion;
   } catch (error) {
     throw Error("Error al obtener las reserevaciones: " + error.message);

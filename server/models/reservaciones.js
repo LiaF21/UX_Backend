@@ -184,4 +184,4 @@ Reservacion.hasMany(Ofrenda, { foreignKey: "id_reservacion" });
 PacienteHuesped.hasMany(Reservacion, { foreignKey: "id_paciente_huesped" });
 Reservacion.belongsTo(PacienteHuesped, { foreignKey: "id_paciente_huesped" });
 
-module.exports = { Reservacion, Habitacion, Cama, Ofrenda };
+module.exports = { Reservacion, Habitacion, Cama, Ofrenda, AfiliadoReservacion };
