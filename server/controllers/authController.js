@@ -1,5 +1,7 @@
-const userService = require("../services/userService");
-const crypt = require("../cripto/crypto");
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = process.env;
+const userService = require('../services/userService');
+const crypt = require('../cripto/crypto');
 
 exports.login = async (req, res) => {
   try {
@@ -13,19 +15,26 @@ exports.login = async (req, res) => {
       const compare = crypt.compare(passwordLogin, passwordCrypt);
 
       if (!compare) {
-        return res.status(401).json({ message: "Contraseña Incorrecta" });
+        return res.status(401).json({ message: 'Contraseña Incorrecta' });
       }
+
+      // Generate JWT token
+      const token = jwt.sign(
+        { userId: user.id_usuario, username: user.nickname, role: user.rol },
+        JWT_SECRET,
+        { expiresIn: '1h' }
+      );
 
       return res
         .status(201)
-        .json({ user, message: "Inicio de sesión exitoso" });
+        .json({ user, token, message: 'Inicio de sesión exitoso' });
     } else {
       return res
         .status(401)
-        .json({ message: "Nombre de usuario o contraseña incorrectos" });
+        .json({ message: 'Nombre de usuario o contraseña incorrectos' });
     }
   } catch (error) {
     console.error('Error during login:', error);
-    res.status(500).json({ message: "Error al iniciar sesión" });
+    res.status(500).json({ message: 'Error al iniciar sesión' });
   }
 };
