@@ -49,22 +49,22 @@ exports.generateExcelAllTables = async (req, res) => {
       return {
         marca: item.fecha_entrada,
         nombre: `${handleNull(item.primer_nombre_huesped)} ${handleNull(item.segundo_nombre_huesped)} ${handleNull(item.primer_apellido_huesped)} ${handleNull(item.segundo_apellido_huesped)}`,
-        dni: handleNull(item.dni_huesped, 'DNI no disponible'),
-        procedencia: handleNull(item.departamento_huesped, 'Procedencia no disponible'),
-        telefono: handleNull(item.telefono_huesped, 'Teléfono no disponible'),
-        genero: handleNull(item.genero_huesped, 'Género no disponible'),
-        edad: item.fecha_nacimiento_huesped ? _calculateAge(new Date(item.fecha_nacimiento_huesped)) : 'Edad no disponible',
-        ocupacion: handleNull(item.ocupacion_huesped, 'Ocupación no disponible'),
-        iglesia: handleNull(item.iglesia, 'No Asiste a una Iglesia'),
-        nombreAfiliado: handleNull(item.nombre_afiliado, 'Afiliado no disponible'),
-        dniAfiliado: handleNull(item.dni_afiliado, 'DNI Afiliado no disponible'),
-        patrono: handleNull(item.nombre_patrono, 'Patrono no disponible'),
+        dni: item.dni_huesped,
+        procedencia: item.departamento_huesped,
+        telefono: handleNull(item.telefono_huesped, 'N/A'),
+        genero: item.genero_huesped,
+        edad: item.fecha_nacimiento_huesped ? _calculateAge(new Date(item.fecha_nacimiento_huesped)) : 'N/A',
+        ocupacion: handleNull(item.ocupacion_huesped, 'N/A'),
+        iglesia: handleNull(item.iglesia, 'N/A'),
+        nombreAfiliado: handleNull(item.nombre_afiliado, 'N/A'),
+        dniAfiliado: handleNull(item.dni_afiliado, 'N/A'),
+        patrono: handleNull(item.nombre_patrono, 'N/A'),
         nombrePaciente: `${handleNull(item.primer_nombre_paciente)} ${handleNull(item.segundo_nombre_paciente)} ${handleNull(item.primer_apellido_paciente)} ${handleNull(item.segundo_apellido_paciente)}`,
-        hospital: handleNull(item.hospital_nombre, 'Hospital no disponible'),
-        parentesco: handleNull(item.parentesco_paciente, 'Parentesco no disponible'),
-        telefonoPaciente: handleNull(item.telefono_paciente, 'Teléfono Paciente no disponible'),
+        hospital: handleNull(item.hospital_nombre, 'N/A'),
+        parentesco: handleNull(item.parentesco_paciente, 'N/A'),
+        telefonoPaciente: handleNull(item.telefono_paciente, 'N/A'),
         causa: item.causa_visita,
-        observaciones: handleNull(item.observaciones, 'No hubo observaciones')
+        observaciones: handleNull(item.observaciones, 'N/A')
       };
     });
 
@@ -73,7 +73,7 @@ exports.generateExcelAllTables = async (req, res) => {
 
     worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
       row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-        cell.font = { name: 'Arial', size: 12 };
+        cell.font = { name: 'Roboto', size: 12 };
         cell.alignment = { vertical: 'middle', horizontal: 'left' };
         cell.border = {
           top: { style: 'thin' },
@@ -84,12 +84,18 @@ exports.generateExcelAllTables = async (req, res) => {
       });
     });
 
-    worksheet.getRow(1).font = { size:14 ,bold: true, color: { argb: 'FFFFFF' } };
-    worksheet.getRow(1).fill = {
-      type: 'pattern',
-      pattern: 'solid',
-      fgColor: { argb: "ff77d9a1" }
-    };
+    const headerRow = worksheet.getRow(1);
+    headerRow.font = { name: 'Roboto', size: 14, bold: true, color: { argb: 'FFFFFF' } };
+
+    headerRow.eachCell((cell, colNumber) => {
+      if (cell.value) {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: "ff77d9a1" }
+        };
+      }
+    });
 
     worksheet.views = [
       { state: 'frozen', ySplit: 1 }
