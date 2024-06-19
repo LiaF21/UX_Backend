@@ -2,7 +2,12 @@ const Sequelize = require("../Db");
 
 const { Op } = require("@sequelize/core");
 const { ListaSolicitud } = require("../models/lista");
-const { Reservacion, Habitacion, Cama } = require("../models/reservaciones");
+const {
+  AfiliadoReservacion,
+  Reservacion,
+  Habitacion,
+  Cama,
+} = require("../models/reservaciones");
 const { PacienteHuesped, Huesped } = require("../models/huesped");
 
 const { Persona, Ocupacion, Procedencia, Lugar } = require("../models/persona");
@@ -61,6 +66,16 @@ exports.createReservacion = async (idSolicitud, idCama) => {
     const reservacion = await Reservacion.create(nuevaReservacion, {
       transaction: t,
     });
+
+    if (solicitud.id_afiliado) {
+      await AfiliadoReservacion.create(
+        {
+          id_afiliado: solicitud.id_afiliado,
+          id_reservacion: reservacion.id_reservacion,
+        },
+        { transaction: t }
+      );
+    }
 
     console.log("paso crear reservacion");
 

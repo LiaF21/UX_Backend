@@ -7,7 +7,7 @@ const {
 } = require("../models/huesped");
 const sequelize = require("../Db");
 const Paciente = require("../models/paciente");
-const {Hospital} = require("../models/hospital");
+const { Hospital } = require("../models/hospital");
 const { Patrono, PatronoAfiliado, Afiliado } = require("../models/afiliado");
 
 const handlePersona = async (personaData) => {
@@ -115,24 +115,12 @@ const handleAddAfiliadoHuesped = async (
     nombre: patronoData.nombre_afiliado,
   });
 
-  console.log(patrono, afiliado);
-
   const patronoAfiliado = await handlePatronoAfiliado({
     id_patrono: patrono.id_patrono,
     id_afiliado: afiliado.id_afiliado,
   });
 
-  const afiliadoHuesped = await handleAfiliadoHuesped({
-    id_afiliado: afiliado.id_afiliado,
-    id_huesped: idHuesped,
-  });
-
-  if (idAcompanante) {
-    const afiliadoAcompanante = await handleAfiliadoHuesped({
-      id_afiliado: afiliado.id_afiliado,
-      id_huesped: idAcompanante,
-    });
-  }
+  return afiliado;
 };
 
 exports.crearListaSolicitud = async (data) => {
@@ -170,14 +158,6 @@ exports.crearListaSolicitud = async (data) => {
       { transaction: probar }
     );
 
-    const solicitud = await ListaSolicitud.create(
-      {
-        id_paciente_huesped: pacienteHuesped.id_paciente_huesped,
-        ...solicitudData,
-      },
-      { transaction: probar }
-    );
-
     if (acompananteData) {
       const personaAcompanante = await handlePersona(acompananteData);
       const huespedAcompanante = await handleHuesped(personaAcompanante);
@@ -192,26 +172,58 @@ exports.crearListaSolicitud = async (data) => {
       );
 
       if (patronoData) {
-        await handleAddAfiliadoHuesped(
+        const afiliado = await handleAddAfiliadoHuesped(
           patronoData,
           huespedAcompanante.id_huesped,
           huesped.id_huesped
         );
-      }
 
-      await ListaSolicitud.create(
-        {
-          id_paciente_huesped: pacienteAcompanante.id_paciente_huesped,
-          ...solicitudData,
-        },
-        { transaction: probar }
-      );
+        const soli = await ListaSolicitud.create(
+          {
+            id_paciente_huesped: pacienteAcompanante.id_paciente_huesped,
+            id_afiliado: afiliado.id_afiliado,
+            ...solicitudData,
+          },
+          { transaction: probar }
+        );
+      } else {
+        const solicitud = await ListaSolicitud.create(
+          {
+            id_paciente_huesped: pacienteAcompanante.id_paciente_huesped,
+            ...solicitudData,
+          },
+          { transaction: probar }
+        );
+      }
     } else {
       if (patronoData) {
-        await handleAddAfiliadoHuesped(patronoData, null, huesped.id_huesped);
+        const afiliado = await handleAddAfiliadoHuesped(
+          patronoData,
+          null,
+          huesped.id_huesped
+        );
+
+        const soli = await ListaSolicitud.create(
+          {
+            id_paciente_huesped: pacienteHuesped.id_paciente_huesped,
+            id_afiliado: afiliado.id_afiliado,
+            ...solicitudData,
+          },
+          { transaction: probar }
+        );
+
+        await probar.commit();
+        return soli;
       }
     }
 
+    const solicitud = await ListaSolicitud.create(
+      {
+        id_paciente_huesped: pacienteHuesped.id_paciente_huesped,
+        ...solicitudData,
+      },
+      { transaction: probar }
+    );
     await probar.commit();
 
     return solicitud;

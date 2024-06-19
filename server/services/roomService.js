@@ -170,6 +170,18 @@ exports.createReservacion = async (reservacionData) => {
 exports.getReservacionById = async (id) => {
   const reservacion = await Reservacion.findByPk(id, {
     include: [
+      {
+        required: false,
+        model: AfiliadoReservacion,
+        include: {
+          model: Afiliado,
+          include: {
+            model: PatronoAfiliado,
+            include: { model: Patrono },
+          },
+        },
+        where: { id_reservacion: id },
+      },
       { model: Cama, include: Habitacion },
       {
         model: PacienteHuesped,
@@ -264,39 +276,6 @@ exports.getBecados = async (fechaInicio, fechaFinal) => {
 };
 
 exports.getDonaciones = async (fechaInicio, fechaFinal) => {
-  /*
-
-  const donacion = await Reservacion.findAll({
-    where: {
-      fecha_entrada: {
-        [Sequelize.Op.gte]: fechaInicio,
-      },
-      fecha_salida: {
-        [Sequelize.Op.lte]: fechaFinal,
-      },
-      becado: false,
-    },
-    include: [
-      { model: Ofrenda },
-      {
-        model: PacienteHuesped,
-        include: { model: Huesped, include: Persona },
-      },
-      {
-        model: AfiliadoReservacion,
-        include: {
-          model: Afiliado,
-          include: {
-            model: PatronoAfiliado,
-            include: { model: Patrono },
-          },
-        },
-      },
-    ],
-  });
-
-  */
-
   const donacion = await Ofrenda.findAll({
     where: {
       fecha: {
