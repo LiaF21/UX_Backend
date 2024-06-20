@@ -458,6 +458,7 @@ exports.getCamasHuesped = async (id) => {
       include: [
         {
           model: Reservacion,
+          required: false,
           where: {
             activa: true
           },
