@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const userService = require("../services/userService");
+const privilegiosService = require("../services/privilegiosService");
 const personaService = require("../services/personaService");
 const crypt = require("../cripto/crypto");
 
@@ -21,6 +22,14 @@ exports.login = async (req, res) => {
 
       const persona = await personaService.getPersonaById(user.id_persona);
 
+      const privilegios = await privilegiosService.getPrivilegiosByUser(
+        user.id_usuario
+      );
+
+      const privs = privilegios.map((priv) => {
+        return priv.id_privilegio
+      })
+
       // Generate JWT token
       const token = jwt.sign(
         {
@@ -30,14 +39,18 @@ exports.login = async (req, res) => {
           id_persona: user.id_persona,
           id_hospital: user.id_hospital,
           id_lugar: persona.id_lugar,
+          privilegios: privs,
         },
         JWT_SECRET,
         { expiresIn: "1h" }
       );
 
-      return res
-        .status(201)
-        .json({ user, token, message: "Inicio de sesión exitoso" });
+      return res.status(201).json({
+        user,
+        privs,
+        token,
+        message: "Inicio de sesión exitoso",
+      });
     } else {
       return res
         .status(401)

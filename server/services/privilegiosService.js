@@ -72,6 +72,10 @@ exports.getUsuarioPrivilegioByUsername = async (user, privilege) => {
 exports.getPrivilegiosByUser = async (usuario) => {
   const privilegios = await UsuarioPrivilegio.findAll({
     where: { id_usuario: usuario },
+    include: {
+      model: Privilegio,
+      attributes: ["descripcion"],
+    },
   });
 
   if (!privilegios) {
@@ -114,12 +118,11 @@ exports.editarUsuarioPrivilegio = async (id, privilegioUsuarioUpdate) => {
   }
 };
 
-
-exports.deleteUsuarioPrivilegioByUserId = async (id) =>{
-    const borrar = await UsuarioPrivilegio.destroy({
-        where:{
-            id_usuario:id
-        }
-    });
-    return borrar;
+exports.deleteUsuarioPrivilegioByUserId = async (id) => {
+  const borrar = await UsuarioPrivilegio.destroy({
+    where: {
+      id_usuario: id,
+    },
+  });
+  return borrar;
 };
