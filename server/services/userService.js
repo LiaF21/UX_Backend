@@ -1,39 +1,124 @@
-const pool = require('../Db');
+const sequelize = require("../Db");
+const { Usuario } = require("../models/usuario");
+const { Persona } = require("../models/persona");
+
+exports.getUserByUsername = async (username) => {
+  try {
+    const user = await Usuario.findOne({
+      where: {
+        nickname: username,
+      },
+      include: [
+        {
+          model: Persona,
+          attributes: ["id_lugar"],
+        },
+      ],
+    });
+
+    
+
+    return user;
+  } catch (error) {
+    console.error("Error retrieving user by username:", error);
+    throw error;
+  }
+};
 
 exports.login = async (username, password) => {
-    // Perform login query using pool
+  const result = await Usuario.findOne({
+    where: {
+      nickname: username,
+      contrasena: password,
+    },
+    include: [
+      {
+        model: Persona,
+        attributes: ["id_lugar"],
+      },
+    ],
+  });
 
-    /* Daniel Omar Dubon Garcia (creo)
-    Lee este comentario
-    Te va a tocar arreglar todos los servicios y reemplazar los queries con lo de Knex o Sequelize
-    Mira, tenes que hacer los queries en Knex y usando la nueva base de datos, la que se llama postgres
-    Esa es tu chamba
-    */ 
-    const result = await pool.query('SELECT * FROM usuario WHERE nickname = $1 AND contrasena = $2', [username, password]);
-    return result.rows[0];
+  return result;
 };
 
 exports.getAllUsers = async () => {
-    const users = await pool.query("SELECT * FROM usuario");
-    return users.rows;
+  const users = await Usuario.findAll({ include: ["Hospital", "Persona"] });
+  return users;
 };
 
 exports.getUserById = async (id) => {
-    const result = await pool.query("SELECT * FROM usuario WHERE id_usuario = $1", [id]);
-    return result.rows[0];
-  };
+  const result = await Usuario.findByPk(id);
+  return result;
+};
 
-exports.createUser = async (id_persona, id_hospital, username, password, rol) => {
-    const newUser = await pool.query("INSERT INTO usuario ( id_persona, id_hospital, nickname, contrasena, rol) VALUES ($1, $2, $3, $4, $5) RETURNING *", [id_persona, id_hospital, username, password, rol]);
-    return newUser.rows[0];
-  };
-  
-  exports.deleteUserById = async (id) => {
-    await pool.query("DELETE FROM usuario WHERE id_usuario = $1", [id]);
-  };
+exports.getUserByUsername = async (username) => {
+  const result = await Usuario.findOne({
+    where: {
+      nickname: username,
+    },
+  });
+  return result;
+};
 
-  exports.authenticateUser = async (username, password) => {
-    const result = await pool.query('SELECT * FROM usuario WHERE nickname = $1 AND contrasena = $2', [username, password]);
-    return result.rows.length === 1;
-  };
-  
+exports.getUserByIdPersona = async (id) => {
+  const result = await Usuario.findOne({
+    where: {
+      id_persona: id,
+    },
+  });
+  return result;
+};
+
+exports.createUser = async (dataUsuario) => {
+  const nuevoUser = await Usuario.create(dataUsuario);
+  return nuevoUser;
+};
+
+exports.deleteUserById = async (id) => {
+  await Usuario.destroy({
+    where: {
+      id_usuario: id,
+    },
+  });
+};
+
+exports.createUserAndPersona = async (userData, personaData) => {
+  const probar = await sequelize.transaction();
+
+  try {
+    const nuevaP = await Persona.create(personaData, { probar });
+    userData.id_persona = nuevaP.id_persona;
+    const nuevoU = await Usuario.create(userData, { probar });
+
+    await probar.commit();
+    return nuevoU, nuevaP;
+  } catch (error) {
+    await probar.rollback();
+    throw new Error("Error al crear usuario y persona: " + error.message);
+  }
+};
+
+exports.authenticateUser = async (username, password) => {
+  const result = await Usuario.findOne({
+    where: {
+      nickname: username,
+      contrasena: password,
+    },
+  });
+
+  return result != null;
+};
+
+exports.editarUser = async (id, userUpdate) => {
+  const userEditado = await Usuario.update(userUpdate, {
+    where: { id_usuario: id },
+  });
+
+  if (userEditado) {
+    const edited = await Usuario.findOne({
+      ehre: { id_usuario: id },
+    });
+    return edited;
+  }
+};
