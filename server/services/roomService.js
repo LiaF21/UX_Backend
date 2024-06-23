@@ -264,6 +264,10 @@ exports.getBecados = async (fechaInicio, fechaFinal) => {
                 },
               },
             },
+            {
+              model: Cama,
+              include: Habitacion,
+            },
           ],
         },
       ],
@@ -303,6 +307,10 @@ exports.getDonaciones = async (fechaInicio, fechaFinal) => {
                 include: { model: Patrono },
               },
             },
+          },
+          {
+            model: Cama,
+            include: Habitacion,
           },
         ],
       },
@@ -460,7 +468,7 @@ exports.getCamasHuesped = async (id) => {
           model: Reservacion,
           required: false,
           where: {
-            activa: true
+            activa: true,
           },
           include: [
             {
