@@ -7,7 +7,6 @@ const morgan = require("morgan");
 const db = require("./Db");
 const port = process.env.PORT || 3001;
 process.env.REACT_APP_BACKEND_PORT = port; 
-console.log(process.env, "holaaaaaaaaaaa");
 const authenticateJWT = require("./middleware/authenticateJWT");
 const path = require("path");
 
