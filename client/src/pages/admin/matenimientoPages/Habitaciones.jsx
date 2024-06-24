@@ -29,7 +29,7 @@ import UserApi from "../../../api/User.api";
 import ReservacionesApi from "../../../api/Reservaciones.api";
 import { getUserFromToken } from "../../../utilities/auth.utils";
 
-const {PORT_API} = require("../../../config");
+const { PORT_API, URL_HOSTING } = require("../../../config");
 
 /**
  * Represents a single bed component.
@@ -260,7 +260,11 @@ function Card({ habitacionId, roomName, gender, initialBedData }) {
   console.log(habitacionId);
 
   // JSX for rendering the Card component
-  const url = `http://localhost:${PORT_API}/mantenimiento/habitaciones/dormitorio/?id_habitacion=${habitacionId}`;
+  const url =
+    process.env.NODE_ENV === "production"
+      ? URL_HOSTING +
+        `mantenimiento/habitaciones/dormitorio/?id_habitacion=${habitacionId}`
+      : `http://localhost:${PORT_API}/mantenimiento/habitaciones/dormitorio/?id_habitacion=${habitacionId}`;
 
   return (
     <div className="room_container">
