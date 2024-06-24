@@ -16,7 +16,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
-//app.use(authenticateJWT);
+app.use(authenticateJWT);
 app.use(routes);
 
 //Esto puede ir en una ruta, servicio y controlador

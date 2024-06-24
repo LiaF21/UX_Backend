@@ -6,13 +6,13 @@ const { JWT_SECRET } = process.env;
 const authenticateJWT = (req, res, next) => {
   // Exclude the login route from requiring a token
 
-  if (containsPath(req.path, "!api")) {
+  if (containsPath(req.path, "!api") || req.path === "/api/auth/login") {
+    console.log("Excluding path from token verification:", req.path);
     return next();
   }
   const token = req.headers.authorization;
 
   if (token) {
-    console.log("Received token:", token);
 
     jwt.verify(token.split(" ")[1], JWT_SECRET, (err, decoded) => {
       if (err) {
