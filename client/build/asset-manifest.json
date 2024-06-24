@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.24d88abe.css",
-    "main.js": "/static/js/main.e94b5884.js",
+    "main.js": "/static/js/main.37508846.js",
     "static/js/453.1fd42dc7.chunk.js": "/static/js/453.1fd42dc7.chunk.js",
     "static/media/honduras.png": "/static/media/honduras.c7b381c67456cfd64b01.png",
     "static/media/logocasadavid.png": "/static/media/logocasadavid.018220c2f1d946a393fb.png",
@@ -10,11 +10,11 @@
     "static/media/logoCasaDavid2.png": "/static/media/logoCasaDavid2.29f39e13cc9f37b0887b.png",
     "index.html": "/index.html",
     "main.24d88abe.css.map": "/static/css/main.24d88abe.css.map",
-    "main.e94b5884.js.map": "/static/js/main.e94b5884.js.map",
+    "main.37508846.js.map": "/static/js/main.37508846.js.map",
     "453.1fd42dc7.chunk.js.map": "/static/js/453.1fd42dc7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.24d88abe.css",
-    "static/js/main.e94b5884.js"
+    "static/js/main.37508846.js"
   ]
 }

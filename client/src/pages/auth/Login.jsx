@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 import logo from '../../assets/logocasadavid.png';
 import authApi from '../../api/Auth.api';
 
-import { PORT_API } from '../../config';
+import { PORT_API, URL_HOSTING} from '../../config';
 
 function Login() {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ function Login() {
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
-      window.location.replace(`http://localhost:${PORT_API}/`);
+      window.location.replace( URL_HOSTING ? URL_HOSTING : `http://localhost:${PORT_API}/`);
     }
   }, []);
 
