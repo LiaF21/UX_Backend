@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
           privilegios: privs,
         },
         JWT_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "2h" }
       );
 
       return res.status(201).json({
