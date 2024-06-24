@@ -1,3 +1,3 @@
-export const PORT_API = 18465;
+export const PORT_API = 3001;
 
-console.log(process.env, "holaaaaaaaaaaa");
+export const API_URL = `https://casa-david-app-d888c484cfb5.herokuapp.com/api/`;

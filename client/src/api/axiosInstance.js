@@ -2,10 +2,13 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-import { PORT_API } from "../config";
+import { PORT_API, API_URL } from "../config";
 
 const instance = axios.create({
-  baseURL: `http://localhost:${PORT_API}/api/`,
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? API_URL
+      : `http://localhost:${PORT_API}/api/`,
 });
 
 instance.interceptors.request.use(
