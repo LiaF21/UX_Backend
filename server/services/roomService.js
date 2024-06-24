@@ -326,7 +326,7 @@ exports.getHombres = async (fechaInicio, fechaFinal) => {
       fecha_entrada: {
         [Sequelize.Op.gte]: fechaInicio,
       },
-      fecha_entrada: {
+      fecha_salida: {
         [Sequelize.Op.lte]: fechaFinal,
       },
     },
@@ -366,12 +366,13 @@ exports.getHombres = async (fechaInicio, fechaFinal) => {
 };
 
 exports.getMujeres = async (fechaInicio, fechaFinal) => {
+  console.log(fechaInicio, fechaFinal)
   const women = await Reservacion.findAndCountAll({
     where: {
       fecha_entrada: {
         [Sequelize.Op.gte]: fechaInicio,
       },
-      fecha_entrada: {
+      fecha_salida: {
         [Sequelize.Op.lte]: fechaFinal,
       },
     },

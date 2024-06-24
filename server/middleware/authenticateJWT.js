@@ -1,30 +1,32 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+var containsPath = require("contains-path");
+
 const { JWT_SECRET } = process.env;
 
 const authenticateJWT = (req, res, next) => {
   // Exclude the login route from requiring a token
-  if (req.path === '/auth/login') {
+
+  if (containsPath(req.path, "!api")) {
     return next();
   }
-
   const token = req.headers.authorization;
 
   if (token) {
-    console.log('Received token:', token);
+    console.log("Received token:", token);
 
-    jwt.verify(token.split(' ')[1], JWT_SECRET, (err, decoded) => {
+    jwt.verify(token.split(" ")[1], JWT_SECRET, (err, decoded) => {
       if (err) {
-        console.error('Error verifying token:', err);
+        console.error("Error verifying token:", err);
         return res
           .status(403)
-          .json({ message: 'Failed to authenticate token.' });
+          .json({ message: "Failed to authenticate token." });
       }
-      console.log('Decoded token:', decoded);
+      console.log("Decoded token:", decoded);
       req.user = decoded;
       next();
     });
   } else {
-    res.status(401).json({ message: 'No token provided.' });
+    res.status(401).json({ message: "No token provided." });
   }
 };
 
