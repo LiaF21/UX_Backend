@@ -8,7 +8,10 @@ UNITEC - SPS
 <br/>
 <br/>
 
+👨🏻‍🏫 Junto al Ing. [Erick Amaya](https://github.com/Dann-er)
+
 ![WhatsApp Image 2024-06-24 at 18 18 18_71e80cc9](https://github.com/LiaF21/UX_Backend/assets/169367790/a85db3b1-8456-4bd2-b7fe-db42cf162438)
+
 
 
 
