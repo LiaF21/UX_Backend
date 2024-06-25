@@ -8,7 +8,8 @@ UNITEC - SPS
 <br/>
 <br/>
 
-![WhatsApp Image 2024-06-24 at 18 18 18_b24b90d9](https://github.com/LiaF21/UX_Backend/assets/169367790/cd9f6420-d6cc-4561-bf32-d1ff74459d55)
+![WhatsApp Image 2024-06-24 at 18 18 18_71e80cc9](https://github.com/LiaF21/UX_Backend/assets/169367790/a85db3b1-8456-4bd2-b7fe-db42cf162438)
+
 
 
 ### Estado Actual 🎯
