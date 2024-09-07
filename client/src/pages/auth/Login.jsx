@@ -21,8 +21,8 @@ function Login() {
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
-      //window.location.replace( `/`);
-      navigate('/');
+      window.location.replace( `/`);
+      //navigate('/');
     }
   }, []);
 
