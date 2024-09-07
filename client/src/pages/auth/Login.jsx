@@ -21,7 +21,8 @@ function Login() {
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
-      window.location.replace( URL_HOSTING ? URL_HOSTING : `http://localhost:${PORT_API}/`);
+      //window.location.replace( `/`);
+      navigate('/');
     }
   }, []);
 
