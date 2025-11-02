@@ -7,13 +7,17 @@ The platform enables the organization to **digitally manage guests, rooms, and d
 
 ## 💡 Main Features
 
-- User authentication and role management
-- Guest and room registration
-- Check-in / check-out tracking
-- Data persistence with PostgreSQL
-- Responsive and accessible UI (Ant Design)
-- Cloud deployment on Heroku
+- 🔐 **User Authentication & Role Management** 
 
+- 🏨 **Guest & Room Registration**  
+
+- 📝 **Check-in / Check-out Tracking**  
+
+- 💾 **Data Persistence with PostgreSQL**  
+
+- 🌐 **Responsive & Accessible UI (Ant Design)**
+
+- ☁️ **Cloud Deployment on Heroku**  
 
 ## ⚙️ Technologies Used
 **Frontend:** React, Ant Design  
@@ -23,12 +27,26 @@ The platform enables the organization to **digitally manage guests, rooms, and d
 **Hosting:** Heroku  
 **Version Control:** Git & GitHub  
 
-## 🧩 System Architecture
-The system follows a **client–server model**:
-- **Frontend (React):** Provides the user interface for staff to manage guest and room information.
-- **Backend (Node.js + Express):** Handles RESTful API endpoints for authentication, CRUD operations, and business logic.
-- **Database (PostgreSQL):** Stores guests, rooms, staff, and booking data.
-- **ORM (Sequelize):** Facilitates database communication and migrations.
+## 🖼️ Demo
+### Web Admin Dashboard
+A look at the **administrator's web interface** for requesting accomodation, managing bookings, assigning beds, and generating reports.
+
+| Login Page | 
+| :---: | 
+| <img src="client/src/assets/gif-casaDavid/login.gif"  /> |
+
+| Requesting Accommodation |
+| :---: |
+| <img src="client/src/assets/gif-casaDavid/solicitando-hospedaje.gif" /> |
+
+| Assigning a Bed | 
+| :---: |
+| <img src="client/src/assets/gif-casaDavid/asignando-cama.gif" /> | 
+
+| Managing Guests |
+| :---: |
+| <img src="client/src/assets/gif-casaDavid/administrando-huespedes.gif"  /> |
+
 
 ## 🌟 Project Team
 
